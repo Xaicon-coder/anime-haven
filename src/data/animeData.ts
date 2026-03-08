@@ -57,8 +57,8 @@ export const animeList: Anime[] = [
   {
     id: "demon-slayer",
     title: "Demon Slayer: Kimetsu no Yaiba",
-    cover: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire3/f2bc72cb7ce020dc8c40110cfba1a5a81656420494_main.jpg",
     description: "Sin dai tempi antichi circolano voci su demoni mangiauomini che si nascondono nel bosco. Per questo motivo la gente del posto non esce mai di notte. Si dice anche che un demone uccida chiunque si avventuri nel bosco. Tanjiro è un giovane carbonaio dalla gentilezza innata.",
     genres: ["Azione", "Fantasy", "Soprannaturale"],
     rating: 8.6,
