@@ -62,15 +62,24 @@ function generateSlug(title: string): string {
     .trim();
 }
 
-// Controlla se un anime API corrisponde a uno locale (evita duplicati)
+// Controlla se un anime API è una stagione/variante di un anime locale
+// Se sì, restituisce l'anime locale (evita card duplicate)
+function isLocalAnimeVariant(j: JikanAnime): boolean {
+  const apiTitle = (j.title_english || j.title).toLowerCase().trim();
+  const apiTitleJp = j.title.toLowerCase().trim();
+  return animeList.some((a) => {
+    const localTitle = a.title.toLowerCase().trim();
+    // Match esatto O l'API title inizia con il titolo locale (es. "Dr. Stone: Stone Wars" inizia con "Dr. Stone")
+    return localTitle === apiTitle || 
+           apiTitle.startsWith(localTitle + ":") ||
+           apiTitle.startsWith(localTitle + " ") ||
+           apiTitleJp.startsWith(localTitle);
+  });
+}
+
 function findLocalMatch(j: JikanAnime): Anime | undefined {
   const apiTitle = (j.title_english || j.title).toLowerCase().trim();
-  return animeList.find((a) => {
-    const localTitle = a.title.toLowerCase().trim();
-    // Match esatto o quasi esatto (evita che "Dr. Stone: Stone Wars" matchi "Dr. Stone")
-    return localTitle === apiTitle || 
-           apiTitle === localTitle;
-  });
+  return animeList.find((a) => a.title.toLowerCase().trim() === apiTitle);
 }
 
 function mapJikanToAnime(j: JikanAnime): Anime {
