@@ -89,8 +89,8 @@ const Navbar = () => {
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors p-1.5 sm:p-2"
               >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-secondary border border-border flex items-center justify-center text-sm sm:text-base">
-                  {activeProfile.avatar}
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-border bg-secondary">
+                  <img src={activeProfile.avatar} alt={activeProfile.name} className="w-full h-full object-cover" />
                 </div>
               </button>
               {userMenuOpen && (
