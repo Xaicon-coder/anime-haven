@@ -1,17 +1,34 @@
 import { useParams, Link } from "react-router-dom";
-import { Play, Star, ArrowLeft, Clock, Calendar } from "lucide-react";
-import { useState } from "react";
+import { Play, Star, ArrowLeft, Clock, Calendar, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { animeList } from "@/data/animeData";
+import { animeList, type Anime } from "@/data/animeData";
+import { useAnimeById } from "@/hooks/useAnimeApi";
 
 const AnimeDetail = () => {
   const { id } = useParams();
-  const anime = animeList.find((a) => a.id === id);
+  const isApiAnime = id?.startsWith("mal-");
+  const { anime: apiAnime, loading } = useAnimeById(isApiAnime ? id! : "0");
+  
+  // Try local data first, then API
+  const localAnime = animeList.find((a) => a.id === id);
+  const anime: Anime | null | undefined = localAnime || apiAnime;
+  
   const [selectedSeason, setSelectedSeason] = useState(0);
+
+  if (loading && isApiAnime) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Navbar />
+        <Loader2 className="animate-spin text-primary" size={40} />
+      </div>
+    );
+  }
 
   if (!anime) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
+        <Navbar />
         <div className="text-center">
           <h1 className="text-2xl font-display font-bold text-foreground mb-2">Anime non trovato</h1>
           <Link to="/" className="text-primary hover:underline">Torna alla home</Link>
@@ -53,10 +70,12 @@ const AnimeDetail = () => {
           <div className="flex-1 animate-fade-in">
             <h1 className="text-3xl sm:text-4xl font-display font-bold text-foreground mb-3">{anime.title}</h1>
             <div className="flex items-center gap-4 mb-4 flex-wrap">
-              <div className="flex items-center gap-1 text-primary">
-                <Star size={16} fill="currentColor" />
-                <span className="font-semibold">{anime.rating}</span>
-              </div>
+              {anime.rating > 0 && (
+                <div className="flex items-center gap-1 text-primary">
+                  <Star size={16} fill="currentColor" />
+                  <span className="font-semibold">{anime.rating}</span>
+                </div>
+              )}
               <div className="flex items-center gap-1 text-muted-foreground text-sm">
                 <Calendar size={14} />
                 <span>{anime.year}</span>
@@ -87,7 +106,6 @@ const AnimeDetail = () => {
 
         {/* Seasons & Episodes */}
         <div className="mt-12 mb-16">
-          {/* Season Tabs */}
           <div className="flex gap-2 mb-6 overflow-x-auto scrollbar-hide pb-2">
             {anime.seasons.map((season, i) => (
               <button
@@ -104,7 +122,6 @@ const AnimeDetail = () => {
             ))}
           </div>
 
-          {/* Episode Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {currentSeason.episodes.map((ep, i) => (
               <Link
