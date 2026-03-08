@@ -458,7 +458,7 @@ export const animeList: Anime[] = [
     title: "Solo Leveling",
     folderName: "Solo Leveling ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1808/141625.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1808/141625.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1808/141625l.jpg",
     description: "Sung Jinwoo è il cacciatore più debole. Dopo una missione quasi fatale, riceve il 'Sistema', un potere unico che gli permette di salire di livello.",
     genres: ["Azione", "Fantasy", "Avventura"],
     rating: 8.3,
