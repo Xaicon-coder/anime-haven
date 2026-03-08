@@ -252,7 +252,7 @@ export const animeList: Anime[] = [
     title: "Demon Slayer: Distretto a Luci Rosse",
     folderName: "Demon Slayer ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1908/120036.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1908/120036.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1908/120036l.jpg",
     description: "Tanjiro, Zenitsu e Inosuke accompagnano il Pilastro del Suono Tengen Uzui nel Distretto a Luci Rosse per indagare sulla scomparsa delle sue mogli.",
     genres: ["Azione", "Fantasy", "Soprannaturale"],
     rating: 8.2,
