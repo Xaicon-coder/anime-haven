@@ -98,7 +98,7 @@ export const animeList: Anime[] = [
     year: 2023,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE NEW WORLD", filePrefix: "DrStone3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1236/138696.jpg", "DrStone3_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone: New World", filePrefix: "DrStone3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1236/138696.jpg", "DrStone3_Ep_", "_ITA") },
     ],
   },
   {
