@@ -184,7 +184,7 @@ export function useTopAnime() {
         const res = await fetch(`${JIKAN_BASE}/top/anime?limit=25&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
-          const mapped = (data.data || []).map(mapJikanToAnime);
+          const mapped = (data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null);
           setAnime(deduplicateAnime(mapped));
         }
       } catch (e) {
