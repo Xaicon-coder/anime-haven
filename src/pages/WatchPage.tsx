@@ -2,39 +2,22 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
-import { animeList, getVideoPath } from "@/data/animeData";
+import { getVideoPath } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
 import { saveProgress, getProgress } from "@/hooks/useWatchProgress";
-import type { Anime } from "@/data/animeData";
 
 const WatchPage = () => {
   const { animeId, seasonId, episodeId } = useParams();
-  const { anime, loading } = useAnimeById(animeId || "");
+  const { anime } = useAnimeById(animeId || "");
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const season = anime?.seasons.find((s) => s.id === seasonId);
   const episode = season?.episodes.find((e) => e.id === episodeId);
   const episodeIndex = season?.episodes.findIndex((e) => e.id === episodeId) ?? -1;
+  const prevEp = episodeIndex > 0 ? season?.episodes[episodeIndex - 1] ?? null : null;
+  const nextEp = season && episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
+  const videoPath = anime && season && episode ? getVideoPath(anime, season, episode) : "";
 
-  if (!anime || !season || !episode) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Navbar />
-        <div className="text-center px-4">
-          <h1 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-2">Episodio non trovato</h1>
-          <Link to="/" className="text-primary hover:underline text-sm">Torna alla home</Link>
-        </div>
-      </div>
-    );
-  }
-
-  const prevEp = episodeIndex > 0 ? season.episodes[episodeIndex - 1] : null;
-  const nextEp = episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
-
-  const videoPath = getVideoPath(anime, season, episode);
-
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Save progress periodically and on unmount
   const handleTimeUpdate = useCallback(() => {
     const video = videoRef.current;
     if (video && anime && season && episode) {
@@ -42,7 +25,6 @@ const WatchPage = () => {
     }
   }, [anime, season, episode]);
 
-  // Restore progress on load
   useEffect(() => {
     if (!anime || !season || !episode) return;
     const saved = getProgress(anime.id, season.id, episode.id);
@@ -57,6 +39,18 @@ const WatchPage = () => {
       video.addEventListener("loadedmetadata", onLoaded);
     }
   }, [anime, season, episode, videoPath]);
+
+  if (!anime || !season || !episode) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Navbar />
+        <div className="text-center px-4">
+          <h1 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-2">Episodio non trovato</h1>
+          <Link to="/" className="text-primary hover:underline text-sm">Torna alla home</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
