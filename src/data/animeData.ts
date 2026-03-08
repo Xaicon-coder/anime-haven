@@ -134,8 +134,8 @@ export const animeList: Anime[] = [
   {
     id: "chainsaw-man",
     title: "Chainsaw Man",
-    cover: "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire3/d11e8adfd6b68f5f3faa75a206dbb14b1656596825_main.jpg",
     description: "Denji è un ragazzo che vive in povertà, costretto a lavorare come cacciatore di demoni per ripagare i debiti del padre defunto. La sua unica compagnia è Pochita, un demone motosega. Quando Denji viene ucciso, Pochita si fonde con lui, trasformandolo nel Chainsaw Man.",
     genres: ["Azione", "Dark Fantasy", "Horror"],
     rating: 8.5,
