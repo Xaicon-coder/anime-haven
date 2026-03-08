@@ -404,7 +404,7 @@ export const animeList: Anime[] = [
     title: "SPY×FAMILY",
     folderName: "Spy x Family ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1441/122795.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1441/122795.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg",
     description: "La spia 'Twilight' deve costruire una famiglia copertura. La figlia adottiva legge la mente e la moglie è un'assassina. Insieme formano una famiglia esilarante.",
     genres: ["Azione", "Commedia", "Famiglia"],
     rating: 8.5,
