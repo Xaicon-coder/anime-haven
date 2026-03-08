@@ -370,7 +370,7 @@ export const animeList: Anime[] = [
     title: "My Hero Academia 2",
     folderName: "My Hero Academia ITA",
     cover: "https://cdn.myanimelist.net/images/anime/9/88573.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/9/88573.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/9/88573l.jpg",
     description: "Gli studenti della Classe 1-A partecipano al Festival Sportivo della U.A., mettendo in mostra i loro Quirk davanti al mondo intero.",
     genres: ["Azione", "Supereroi", "Scolastico"],
     rating: 8.1,
