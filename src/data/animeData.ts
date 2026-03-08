@@ -88,19 +88,19 @@ export const animeList: Anime[] = [
         id: "s4", number: 4, title: "Stagione 4 - Science Future Parte 1", 
         folderName: "Dr. STONE SCIENCE FUTURE",
         filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(6, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4_Ep_", "_ITA") 
+        episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4_Ep_", "_ITA") 
       },
       { 
         id: "s5", number: 5, title: "Stagione 4 - Science Future Parte 2", 
         folderName: "Dr. STONE SCIENCE FUTURE parte 2",
-        filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(6, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4_Ep_", "_ITA") 
+        filePrefix: "DrStone4P2_Ep_", fileSuffix: "_ITA",
+        episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4P2_Ep_", "_ITA") 
       },
       { 
         id: "s6", number: 6, title: "Stagione 4 - Science Future Parte 3", 
         folderName: "Dr. STONE SCIENCE FUTURE parte 3",
-        filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(6, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4_Ep_", "_ITA") 
+        filePrefix: "DrStone4P3_Ep_", fileSuffix: "_ITA",
+        episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4P3_Ep_", "_ITA") 
       },
     ],
   },
