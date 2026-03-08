@@ -1,16 +1,21 @@
 import { useParams, Link } from "react-router-dom";
-import { Play, Star, ArrowLeft, Clock, Calendar, Loader2 } from "lucide-react";
+import { Play, Star, ArrowLeft, Clock, Calendar, Loader2, Bookmark, BookmarkCheck, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { type Anime } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
 import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
+import { useAuth } from "@/hooks/useAuth";
+import { useWatchlist, useWatchedEpisodes } from "@/hooks/useUserAnime";
 
 const AnimeDetail = () => {
   useSpatialNavigation();
   const { id } = useParams();
   const { anime, loading } = useAnimeById(id || "");
   const [selectedSeason, setSelectedSeason] = useState(0);
+  const { user } = useAuth();
+  const { isInWatchlist, toggleWatchlist } = useWatchlist();
+  const { isWatched, toggleWatched } = useWatchedEpisodes(id);
 
   if (loading) {
     return (
@@ -88,13 +93,31 @@ const AnimeDetail = () => {
             <p className="text-muted-foreground text-xs sm:text-sm lg:text-base leading-relaxed mb-4 sm:mb-6 max-w-2xl mx-auto sm:mx-0">
               {anime.description}
             </p>
-            <Link
-              to={`/watch/${anime.id}/${currentSeason.id}/${currentSeason.episodes[0].id}`}
-              className="inline-flex items-center gap-1.5 sm:gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-all glow-primary text-sm sm:text-base"
-            >
-              <Play size={16} fill="currentColor" className="sm:w-[18px] sm:h-[18px]" />
-              Guarda Episodio 1
-            </Link>
+            <div className="flex items-center gap-2 sm:gap-3 justify-center sm:justify-start flex-wrap">
+              <Link
+                to={`/watch/${anime.id}/${currentSeason.id}/${currentSeason.episodes[0].id}`}
+                className="inline-flex items-center gap-1.5 sm:gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-all glow-primary text-sm sm:text-base"
+              >
+                <Play size={16} fill="currentColor" className="sm:w-[18px] sm:h-[18px]" />
+                Guarda Episodio 1
+              </Link>
+              {user && (
+                <button
+                  onClick={() => toggleWatchlist(anime.id)}
+                  className={`inline-flex items-center gap-1.5 sm:gap-2 font-medium px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg transition-all text-sm sm:text-base ${
+                    isInWatchlist(anime.id)
+                      ? 'bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25'
+                      : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
+                  }`}
+                >
+                  {isInWatchlist(anime.id) ? (
+                    <><BookmarkCheck size={16} className="sm:w-[18px] sm:h-[18px]" /> Nella lista</>
+                  ) : (
+                    <><Bookmark size={16} className="sm:w-[18px] sm:h-[18px]" /> Aggiungi alla lista</>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -116,37 +139,65 @@ const AnimeDetail = () => {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 sm:gap-4">
-            {currentSeason.episodes.map((ep, i) => (
-              <Link
-                key={ep.id}
-                to={`/watch/${anime.id}/${currentSeason.id}/${ep.id}`}
-                className="group gradient-card rounded-lg sm:rounded-xl overflow-hidden border border-border hover:border-primary/40 focus-visible:border-primary/40 transition-all duration-150 animate-fade-in"
-                style={{ animationDelay: `${i * 25}ms` }}
-              >
-                <div className="relative aspect-video overflow-hidden bg-secondary">
-                  <img
-                    src={ep.thumbnail}
-                    alt={ep.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-focus-visible:scale-105 transition-transform duration-200 ease-out"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-background/0 group-hover:bg-background/30 transition-colors flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-primary rounded-full p-1.5 sm:p-2">
-                      <Play size={12} className="text-primary-foreground sm:w-4 sm:h-4" fill="currentColor" />
+            {currentSeason.episodes.map((ep, i) => {
+              const watched = isWatched(ep.id);
+              return (
+                <div key={ep.id} className="relative group">
+                  <Link
+                    to={`/watch/${anime.id}/${currentSeason.id}/${ep.id}`}
+                    className={`block gradient-card rounded-lg sm:rounded-xl overflow-hidden border transition-all duration-150 animate-fade-in ${
+                      watched
+                        ? 'border-primary/30 opacity-80'
+                        : 'border-border hover:border-primary/40 focus-visible:border-primary/40'
+                    }`}
+                    style={{ animationDelay: `${i * 25}ms` }}
+                  >
+                    <div className="relative aspect-video overflow-hidden bg-secondary">
+                      <img
+                        src={ep.thumbnail}
+                        alt={ep.title}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-focus-visible:scale-105 transition-transform duration-200 ease-out"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-background/0 group-hover:bg-background/30 transition-colors flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-primary rounded-full p-1.5 sm:p-2">
+                          <Play size={12} className="text-primary-foreground sm:w-4 sm:h-4" fill="currentColor" />
+                        </div>
+                      </div>
+                      {/* Watched badge */}
+                      {watched && (
+                        <div className="absolute top-1.5 right-1.5 bg-primary rounded-full p-0.5">
+                          <CheckCircle2 size={14} className="text-primary-foreground" />
+                        </div>
+                      )}
                     </div>
-                  </div>
+                    <div className="p-2 sm:p-3">
+                      <h4 className="text-xs sm:text-sm font-medium text-foreground group-hover:text-primary transition-colors truncate">
+                        E{ep.number} - {ep.title}
+                      </h4>
+                      <div className="flex items-center gap-1 text-muted-foreground text-[10px] sm:text-xs mt-0.5 sm:mt-1">
+                        <Clock size={10} className="sm:w-3 sm:h-3" />
+                        <span>{ep.duration}</span>
+                      </div>
+                    </div>
+                  </Link>
+                  {/* Toggle watched button */}
+                  {user && (
+                    <button
+                      onClick={(e) => { e.preventDefault(); toggleWatched(ep.id, currentSeason.id); }}
+                      className={`absolute bottom-2 right-2 sm:bottom-3 sm:right-3 p-1 rounded-full transition-all z-10 ${
+                        watched
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-secondary/80 text-muted-foreground hover:bg-primary hover:text-primary-foreground'
+                      }`}
+                      title={watched ? 'Segna come non visto' : 'Segna come visto'}
+                    >
+                      <CheckCircle2 size={14} />
+                    </button>
+                  )}
                 </div>
-                <div className="p-2 sm:p-3">
-                  <h4 className="text-xs sm:text-sm font-medium text-foreground group-hover:text-primary transition-colors truncate">
-                    E{ep.number} - {ep.title}
-                  </h4>
-                  <div className="flex items-center gap-1 text-muted-foreground text-[10px] sm:text-xs mt-0.5 sm:mt-1">
-                    <Clock size={10} className="sm:w-3 sm:h-3" />
-                    <span>{ep.duration}</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
