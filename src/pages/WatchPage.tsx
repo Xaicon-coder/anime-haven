@@ -12,9 +12,10 @@ const WatchPage = () => {
   const { anime } = useAnimeById(animeId || "");
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [showControls, setShowControls] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const [isNearEnd, setIsNearEnd] = useState(false);
   const hideTimer = useRef<ReturnType<typeof setTimeout>>();
+  const nextBtnRef = useRef<HTMLButtonElement>(null);
 
   const season = anime?.seasons.find((s) => s.id === seasonId);
   const episode = season?.episodes.find((e) => e.id === episodeId);
@@ -23,11 +24,36 @@ const WatchPage = () => {
   const nextEp = season && episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
   const videoPath = anime && season && episode ? getVideoPath(anime, season, episode) : "";
 
+  // Fullscreen automatico all'apertura
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const goFullscreen = () => {
+      try {
+        if (containerRef.current?.requestFullscreen) {
+          containerRef.current.requestFullscreen().catch(() => {});
+        } else if ((video as any).webkitEnterFullscreen) {
+          // iOS / Smart TV fallback
+          (video as any).webkitEnterFullscreen();
+        }
+      } catch {}
+    };
+
+    // Richiedi fullscreen dopo che il video è pronto
+    const onCanPlay = () => {
+      goFullscreen();
+      video.removeEventListener("canplay", onCanPlay);
+    };
+    video.addEventListener("canplay", onCanPlay);
+
+    return () => video.removeEventListener("canplay", onCanPlay);
+  }, [videoPath]);
+
   const handleTimeUpdate = useCallback(() => {
     const video = videoRef.current;
     if (video && anime && season && episode) {
       saveProgress(anime.id, season.id, episode.id, video.currentTime, video.duration);
-      // Mostra pulsante prossimo episodio negli ultimi 90 secondi
       if (video.duration && video.currentTime > video.duration - 90) {
         setIsNearEnd(true);
       } else {
@@ -36,13 +62,23 @@ const WatchPage = () => {
     }
   }, [anime, season, episode]);
 
-  // Auto-play prossimo episodio a fine video
-  const handleEnded = useCallback(() => {
+  const goToNextEp = useCallback(() => {
     if (nextEp && anime && season) {
       navigate(`/watch/${anime.id}/${season.id}/${nextEp.id}`);
     }
   }, [nextEp, anime, season, navigate]);
 
+  const goToPrevEp = useCallback(() => {
+    if (prevEp && anime && season) {
+      navigate(`/watch/${anime.id}/${season.id}/${prevEp.id}`);
+    }
+  }, [prevEp, anime, season, navigate]);
+
+  const handleEnded = useCallback(() => {
+    goToNextEp();
+  }, [goToNextEp]);
+
+  // Ripristina progresso
   useEffect(() => {
     if (!anime || !season || !episode) return;
     const saved = getProgress(anime.id, season.id, episode.id);
@@ -58,24 +94,97 @@ const WatchPage = () => {
     }
   }, [anime, season, episode, videoPath]);
 
-  // Mostra/nascondi overlay controlli (mouse/touch/telecomando)
-  const revealControls = useCallback(() => {
-    setShowControls(true);
+  // Mostra/nascondi overlay
+  const revealOverlay = useCallback(() => {
+    setShowOverlay(true);
     clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => setShowControls(false), 4000);
+    hideTimer.current = setTimeout(() => setShowOverlay(false), 5000);
   }, []);
 
-  // Keyboard support per TV (freccia destra = prossimo ep)
+  // Comandi telecomando TV
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" && (e.altKey || e.ctrlKey) && nextEp && anime && season) {
-        navigate(`/watch/${anime.id}/${season.id}/${nextEp.id}`);
+      const video = videoRef.current;
+      
+      switch (e.key) {
+        // Prossimo episodio: tasto N o freccia destra lunga (con Ctrl/Alt)
+        case "n":
+        case "N":
+          e.preventDefault();
+          goToNextEp();
+          break;
+        case "p":
+        case "P":
+          e.preventDefault();
+          goToPrevEp();
+          break;
+        // Avanti/indietro 10 secondi con frecce
+        case "ArrowRight":
+          if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+            goToNextEp();
+          } else if (video && !e.shiftKey) {
+            e.preventDefault();
+            video.currentTime = Math.min(video.duration, video.currentTime + 10);
+          }
+          break;
+        case "ArrowLeft":
+          if (e.ctrlKey || e.altKey) {
+            e.preventDefault();
+            goToPrevEp();
+          } else if (video && !e.shiftKey) {
+            e.preventDefault();
+            video.currentTime = Math.max(0, video.currentTime - 10);
+          }
+          break;
+        // Avanti/indietro 30 secondi con Shift+frecce
+        case "ArrowUp":
+          if (video) {
+            e.preventDefault();
+            video.currentTime = Math.min(video.duration, video.currentTime + 30);
+          }
+          break;
+        case "ArrowDown":
+          if (video) {
+            e.preventDefault();
+            video.currentTime = Math.max(0, video.currentTime - 30);
+          }
+          break;
+        // Spazio = play/pause
+        case " ":
+          e.preventDefault();
+          if (video) video.paused ? video.play() : video.pause();
+          break;
+        // F = fullscreen
+        case "f":
+        case "F":
+          e.preventDefault();
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else {
+            containerRef.current?.requestFullscreen?.().catch(() => {});
+          }
+          break;
+        // Escape = esci dalla pagina
+        case "Escape":
+          if (!document.fullscreenElement && anime) {
+            navigate(`/anime/${anime.id}`);
+          }
+          break;
+        // Back button per TV (tasto specifico)
+        case "Backspace":
+        case "BrowserBack":
+          if (!document.fullscreenElement && anime) {
+            e.preventDefault();
+            navigate(`/anime/${anime.id}`);
+          }
+          break;
       }
-      revealControls();
+      revealOverlay();
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [nextEp, anime, season, navigate, revealControls]);
+  }, [goToNextEp, goToPrevEp, revealOverlay, anime, navigate]);
 
   if (!anime || !season || !episode) {
     return (
@@ -93,12 +202,14 @@ const WatchPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16">
-        {/* Video container con overlay prossimo episodio */}
+        {/* Video container fullscreen-ready */}
         <div
           ref={containerRef}
-          className="w-full bg-black aspect-video max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] xl:max-h-[80vh] 2xl:max-h-[85vh] relative group"
-          onMouseMove={revealControls}
-          onTouchStart={revealControls}
+          className="w-full bg-black relative group"
+          style={{ aspectRatio: "16/9", maxHeight: "calc(100vh - 4rem)" }}
+          onMouseMove={revealOverlay}
+          onTouchStart={revealOverlay}
+          onClick={revealOverlay}
         >
           <video
             ref={videoRef}
@@ -106,7 +217,7 @@ const WatchPage = () => {
             src={videoPath}
             controls
             autoPlay
-            className="w-full h-full"
+            className="w-full h-full object-contain"
             poster={episode.thumbnail}
             onTimeUpdate={handleTimeUpdate}
             onEnded={handleEnded}
@@ -114,56 +225,82 @@ const WatchPage = () => {
             Il tuo browser non supporta il video.
           </video>
 
-          {/* Overlay prossimo episodio - appare con i controlli o vicino alla fine */}
-          {nextEp && (showControls || isNearEnd) && (
-            <div className="absolute bottom-14 sm:bottom-16 lg:bottom-20 right-3 sm:right-5 lg:right-8 z-20 animate-fade-in">
-              <Link
-                to={`/watch/${anime.id}/${season.id}/${nextEp.id}`}
-                className="inline-flex items-center gap-2 sm:gap-3 bg-primary hover:bg-primary/90 text-primary-foreground 
-                  font-semibold px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 rounded-lg lg:rounded-xl 
-                  transition-all shadow-2xl glow-primary
-                  text-sm sm:text-base lg:text-lg xl:text-xl
-                  focus:outline-none focus:ring-4 focus:ring-primary/50"
-                tabIndex={0}
-              >
-                <SkipForward size={18} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7" />
-                <span className="flex flex-col items-start leading-tight">
-                  <span>Prossimo Episodio</span>
-                  <span className="text-[10px] sm:text-xs lg:text-sm font-normal opacity-80">
-                    Ep. {nextEp.number} - {nextEp.title}
-                  </span>
+          {/* PROSSIMO EPISODIO - grande, sempre visibile vicino alla fine, facile da cliccare con telecomando */}
+          {nextEp && (showOverlay || isNearEnd) && (
+            <button
+              ref={nextBtnRef}
+              onClick={(e) => { e.stopPropagation(); goToNextEp(); }}
+              className="absolute bottom-20 sm:bottom-24 lg:bottom-28 right-4 sm:right-6 lg:right-10 z-30
+                flex items-center gap-3 sm:gap-4
+                bg-primary hover:bg-primary/90 active:scale-95 text-primary-foreground
+                font-bold rounded-xl lg:rounded-2xl shadow-2xl glow-primary
+                px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-5 lg:py-6 xl:py-7
+                text-base sm:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl
+                transition-all duration-200
+                focus:outline-none focus:ring-4 focus:ring-primary/60 focus:scale-105
+                animate-fade-in cursor-pointer select-none"
+              tabIndex={0}
+              autoFocus={isNearEnd}
+            >
+              <SkipForward className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10" />
+              <span className="flex flex-col items-start leading-tight">
+                <span>Prossimo Episodio</span>
+                <span className="text-xs sm:text-sm lg:text-base xl:text-lg font-normal opacity-80">
+                  Ep. {nextEp.number}
                 </span>
+              </span>
+            </button>
+          )}
+
+          {/* EPISODIO PRECEDENTE */}
+          {prevEp && showOverlay && (
+            <button
+              onClick={(e) => { e.stopPropagation(); goToPrevEp(); }}
+              className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-4 sm:left-6 lg:left-10 z-30
+                flex items-center gap-2 sm:gap-3
+                bg-secondary/90 hover:bg-secondary active:scale-95 text-secondary-foreground
+                font-semibold rounded-xl lg:rounded-2xl shadow-xl backdrop-blur-sm
+                px-5 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5
+                text-sm sm:text-base lg:text-lg xl:text-xl
+                transition-all duration-200
+                focus:outline-none focus:ring-4 focus:ring-secondary/50
+                animate-fade-in cursor-pointer select-none"
+              tabIndex={0}
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+              Precedente
+            </button>
+          )}
+
+          {/* Info episodio overlay in alto */}
+          {showOverlay && (
+            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-10 z-30 animate-fade-in">
+              <Link
+                to={`/anime/${anime.id}`}
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-2 text-white/80 hover:text-white text-sm sm:text-base lg:text-lg transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+                <span className="font-medium">{anime.title}</span>
+                <span className="opacity-60">• S{season.number} E{episode.number}</span>
               </Link>
             </div>
           )}
 
-          {/* Overlay precedente - lato sinistro */}
-          {prevEp && showControls && (
-            <div className="absolute bottom-14 sm:bottom-16 lg:bottom-20 left-3 sm:left-5 lg:left-8 z-20 animate-fade-in">
-              <Link
-                to={`/watch/${anime.id}/${season.id}/${prevEp.id}`}
-                className="inline-flex items-center gap-1.5 sm:gap-2 bg-secondary/90 hover:bg-secondary text-secondary-foreground 
-                  font-medium px-3 sm:px-4 lg:px-6 py-2 sm:py-2.5 lg:py-3 rounded-lg lg:rounded-xl 
-                  transition-all shadow-xl backdrop-blur-sm
-                  text-xs sm:text-sm lg:text-base xl:text-lg
-                  focus:outline-none focus:ring-4 focus:ring-secondary/50"
-                tabIndex={0}
-              >
-                <ChevronLeft size={16} className="sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-                Precedente
-              </Link>
+          {/* Shortcut hint per TV */}
+          {showOverlay && (
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-10 z-30 animate-fade-in">
+              <div className="flex gap-3 text-white/50 text-[10px] sm:text-xs lg:text-sm">
+                <span>◀▶ ±10s</span>
+                <span>▲▼ ±30s</span>
+                <span>N = Prossimo</span>
+              </div>
             </div>
           )}
         </div>
 
+        {/* Info sotto il video */}
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <Link
-            to={`/anime/${anime.id}`}
-            className="inline-flex items-center gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground text-xs sm:text-sm mb-3 sm:mb-4 transition-colors"
-          >
-            <ArrowLeft size={14} className="sm:w-4 sm:h-4" /> Torna a {anime.title}
-          </Link>
-
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div>
               <h1 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-display font-bold text-foreground">{anime.title}</h1>
