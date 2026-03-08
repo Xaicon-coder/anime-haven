@@ -22,7 +22,7 @@ const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
           <img
             src={anime.cover}
             alt={anime.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 group-focus-visible:scale-105"
             loading="lazy"
             onError={() => setImgError(true)}
           />
