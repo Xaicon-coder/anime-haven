@@ -120,8 +120,8 @@ const AnimeDetail = () => {
               <Link
                 key={ep.id}
                 to={`/watch/${anime.id}/${currentSeason.id}/${ep.id}`}
-                className="group gradient-card rounded-lg sm:rounded-xl overflow-hidden border border-border hover:border-primary/40 transition-all animate-fade-in"
-                style={{ animationDelay: `${i * 40}ms` }}
+                className="group gradient-card rounded-lg sm:rounded-xl overflow-hidden border border-border hover:border-primary/40 focus-visible:border-primary/40 transition-all duration-150 animate-fade-in"
+                style={{ animationDelay: `${i * 25}ms` }}
               >
                 <div className="relative aspect-video overflow-hidden bg-secondary">
                   <img
