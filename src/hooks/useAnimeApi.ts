@@ -82,10 +82,9 @@ function findLocalMatch(j: JikanAnime): Anime | undefined {
   return animeList.find((a) => a.title.toLowerCase().trim() === apiTitle);
 }
 
-function mapJikanToAnime(j: JikanAnime): Anime {
-  // Se esiste un anime locale corrispondente, usa quello (evita duplicati)
-  const localMatch = findLocalMatch(j);
-  if (localMatch) return localMatch;
+function mapJikanToAnime(j: JikanAnime): Anime | null {
+  // Se è una variante/stagione di un anime locale, salta (viene gestito dalla lista locale)
+  if (isLocalAnimeVariant(j)) return null;
 
   const cover = j.images.jpg?.original_image_url || j.images.webp?.large_image_url || j.images.jpg.large_image_url;
   const banner = j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || cover;
