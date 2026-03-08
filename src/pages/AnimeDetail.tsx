@@ -179,8 +179,7 @@ const AnimeDetail = () => {
                     </div>
                   </Link>
                   {/* Toggle watched button */}
-                  {user && (
-                    <button
+                  <button
                       onClick={(e) => { e.preventDefault(); toggleWatched(ep.id, currentSeason.id); }}
                       className={`absolute bottom-2 right-2 sm:bottom-3 sm:right-3 p-1 rounded-full transition-all z-10 ${
                         watched
