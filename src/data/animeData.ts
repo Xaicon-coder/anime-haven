@@ -155,7 +155,7 @@ export const animeList: Anime[] = [
     title: "Attack on Titan",
     folderName: "Attack on Titan ITA",
     cover: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
     description: "Secoli fa, l'umanità fu massacrata fino quasi all'estinzione da mostri enormi chiamati Titani. I pochi sopravvissuti si rifugiarono dietro tre enormi mura concentriche.",
     genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
     rating: 8.5,
