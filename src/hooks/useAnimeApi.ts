@@ -64,16 +64,16 @@ function generateSlug(title: string): string {
 
 // Controlla se un anime API è una stagione/variante di un anime locale
 // Se sì, restituisce l'anime locale (evita card duplicate)
+const LOCAL_BASE_TITLES = ["dr. stone", "attack on titan", "demon slayer", "jujutsu kaisen", "one piece", "my hero academia", "spy×family", "spy x family", "chainsaw man", "solo leveling"];
+
 function isLocalAnimeVariant(j: JikanAnime): boolean {
   const apiTitle = (j.title_english || j.title).toLowerCase().trim();
   const apiTitleJp = j.title.toLowerCase().trim();
-  return animeList.some((a) => {
-    const localTitle = a.title.toLowerCase().trim();
-    // Match esatto O l'API title inizia con il titolo locale (es. "Dr. Stone: Stone Wars" inizia con "Dr. Stone")
-    return localTitle === apiTitle || 
-           apiTitle.startsWith(localTitle + ":") ||
-           apiTitle.startsWith(localTitle + " ") ||
-           apiTitleJp.startsWith(localTitle);
+  return LOCAL_BASE_TITLES.some((base) => {
+    return apiTitle === base ||
+           apiTitle.startsWith(base + ":") ||
+           apiTitle.startsWith(base + " ") ||
+           apiTitleJp.startsWith(base);
   });
 }
 
