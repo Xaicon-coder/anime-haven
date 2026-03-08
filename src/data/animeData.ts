@@ -128,7 +128,7 @@ export const animeList: Anime[] = [
     year: 2025,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE parte 2", filePrefix: "DrStone4P2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(6, "https://cdn.myanimelist.net/images/anime/1785/151710.jpg", "DrStone4P2_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone: Science Future parte 2", filePrefix: "DrStone4P2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(6, "https://cdn.myanimelist.net/images/anime/1785/151710.jpg", "DrStone4P2_Ep_", "_ITA") },
     ],
   },
   {
