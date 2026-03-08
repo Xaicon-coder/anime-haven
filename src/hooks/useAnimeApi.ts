@@ -32,10 +32,11 @@ interface AniListMedia {
   idMal: number | null;
   bannerImage: string | null;
   coverImage: { extraLarge: string | null; large: string | null };
+  description: string | null;
 }
 
 // Cache banner HD da AniList per MAL ID
-const bannerCache = new Map<number, { banner: string | null; cover: string | null }>();
+const bannerCache = new Map<number, { banner: string | null; cover: string | null; description: string | null }>();
 
 // Fetch banner HD da AniList per una lista di MAL IDs
 async function fetchAniListBanners(malIds: number[]): Promise<void> {
@@ -60,6 +61,7 @@ async function fetchAniListBanners(malIds: number[]): Promise<void> {
               extraLarge
               large
             }
+            description(asHtml: false)
           }
         }
       }
@@ -82,6 +84,7 @@ async function fetchAniListBanners(malIds: number[]): Promise<void> {
           bannerCache.set(m.idMal, {
             banner: m.bannerImage,
             cover: m.coverImage?.extraLarge || m.coverImage?.large || null,
+            description: m.description ? m.description.replace(/<[^>]*>/g, '').trim() : null,
           });
         }
       }
@@ -89,7 +92,7 @@ async function fetchAniListBanners(malIds: number[]): Promise<void> {
       // Mark missing ones as null so we don't re-fetch
       for (const id of batch) {
         if (!bannerCache.has(id)) {
-          bannerCache.set(id, { banner: null, cover: null });
+          bannerCache.set(id, { banner: null, cover: null, description: null });
         }
       }
     } catch (e) {
@@ -97,11 +100,66 @@ async function fetchAniListBanners(malIds: number[]): Promise<void> {
       // Mark as attempted
       for (const id of batch) {
         if (!bannerCache.has(id)) {
-          bannerCache.set(id, { banner: null, cover: null });
+          bannerCache.set(id, { banner: null, cover: null, description: null });
         }
       }
     }
   }
+}
+
+// Cache traduzioni italiano
+const translationCache = new Map<string, string>();
+
+async function translateToItalian(texts: string[]): Promise<Map<string, string>> {
+  const results = new Map<string, string>();
+  const toTranslate = texts.filter(t => !translationCache.has(t));
+
+  // Return cached ones
+  for (const t of texts) {
+    if (translationCache.has(t)) results.set(t, translationCache.get(t)!);
+  }
+
+  if (toTranslate.length === 0) return results;
+
+  // Usa MyMemory API (gratuita, 5000 char/giorno è sufficiente per le bio)
+  const promises = toTranslate.map(async (text) => {
+    try {
+      const truncated = text.slice(0, 500); // MyMemory ha limite
+      const res = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(truncated)}&langpair=en|it`
+      );
+      const data = await res.json();
+      const translated = data?.responseData?.translatedText;
+      if (translated && !translated.includes("MYMEMORY WARNING")) {
+        translationCache.set(text, translated);
+        results.set(text, translated);
+      } else {
+        results.set(text, text); // fallback originale
+      }
+    } catch {
+      results.set(text, text);
+    }
+  });
+
+  // Traduci max 5 in parallelo per non sovraccaricare
+  for (let i = 0; i < promises.length; i += 5) {
+    await Promise.all(promises.slice(i, i + 5));
+  }
+
+  return results;
+}
+
+// Traduce le descrizioni di una lista di anime in italiano
+async function translateAnimeDescriptions(animeArr: Anime[]): Promise<Anime[]> {
+  const texts = animeArr.map(a => a.description).filter(d => d !== "Descrizione non disponibile.");
+  if (texts.length === 0) return animeArr;
+
+  const translations = await translateToItalian(texts);
+
+  return animeArr.map(a => ({
+    ...a,
+    description: translations.get(a.description) || a.description,
+  }));
 }
 
 // Mappa generi inglese -> italiano
@@ -173,7 +231,9 @@ function mapJikanToAnime(j: JikanAnime): Anime | null {
   const episodeCount = j.episodes || 12;
   const slug = generateSlug(j.title_english || j.title);
 
-  const rawSynopsis = j.synopsis?.replace(/\[Written by MAL Rewrite\]/g, "").replace(/\(Source:.*?\)/g, "").trim();
+  // Usa descrizione AniList se disponibile (più pulita), altrimenti Jikan
+  const anilistDesc = anilistData?.description;
+  const rawSynopsis = anilistDesc || j.synopsis?.replace(/\[Written by MAL Rewrite\]/g, "").replace(/\(Source:.*?\)/g, "").trim();
   const description = rawSynopsis || "Descrizione non disponibile.";
 
   return {
@@ -269,6 +329,13 @@ export function useAnimeSearch(query: string) {
   return { results, loading };
 }
 
+// Calcola la pagina da caricare in base all'ora corrente (cambia ogni ora)
+function getHourlyPage(): number {
+  const hour = new Date().getHours();
+  // Pagine da 1 a 4, ruota ogni ora
+  return (hour % 4) + 1;
+}
+
 export function useTopAnime() {
   const [anime, setAnime] = useState<Anime[]>([]);
   const [loading, setLoading] = useState(true);
@@ -277,7 +344,8 @@ export function useTopAnime() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(`${JIKAN_BASE}/top/anime?limit=25&sfw=true`);
+        const page = getHourlyPage();
+        const res = await fetch(`${JIKAN_BASE}/top/anime?limit=25&page=${page}&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
           const jikanList: JikanAnime[] = data.data || [];
@@ -287,7 +355,9 @@ export function useTopAnime() {
           await fetchAniListBanners(malIds);
 
           const mapped = jikanList.map(mapJikanToAnime).filter((a): a is Anime => a !== null);
-          setAnime(deduplicateAnime(mapped));
+          const deduplicated = deduplicateAnime(mapped);
+          const translated = await translateAnimeDescriptions(deduplicated);
+          setAnime(translated);
         }
       } catch (e) {
         console.error("Failed to fetch top anime:", e);
@@ -309,7 +379,8 @@ export function useSeasonalAnime() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(`${JIKAN_BASE}/seasons/now?limit=25&sfw=true`);
+        const page = getHourlyPage();
+        const res = await fetch(`${JIKAN_BASE}/seasons/now?limit=25&page=${page}&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
           const jikanList: JikanAnime[] = data.data || [];
@@ -319,7 +390,9 @@ export function useSeasonalAnime() {
           await fetchAniListBanners(malIds);
 
           const mapped = jikanList.map(mapJikanToAnime).filter((a): a is Anime => a !== null);
-          setAnime(deduplicateAnime(mapped));
+          const deduplicated = deduplicateAnime(mapped);
+          const translated = await translateAnimeDescriptions(deduplicated);
+          setAnime(translated);
         }
       } catch (e) {
         console.error("Failed to fetch seasonal anime:", e);
