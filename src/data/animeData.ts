@@ -106,7 +106,7 @@ export const animeList: Anime[] = [
     title: "Dr. Stone: Science Future Parte 1",
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1403/146479.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1403/146479.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1403/146479l.jpg",
     description: "L'avventura finale di Senku. La battaglia per il futuro della scienza e dell'umanità raggiunge il culmine.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.4,
