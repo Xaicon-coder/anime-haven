@@ -6,6 +6,7 @@ import ContinueWatching from "@/components/ContinueWatching";
 import { useTopAnime, useSeasonalAnime } from "@/hooks/useAnimeApi";
 import { animeList, popularAnime, topRatedAnime } from "@/data/animeData";
 import { Flame, Star, Tv } from "lucide-react";
+import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
 
 const Index = () => {
   const { anime: topAnime, loading: topLoading } = useTopAnime();
