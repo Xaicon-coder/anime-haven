@@ -170,7 +170,7 @@ export const animeList: Anime[] = [
     title: "Attack on Titan Season 2",
     folderName: "Attack on Titan ITA",
     cover: "https://cdn.myanimelist.net/images/anime/4/84177.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/4/84177.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/4/84177l.jpg",
     description: "Dopo la scoperta scioccante nella parete, l'umanità affronta nuove minacce. Il Corpo di Ricerca deve combattere i Titani mentre cerca la verità sul mondo.",
     genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
     rating: 8.5,
