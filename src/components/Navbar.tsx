@@ -12,17 +12,17 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-        <div className="flex items-center gap-8">
+      <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14 sm:h-16">
+        <div className="flex items-center gap-4 sm:gap-8">
           <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl font-display font-bold text-gradient-primary">AniStream</span>
+            <span className="text-xl sm:text-2xl font-display font-bold text-gradient-primary">AniStream</span>
           </Link>
           <div className="hidden md:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Home</Link>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {searchOpen ? (
             <div className="relative flex items-center gap-2 animate-slide-in">
               <input
@@ -30,21 +30,20 @@ const Navbar = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Cerca anime..."
-                className="bg-secondary text-foreground text-sm px-4 py-2 rounded-lg border border-border focus:border-primary focus:outline-none w-48 md:w-64"
+                className="bg-secondary text-foreground text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-border focus:border-primary focus:outline-none w-40 sm:w-48 md:w-64"
                 autoFocus
               />
               <button onClick={() => { setSearchOpen(false); setQuery(""); }} className="text-muted-foreground hover:text-foreground">
-                <X size={20} />
+                <X size={18} className="sm:w-5 sm:h-5" />
               </button>
 
-              {/* Search Results Dropdown */}
               {query.length >= 2 && (
-                <div className="absolute top-full right-0 mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-96 overflow-y-auto">
+                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-80 sm:max-h-96 overflow-y-auto">
                   {loading && (
-                    <div className="p-4 text-center text-muted-foreground text-sm">Cercando...</div>
+                    <div className="p-4 text-center text-muted-foreground text-xs sm:text-sm">Cercando...</div>
                   )}
                   {!loading && results.length === 0 && (
-                    <div className="p-4 text-center text-muted-foreground text-sm">Nessun risultato</div>
+                    <div className="p-4 text-center text-muted-foreground text-xs sm:text-sm">Nessun risultato</div>
                   )}
                   {results.map((anime) => (
                     <button
@@ -54,12 +53,14 @@ const Navbar = () => {
                         setSearchOpen(false);
                         setQuery("");
                       }}
-                      className="flex items-center gap-3 w-full p-3 hover:bg-secondary transition-colors text-left"
+                      className="flex items-center gap-3 w-full p-2.5 sm:p-3 hover:bg-secondary transition-colors text-left"
                     >
-                      <img src={anime.cover} alt={anime.title} className="w-10 h-14 object-cover rounded" />
+                      <div className="w-8 h-12 sm:w-10 sm:h-14 flex-shrink-0 rounded overflow-hidden bg-secondary">
+                        <img src={anime.cover} alt={anime.title} className="w-full h-full object-cover" />
+                      </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">{anime.title}</p>
-                        <p className="text-xs text-muted-foreground">{anime.year} • ⭐ {anime.rating}</p>
+                        <p className="text-xs sm:text-sm font-medium text-foreground truncate">{anime.title}</p>
+                        <p className="text-[10px] sm:text-xs text-muted-foreground">{anime.year} • ⭐ {anime.rating}</p>
                       </div>
                     </button>
                   ))}
@@ -67,12 +68,12 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <button onClick={() => setSearchOpen(true)} className="text-muted-foreground hover:text-foreground transition-colors p-2">
-              <Search size={20} />
+            <button onClick={() => setSearchOpen(true)} className="text-muted-foreground hover:text-foreground transition-colors p-1.5 sm:p-2">
+              <Search size={18} className="sm:w-5 sm:h-5" />
             </button>
           )}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-muted-foreground hover:text-foreground p-2">
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-muted-foreground hover:text-foreground p-1.5 sm:p-2">
+            {menuOpen ? <X size={18} className="sm:w-5 sm:h-5" /> : <Menu size={18} className="sm:w-5 sm:h-5" />}
           </button>
         </div>
       </div>
@@ -80,7 +81,7 @@ const Navbar = () => {
       {menuOpen && (
         <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl animate-fade-in">
           <div className="px-4 py-3">
-            <Link to="/" className="block py-2 text-sm font-medium text-foreground">Home</Link>
+            <Link to="/" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-foreground">Home</Link>
           </div>
         </div>
       )}

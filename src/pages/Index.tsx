@@ -3,7 +3,8 @@ import HeroBanner from "@/components/HeroBanner";
 import AnimeRow from "@/components/AnimeRow";
 import AnimeRowSkeleton from "@/components/AnimeRowSkeleton";
 import { useTopAnime, useSeasonalAnime } from "@/hooks/useAnimeApi";
-import { animeList, popularAnime, topRatedAnime, recentAnime } from "@/data/animeData";
+import { animeList, popularAnime, topRatedAnime } from "@/data/animeData";
+import { Flame, Star, Tv } from "lucide-react";
 
 const Index = () => {
   const { anime: topAnime, loading: topLoading } = useTopAnime();
@@ -13,18 +14,18 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <HeroBanner />
-      <main className="pb-12">
+      <main className="pb-8 sm:pb-12">
         {seasonalLoading ? (
-          <AnimeRowSkeleton title="🔥 Anime della Stagione" />
+          <AnimeRowSkeleton title="Anime della Stagione" icon={Flame} />
         ) : (
-          <AnimeRow title="🔥 Anime della Stagione" animeList={seasonalAnime.length > 0 ? seasonalAnime : popularAnime} />
+          <AnimeRow title="Anime della Stagione" icon={Flame} animeList={seasonalAnime.length > 0 ? seasonalAnime : popularAnime} />
         )}
         {topLoading ? (
-          <AnimeRowSkeleton title="⭐ Più Votati" />
+          <AnimeRowSkeleton title="Più Votati" icon={Star} />
         ) : (
-          <AnimeRow title="⭐ Più Votati" animeList={topAnime.length > 0 ? topAnime : topRatedAnime} />
+          <AnimeRow title="Più Votati" icon={Star} animeList={topAnime.length > 0 ? topAnime : topRatedAnime} />
         )}
-        <AnimeRow title="📺 Classici Imperdibili" animeList={animeList} />
+        <AnimeRow title="Classici Imperdibili" icon={Tv} animeList={animeList} />
       </main>
     </div>
   );
