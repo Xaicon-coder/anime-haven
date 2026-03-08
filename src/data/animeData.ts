@@ -136,7 +136,7 @@ export const animeList: Anime[] = [
     title: "Dr. Stone: Science Future Parte 3",
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1773/155779.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1773/155779.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1773/155779l.jpg",
     description: "Il gran finale di Dr. Stone. La conclusione dell'epica avventura scientifica di Senku.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.5,
