@@ -439,7 +439,7 @@ export const animeList: Anime[] = [
     title: "Chainsaw Man",
     folderName: "Chainsaw Man ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg",
     description: "Denji è un ragazzo in estrema povertà. Quando viene ucciso e tradito, Pochita si fonde con lui, trasformandolo nel temibile Chainsaw Man.",
     genres: ["Azione", "Dark Fantasy", "Horror"],
     rating: 8.3,
