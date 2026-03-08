@@ -142,7 +142,7 @@ export const animeList: Anime[] = [
     year: 2022,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg") },
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1806/126216.jpg") },
     ],
   },
   {
