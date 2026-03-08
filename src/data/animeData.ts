@@ -237,7 +237,7 @@ export const animeList: Anime[] = [
     title: "Demon Slayer: Mugen Train",
     folderName: "Demon Slayer ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1704/116137.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1704/116137.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1704/116137l.jpg",
     description: "Tanjiro e i suoi compagni si uniscono al Pilastro della Fiamma Kyojuro Rengoku a bordo del Treno dell'Infinito per indagare su misteriose sparizioni.",
     genres: ["Azione", "Fantasy", "Soprannaturale"],
     rating: 8.3,
