@@ -61,7 +61,7 @@ export const animeList: Anime[] = [
     title: "Dr. Stone",
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1613/102576.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1613/102576.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1613/102576l.jpg",
     description: "Una luce misteriosa pietrifica istantaneamente tutta l'umanità. Migliaia di anni dopo, il genio della scienza Senku Ishigami si risveglia in un mondo tornato all'età della pietra.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.3,
