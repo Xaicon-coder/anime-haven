@@ -68,7 +68,7 @@ export const animeList: Anime[] = [
     year: 2019,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE", filePrefix: "DrStone_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone", filePrefix: "DrStone_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone_Ep_", "_ITA") },
     ],
   },
   {
@@ -83,7 +83,7 @@ export const animeList: Anime[] = [
     year: 2021,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE STONE WARS", filePrefix: "DrStone2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1711/110614.jpg", "DrStone2_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone: Stone Wars", filePrefix: "DrStone2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1711/110614.jpg", "DrStone2_Ep_", "_ITA") },
     ],
   },
   {
@@ -98,7 +98,7 @@ export const animeList: Anime[] = [
     year: 2023,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE NEW WORLD", filePrefix: "DrStone3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1236/138696.jpg", "DrStone3_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone: New World", filePrefix: "DrStone3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1236/138696.jpg", "DrStone3_Ep_", "_ITA") },
     ],
   },
   {
@@ -113,7 +113,7 @@ export const animeList: Anime[] = [
     year: 2025,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE", filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1403/146479.jpg", "DrStone4_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone: Science Future", filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1403/146479.jpg", "DrStone4_Ep_", "_ITA") },
     ],
   },
   {
@@ -128,7 +128,7 @@ export const animeList: Anime[] = [
     year: 2025,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE parte 2", filePrefix: "DrStone4P2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(6, "https://cdn.myanimelist.net/images/anime/1785/151710.jpg", "DrStone4P2_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone: Science Future parte 2", filePrefix: "DrStone4P2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(6, "https://cdn.myanimelist.net/images/anime/1785/151710.jpg", "DrStone4P2_Ep_", "_ITA") },
     ],
   },
   {
@@ -143,7 +143,7 @@ export const animeList: Anime[] = [
     year: 2026,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE parte 3", filePrefix: "DrStone4P3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1773/155779.jpg", "DrStone4P3_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone: Science Future parte 3", filePrefix: "DrStone4P3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1773/155779.jpg", "DrStone4P3_Ep_", "_ITA") },
     ],
   },
 
