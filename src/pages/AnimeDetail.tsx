@@ -5,8 +5,7 @@ import Navbar from "@/components/Navbar";
 import { type Anime } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
 import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
-import { useAuth } from "@/hooks/useAuth";
-import { useWatchlist, useWatchedEpisodes } from "@/hooks/useUserAnime";
+import { useWatchlist, useWatchedEpisodes } from '@/hooks/useLocalWatchlist';
 
 const AnimeDetail = () => {
   useSpatialNavigation();
