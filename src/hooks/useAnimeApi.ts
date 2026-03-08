@@ -8,10 +8,10 @@ interface JikanAnime {
   title: string;
   title_english: string | null;
   images: {
-    jpg: { large_image_url: string; image_url: string };
-    webp: { large_image_url: string; image_url: string };
+    jpg: { large_image_url: string; image_url: string; original_image_url?: string };
+    webp: { large_image_url: string; image_url: string; original_image_url?: string };
   };
-  trailer?: { images?: { maximum_image_url?: string } };
+  trailer?: { images?: { maximum_image_url?: string; large_image_url?: string } };
   synopsis: string | null;
   genres: { name: string }[];
   score: number | null;
