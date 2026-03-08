@@ -16,9 +16,9 @@ const AnimeRow = ({ title, icon: Icon, animeList }: AnimeRowProps) => {
           <Icon size={20} className="text-primary" />
           <h2 className="text-base sm:text-lg lg:text-xl font-display font-bold text-foreground">{title}</h2>
         </div>
-        <button className="flex items-center gap-1 text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors font-medium">
+        <Link to="/explore" className="flex items-center gap-1 text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors font-medium">
           Vedi tutto <ChevronRight size={14} className="sm:w-4 sm:h-4" />
-        </button>
+        </Link>
       </div>
       <div className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide px-4 sm:px-6 lg:px-8 pb-2 max-w-[1800px] mx-auto">
         {animeList.map((anime, i) => (
