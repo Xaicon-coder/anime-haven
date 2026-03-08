@@ -65,9 +65,9 @@ export const animeList: Anime[] = [
     year: 2019,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(26, "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg") },
-      { id: "s2", number: 2, title: "Distretto a luci rosse", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg") },
-      { id: "s3", number: 3, title: "Villaggio dei Fabbri", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg") },
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(26, "https://cdn.myanimelist.net/images/anime/1286/99889.jpg") },
+      { id: "s2", number: 2, title: "Distretto a luci rosse", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889.jpg") },
+      { id: "s3", number: 3, title: "Villaggio dei Fabbri", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889.jpg") },
     ],
   },
   {
