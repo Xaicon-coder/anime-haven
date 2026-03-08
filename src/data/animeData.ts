@@ -148,8 +148,8 @@ export const animeList: Anime[] = [
   {
     id: "solo-leveling",
     title: "Solo Leveling",
-    cover: "https://cdn.myanimelist.net/images/anime/1808/141625l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1808/141625l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/1808/141625.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire4/a8b09a5b8de1b3de73a9e3de1c6ae7041705599642_main.jpg",
     description: "In un mondo dove i cacciatori - umani con poteri magici - devono combattere mortali mostri per proteggere la razza umana, Sung Jinwoo è il cacciatore più debole di tutti, noto come 'il cacciatore più debole dell'umanità'. Un giorno, dopo una missione quasi fatale, riceve un misterioso programma chiamato 'Sistema'.",
     genres: ["Azione", "Fantasy", "Avventura"],
     rating: 8.3,
