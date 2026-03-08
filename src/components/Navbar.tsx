@@ -1,8 +1,8 @@
-import { Search, Menu, X, Bookmark, Compass, User, LogOut, LogIn } from "lucide-react";
+import { Search, Menu, X, Bookmark, Compass, LogOut } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAnimeSearch } from "@/hooks/useAnimeApi";
-import { useAuth } from "@/hooks/useAuth";
+import { useProfile } from "@/hooks/useProfile";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -10,10 +10,8 @@ const Navbar = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const { results, loading } = useAnimeSearch(query);
-  const { user, signOut, loading: authLoading } = useAuth();
+  const { activeProfile, logout } = useProfile();
   const navigate = useNavigate();
-
-  const username = user?.user_metadata?.username || user?.email?.split('@')[0] || 'Utente';
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
@@ -84,43 +82,33 @@ const Navbar = () => {
             </button>
           )}
 
-          {/* User auth button */}
-          {!authLoading && (
-            user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors p-1.5 sm:p-2"
-                >
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
-                    <span className="text-xs sm:text-sm font-bold text-primary">{username.charAt(0).toUpperCase()}</span>
+          {/* Profile button */}
+          {activeProfile && (
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors p-1.5 sm:p-2"
+              >
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-secondary border border-border flex items-center justify-center text-sm sm:text-base">
+                  {activeProfile.avatar}
+                </div>
+              </button>
+              {userMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-44 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in z-50">
+                  <div className="px-4 py-3 border-b border-border">
+                    <p className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <span className="text-base">{activeProfile.avatar}</span> {activeProfile.name}
+                    </p>
                   </div>
-                </button>
-                {userMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in z-50">
-                    <div className="px-4 py-3 border-b border-border">
-                      <p className="text-sm font-medium text-foreground truncate">{username}</p>
-                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-                    </div>
-                    <button
-                      onClick={async () => {
-                        await signOut();
-                        setUserMenuOpen(false);
-                        navigate('/');
-                      }}
-                      className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-destructive hover:bg-secondary transition-colors"
-                    >
-                      <LogOut size={15} /> Esci
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link to="/auth" className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors p-1.5 sm:p-2">
-                <LogIn size={18} className="sm:w-5 sm:h-5" />
-                <span className="hidden sm:inline">Accedi</span>
-              </Link>
-            )
+                  <button
+                    onClick={() => { logout(); setUserMenuOpen(false); }}
+                    className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+                  >
+                    <LogOut size={15} /> Cambia profilo
+                  </button>
+                </div>
+              )}
+            </div>
           )}
 
           <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-muted-foreground hover:text-foreground p-1.5 sm:p-2">
@@ -139,11 +127,6 @@ const Navbar = () => {
             <Link to="/watchlist" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground">
               <Bookmark size={16} /> La Mia Lista
             </Link>
-            {!user && (
-              <Link to="/auth" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-primary">
-                <LogIn size={16} /> Accedi
-              </Link>
-            )}
           </div>
         </div>
       )}
