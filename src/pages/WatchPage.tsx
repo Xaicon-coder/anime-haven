@@ -225,52 +225,7 @@ const WatchPage = () => {
             Il tuo browser non supporta il video.
           </video>
 
-          {/* PROSSIMO EPISODIO - grande, sempre visibile vicino alla fine, facile da cliccare con telecomando */}
-          {nextEp && (showOverlay || isNearEnd) && (
-            <button
-              ref={nextBtnRef}
-              onClick={(e) => { e.stopPropagation(); goToNextEp(); }}
-              className="absolute bottom-20 sm:bottom-24 lg:bottom-28 right-4 sm:right-6 lg:right-10 z-30
-                flex items-center gap-3 sm:gap-4
-                bg-primary hover:bg-primary/90 active:scale-95 text-primary-foreground
-                font-bold rounded-xl lg:rounded-2xl shadow-2xl glow-primary
-                px-6 sm:px-8 lg:px-10 xl:px-12 py-4 sm:py-5 lg:py-6 xl:py-7
-                text-base sm:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl
-                transition-all duration-200
-                focus:outline-none focus:ring-4 focus:ring-primary/60 focus:scale-105
-                animate-fade-in cursor-pointer select-none"
-              tabIndex={0}
-              autoFocus={isNearEnd}
-            >
-              <SkipForward className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10" />
-              <span className="flex flex-col items-start leading-tight">
-                <span>Prossimo Episodio</span>
-                <span className="text-xs sm:text-sm lg:text-base xl:text-lg font-normal opacity-80">
-                  Ep. {nextEp.number}
-                </span>
-              </span>
-            </button>
-          )}
-
-          {/* EPISODIO PRECEDENTE */}
-          {prevEp && showOverlay && (
-            <button
-              onClick={(e) => { e.stopPropagation(); goToPrevEp(); }}
-              className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-4 sm:left-6 lg:left-10 z-30
-                flex items-center gap-2 sm:gap-3
-                bg-secondary/90 hover:bg-secondary active:scale-95 text-secondary-foreground
-                font-semibold rounded-xl lg:rounded-2xl shadow-xl backdrop-blur-sm
-                px-5 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5
-                text-sm sm:text-base lg:text-lg xl:text-xl
-                transition-all duration-200
-                focus:outline-none focus:ring-4 focus:ring-secondary/50
-                animate-fade-in cursor-pointer select-none"
-              tabIndex={0}
-            >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
-              Precedente
-            </button>
-          )}
+          {/* PROSSIMO EPISODIO - rimosso */}
 
           {/* Info episodio overlay in alto */}
           {showOverlay && (
