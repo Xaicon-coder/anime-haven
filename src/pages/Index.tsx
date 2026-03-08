@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import HeroBanner from "@/components/HeroBanner";
 import AnimeRow from "@/components/AnimeRow";
 import AnimeRowSkeleton from "@/components/AnimeRowSkeleton";
+import ContinueWatching from "@/components/ContinueWatching";
 import { useTopAnime, useSeasonalAnime } from "@/hooks/useAnimeApi";
 import { animeList, popularAnime, topRatedAnime } from "@/data/animeData";
 import { Flame, Star, Tv } from "lucide-react";
@@ -15,6 +16,7 @@ const Index = () => {
       <Navbar />
       <HeroBanner />
       <main className="pb-8 sm:pb-12">
+        <ContinueWatching />
         {seasonalLoading ? (
           <AnimeRowSkeleton title="Anime della Stagione" icon={Flame} />
         ) : (

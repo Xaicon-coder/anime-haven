@@ -1,17 +1,44 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
-import { animeList, getVideoPath } from "@/data/animeData";
+import { getVideoPath } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
-import type { Anime } from "@/data/animeData";
+import { saveProgress, getProgress } from "@/hooks/useWatchProgress";
 
 const WatchPage = () => {
   const { animeId, seasonId, episodeId } = useParams();
-  const { anime, loading } = useAnimeById(animeId || "");
+  const { anime } = useAnimeById(animeId || "");
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const season = anime?.seasons.find((s) => s.id === seasonId);
   const episode = season?.episodes.find((e) => e.id === episodeId);
   const episodeIndex = season?.episodes.findIndex((e) => e.id === episodeId) ?? -1;
+  const prevEp = episodeIndex > 0 ? season?.episodes[episodeIndex - 1] ?? null : null;
+  const nextEp = season && episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
+  const videoPath = anime && season && episode ? getVideoPath(anime, season, episode) : "";
+
+  const handleTimeUpdate = useCallback(() => {
+    const video = videoRef.current;
+    if (video && anime && season && episode) {
+      saveProgress(anime.id, season.id, episode.id, video.currentTime, video.duration);
+    }
+  }, [anime, season, episode]);
+
+  useEffect(() => {
+    if (!anime || !season || !episode) return;
+    const saved = getProgress(anime.id, season.id, episode.id);
+    const video = videoRef.current;
+    if (saved && video) {
+      const onLoaded = () => {
+        if (saved.currentTime < video.duration - 10) {
+          video.currentTime = saved.currentTime;
+        }
+        video.removeEventListener("loadedmetadata", onLoaded);
+      };
+      video.addEventListener("loadedmetadata", onLoaded);
+    }
+  }, [anime, season, episode, videoPath]);
 
   if (!anime || !season || !episode) {
     return (
@@ -25,23 +52,20 @@ const WatchPage = () => {
     );
   }
 
-  const prevEp = episodeIndex > 0 ? season.episodes[episodeIndex - 1] : null;
-  const nextEp = episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
-
-  const videoPath = getVideoPath(anime, season, episode);
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16">
         <div className="w-full bg-black aspect-video max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] relative">
           <video
+            ref={videoRef}
             key={videoPath}
             src={videoPath}
             controls
             autoPlay
             className="w-full h-full"
             poster={episode.thumbnail}
+            onTimeUpdate={handleTimeUpdate}
           >
             Il tuo browser non supporta il video.
           </video>

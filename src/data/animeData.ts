@@ -55,53 +55,93 @@ const generateEpisodes = (
 
 export const animeList: Anime[] = [
   {
-    id: "dr-stone",
-    title: "Dr. Stone",
+    id: "dr-stone-s1",
+    title: "Dr. Stone: Stone World",
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1613/102576.jpg",
     banner: "https://cdn.myanimelist.net/images/anime/1613/102576.jpg",
-    description: "Una luce misteriosa pietrifica istantaneamente tutta l'umanità. Migliaia di anni dopo, il genio della scienza Senku Ishigami si risveglia in un mondo tornato all'età della pietra. Con la sua incredibile conoscenza scientifica, Senku decide di ricostruire la civiltà da zero, partendo dalle basi della chimica e della fisica.",
+    description: "Una luce misteriosa pietrifica istantaneamente tutta l'umanità. Migliaia di anni dopo, il genio della scienza Senku Ishigami si risveglia in un mondo tornato all'età della pietra.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.3,
     year: 2019,
     status: "Completato",
     seasons: [
-      { 
-        id: "s1", number: 1, title: "Stagione 1 - Stone World", 
-        folderName: "Dr. STONE",
-        filePrefix: "DrStone_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone_Ep_", "_ITA") 
-      },
-      { 
-        id: "s2", number: 2, title: "Stagione 2 - Stone Wars", 
-        folderName: "Dr. STONE STONE WARS",
-        filePrefix: "DrStone2_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1952/116521.jpg", "DrStone2_Ep_", "_ITA") 
-      },
-      { 
-        id: "s3", number: 3, title: "Stagione 3 - New World", 
-        folderName: "Dr. STONE NEW WORLD",
-        filePrefix: "DrStone3_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1236/138696.jpg", "DrStone3_Ep_", "_ITA") 
-      },
-      { 
-        id: "s4", number: 4, title: "Stagione 4 - Science Future Parte 1", 
-        folderName: "Dr. STONE SCIENCE FUTURE",
-        filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4_Ep_", "_ITA") 
-      },
-      { 
-        id: "s5", number: 5, title: "Stagione 4 - Science Future Parte 2", 
-        folderName: "Dr. STONE SCIENCE FUTURE parte 2",
-        filePrefix: "DrStone4P2_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4P2_Ep_", "_ITA") 
-      },
-      { 
-        id: "s6", number: 6, title: "Stagione 4 - Science Future Parte 3", 
-        folderName: "Dr. STONE SCIENCE FUTURE parte 3",
-        filePrefix: "DrStone4P3_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4P3_Ep_", "_ITA") 
-      },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE", filePrefix: "DrStone_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone_Ep_", "_ITA") },
+    ],
+  },
+  {
+    id: "dr-stone-s2",
+    title: "Dr. Stone: Stone Wars",
+    folderName: "Dr. Stone ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1952/116521.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1952/116521.jpg",
+    description: "Senku e il Regno della Scienza dichiarano guerra all'Impero di Tsukasa. Con ingegno e scienza, Senku pianifica di sconfiggere la forza bruta con la tecnologia.",
+    genres: ["Avventura", "Sci-Fi", "Commedia"],
+    rating: 8.1,
+    year: 2021,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE STONE WARS", filePrefix: "DrStone2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1952/116521.jpg", "DrStone2_Ep_", "_ITA") },
+    ],
+  },
+  {
+    id: "dr-stone-s3",
+    title: "Dr. Stone: New World",
+    folderName: "Dr. Stone ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1236/138696.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1236/138696.jpg",
+    description: "Senku e i suoi compagni salpano verso nuove terre alla ricerca delle risorse per creare il Revival Fluid e risvegliare tutta l'umanità dalla pietrificazione.",
+    genres: ["Avventura", "Sci-Fi", "Commedia"],
+    rating: 8.3,
+    year: 2023,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE NEW WORLD", filePrefix: "DrStone3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1236/138696.jpg", "DrStone3_Ep_", "_ITA") },
+    ],
+  },
+  {
+    id: "dr-stone-s4",
+    title: "Dr. Stone: Science Future Parte 1",
+    folderName: "Dr. Stone ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
+    description: "L'avventura finale di Senku e dei suoi compagni. La battaglia per il futuro della scienza e dell'umanità raggiunge il culmine.",
+    genres: ["Avventura", "Sci-Fi", "Commedia"],
+    rating: 8.4,
+    year: 2025,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE", filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4_Ep_", "_ITA") },
+    ],
+  },
+  {
+    id: "dr-stone-s4p2",
+    title: "Dr. Stone: Science Future Parte 2",
+    folderName: "Dr. Stone ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
+    description: "La seconda parte della stagione finale. Senku affronta le sfide più grandi nella corsa per salvare l'umanità con il potere della scienza.",
+    genres: ["Avventura", "Sci-Fi", "Commedia"],
+    rating: 8.4,
+    year: 2025,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE parte 2", filePrefix: "DrStone4P2_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4P2_Ep_", "_ITA") },
+    ],
+  },
+  {
+    id: "dr-stone-s4p3",
+    title: "Dr. Stone: Science Future Parte 3",
+    folderName: "Dr. Stone ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
+    description: "Il gran finale di Dr. Stone. L'ultima battaglia per il futuro della civiltà e la conclusione dell'epica avventura scientifica di Senku.",
+    genres: ["Avventura", "Sci-Fi", "Commedia"],
+    rating: 8.5,
+    year: 2026,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE parte 3", filePrefix: "DrStone4P3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4P3_Ep_", "_ITA") },
     ],
   },
   {
