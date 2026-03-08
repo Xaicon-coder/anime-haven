@@ -185,7 +185,7 @@ export const animeList: Anime[] = [
     title: "Attack on Titan Season 3",
     folderName: "Attack on Titan ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1429/95946.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1429/95946.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1429/95946l.jpg",
     description: "Il Corpo di Ricerca si prepara a riprendere Wall Maria. Eren e i suoi compagni scoprono la verità sul mondo oltre le mura.",
     genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
     rating: 8.6,
