@@ -8,10 +8,10 @@ interface JikanAnime {
   title: string;
   title_english: string | null;
   images: {
-    jpg: { large_image_url: string; image_url: string };
-    webp: { large_image_url: string; image_url: string };
+    jpg: { large_image_url: string; image_url: string; original_image_url?: string };
+    webp: { large_image_url: string; image_url: string; original_image_url?: string };
   };
-  trailer?: { images?: { maximum_image_url?: string } };
+  trailer?: { images?: { maximum_image_url?: string; large_image_url?: string } };
   synopsis: string | null;
   genres: { name: string }[];
   score: number | null;
@@ -28,8 +28,8 @@ function mapStatus(status: string): string {
 }
 
 function mapJikanToAnime(j: JikanAnime): Anime {
-  const cover = j.images.webp?.large_image_url || j.images.jpg.large_image_url;
-  const banner = j.trailer?.images?.maximum_image_url || cover;
+  const cover = j.images.jpg?.original_image_url || j.images.webp?.large_image_url || j.images.jpg.large_image_url;
+  const banner = j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || cover;
   const animeYear = j.year || j.aired?.prop?.from?.year || 2024;
   const episodeCount = j.episodes || 12;
 
