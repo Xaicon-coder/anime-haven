@@ -4,17 +4,17 @@ export interface Episode {
   title: string;
   duration: string;
   thumbnail: string;
-  fileName?: string; // Nome del file reale, es: "DrStone4_Ep_01_ITA.mp4"
+  fileName?: string;
 }
 
 export interface Season {
   id: string;
   number: number;
   title: string;
-  folderName: string; // Nome reale della cartella stagione
+  folderName: string;
   episodes: Episode[];
-  filePrefix?: string; // Prefisso file, es: "DrStone4_Ep_" 
-  fileSuffix?: string; // Suffisso file, es: "_ITA"
+  filePrefix?: string;
+  fileSuffix?: string;
 }
 
 export interface Anime {
@@ -27,20 +27,19 @@ export interface Anime {
   rating: number;
   year: number;
   status: string;
-  folderName: string; // Nome reale della cartella anime in /DATA/AppData/anime/
+  folderName: string;
   seasons: Season[];
 }
 
-// Genera episodi con nome file automatico basato su prefisso/suffisso
 const generateEpisodes = (
-  count: number, 
+  count: number,
   thumbnail: string,
   filePrefix?: string,
   fileSuffix?: string
 ): Episode[] =>
   Array.from({ length: count }, (_, i) => {
     const epNum = String(i + 1).padStart(2, "0");
-    const fileName = filePrefix 
+    const fileName = filePrefix
       ? `${filePrefix}${epNum}${fileSuffix || ""}.mp4`
       : `episodio-${i + 1}.mp4`;
     return {
@@ -54,9 +53,12 @@ const generateEpisodes = (
   });
 
 export const animeList: Anime[] = [
+  // ═══════════════════════════════════════
+  // DR. STONE
+  // ═══════════════════════════════════════
   {
     id: "dr-stone-s1",
-    title: "Dr. Stone: Stone World",
+    title: "Dr. Stone",
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1613/102576.jpg",
     banner: "https://cdn.myanimelist.net/images/anime/1613/102576.jpg",
@@ -90,7 +92,7 @@ export const animeList: Anime[] = [
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1236/138696.jpg",
     banner: "https://cdn.myanimelist.net/images/anime/1236/138696.jpg",
-    description: "Senku e i suoi compagni salpano verso nuove terre alla ricerca delle risorse per creare il Revival Fluid e risvegliare tutta l'umanità dalla pietrificazione.",
+    description: "Senku e i suoi compagni salpano verso nuove terre alla ricerca delle risorse per risvegliare tutta l'umanità dalla pietrificazione.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.3,
     year: 2023,
@@ -105,7 +107,7 @@ export const animeList: Anime[] = [
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
     banner: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
-    description: "L'avventura finale di Senku e dei suoi compagni. La battaglia per il futuro della scienza e dell'umanità raggiunge il culmine.",
+    description: "L'avventura finale di Senku. La battaglia per il futuro della scienza e dell'umanità raggiunge il culmine.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.4,
     year: 2025,
@@ -120,7 +122,7 @@ export const animeList: Anime[] = [
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
     banner: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
-    description: "La seconda parte della stagione finale. Senku affronta le sfide più grandi nella corsa per salvare l'umanità con il potere della scienza.",
+    description: "La seconda parte della stagione finale. Senku affronta le sfide più grandi nella corsa per salvare l'umanità.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.4,
     year: 2025,
@@ -135,7 +137,7 @@ export const animeList: Anime[] = [
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
     banner: "https://cdn.myanimelist.net/images/anime/1006/145704.jpg",
-    description: "Il gran finale di Dr. Stone. L'ultima battaglia per il futuro della civiltà e la conclusione dell'epica avventura scientifica di Senku.",
+    description: "Il gran finale di Dr. Stone. La conclusione dell'epica avventura scientifica di Senku.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.5,
     year: 2026,
@@ -144,64 +146,197 @@ export const animeList: Anime[] = [
       { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE SCIENCE FUTURE parte 3", filePrefix: "DrStone4P3_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4P3_Ep_", "_ITA") },
     ],
   },
+
+  // ═══════════════════════════════════════
+  // ATTACK ON TITAN
+  // ═══════════════════════════════════════
   {
-    id: "attack-on-titan",
+    id: "aot-s1",
     title: "Attack on Titan",
     folderName: "Attack on Titan ITA",
     cover: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire2/abf1fa6637035ef511cf8050e54d62181652729022_main.jpg",
-    description: "Secoli fa, l'umanità fu massacrata fino quasi all'estinzione da mostri enormi e terrificanti con una forma vagamente umana chiamati Titani. I pochi sopravvissuti si rifugiarono dietro tre enormi mura concentriche. Ora, la pace è minacciata quando un Titano Colossale appare e distrugge il muro esterno.",
+    banner: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
+    description: "Secoli fa, l'umanità fu massacrata fino quasi all'estinzione da mostri enormi chiamati Titani. I pochi sopravvissuti si rifugiarono dietro tre enormi mura concentriche.",
     genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
-    rating: 9.0,
+    rating: 8.5,
     year: 2013,
     status: "Completato",
     seasons: [
       { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
-      { id: "s2", number: 2, title: "Stagione 2", folderName: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
-      { id: "s3", number: 3, title: "Stagione 3", folderName: "Stagione 3", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
-      { id: "s4", number: 4, title: "Stagione Finale", folderName: "Stagione 4", episodes: generateEpisodes(16, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
     ],
   },
   {
-    id: "demon-slayer",
-    title: "Demon Slayer: Kimetsu no Yaiba",
-    folderName: "Demon Slayer ITA",
-    cover: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire3/f2bc72cb7ce020dc8c40110cfba1a5a81656420494_main.jpg",
-    description: "Sin dai tempi antichi circolano voci su demoni mangiauomini che si nascondono nel bosco. Tanjiro è un giovane carbonaio dalla gentilezza innata che un giorno trova la sua famiglia massacrata da un demone. L'unica sopravvissuta è sua sorella Nezuko, trasformata in un demone. Così inizia il suo viaggio per trovare una cura e vendicare la sua famiglia.",
-    genres: ["Azione", "Fantasy", "Soprannaturale"],
-    rating: 8.6,
-    year: 2019,
+    id: "aot-s2",
+    title: "Attack on Titan Season 2",
+    folderName: "Attack on Titan ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/4/84177.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/4/84177.jpg",
+    description: "Dopo la scoperta scioccante nella parete, l'umanità affronta nuove minacce. Il Corpo di Ricerca deve combattere i Titani mentre cerca la verità sul mondo.",
+    genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
+    rating: 8.5,
+    year: 2017,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(26, "https://cdn.myanimelist.net/images/anime/1286/99889.jpg") },
-      { id: "s2", number: 2, title: "Distretto a Luci Rosse", folderName: "Distretto a Luci Rosse", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889.jpg") },
-      { id: "s3", number: 3, title: "Villaggio dei Fabbri", folderName: "Villaggio dei Fabbri", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889.jpg") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/4/84177.jpg") },
     ],
   },
   {
-    id: "jujutsu-kaisen",
-    title: "Jujutsu Kaisen",
-    folderName: "Jujutsu Kaisen ITA",
-    cover: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire1/2c42070c0a93b1ca5f8ade932b4d81d51603391446_main.jpg",
-    description: "Yuji Itadori è uno studente con abilità fisiche straordinarie. Un giorno, per salvare un compagno attaccato da una Maledizione, ingoia un dito di Ryomen Sukuna, il Re delle Maledizioni, diventando il suo recipiente. Da quel momento entra nel mondo degli stregoni e deve affrontare maledizioni terrificanti.",
-    genres: ["Azione", "Soprannaturale", "Scolastico"],
+    id: "aot-s3",
+    title: "Attack on Titan Season 3",
+    folderName: "Attack on Titan ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1429/95946.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1429/95946.jpg",
+    description: "Il Corpo di Ricerca si prepara a riprendere Wall Maria. Eren e i suoi compagni scoprono la verità sul mondo oltre le mura.",
+    genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
+    rating: 8.6,
+    year: 2018,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Parte 1", folderName: "Stagione 3", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1429/95946.jpg") },
+      { id: "s2", number: 2, title: "Parte 2", folderName: "Stagione 3 Parte 2", episodes: generateEpisodes(10, "https://cdn.myanimelist.net/images/anime/1429/95946.jpg") },
+    ],
+  },
+  {
+    id: "aot-final",
+    title: "Attack on Titan: The Final Season",
+    folderName: "Attack on Titan ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1000/110531.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1000/110531.jpg",
+    description: "La storia raggiunge la conclusione. Eren Yeager e i suoi compagni affrontano la battaglia finale che deciderà il destino dell'umanità.",
+    genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
     rating: 8.7,
     year: 2020,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1171/109222.jpg") },
-      { id: "s2", number: 2, title: "Stagione 2", folderName: "Stagione 2", episodes: generateEpisodes(23, "https://cdn.myanimelist.net/images/anime/1171/109222.jpg") },
+      { id: "s1", number: 1, title: "Parte 1", folderName: "Stagione Finale Parte 1", episodes: generateEpisodes(16, "https://cdn.myanimelist.net/images/anime/1000/110531.jpg") },
+      { id: "s2", number: 2, title: "Parte 2", folderName: "Stagione Finale Parte 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1948/120625.jpg") },
+      { id: "s3", number: 3, title: "Parte 3", folderName: "Stagione Finale Parte 3", episodes: generateEpisodes(2, "https://cdn.myanimelist.net/images/anime/1279/131078.jpg") },
     ],
   },
+
+  // ═══════════════════════════════════════
+  // DEMON SLAYER
+  // ═══════════════════════════════════════
+  {
+    id: "demon-slayer-s1",
+    title: "Demon Slayer: Kimetsu no Yaiba",
+    folderName: "Demon Slayer ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+    description: "Tanjiro è un giovane carbonaio che trova la sua famiglia massacrata da un demone. L'unica sopravvissuta è sua sorella Nezuko, trasformata in un demone. Così inizia il suo viaggio per trovare una cura.",
+    genres: ["Azione", "Fantasy", "Soprannaturale"],
+    rating: 8.4,
+    year: 2019,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(26, "https://cdn.myanimelist.net/images/anime/1286/99889.jpg") },
+    ],
+  },
+  {
+    id: "demon-slayer-mugen",
+    title: "Demon Slayer: Mugen Train",
+    folderName: "Demon Slayer ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1704/116137.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1704/116137.jpg",
+    description: "Tanjiro e i suoi compagni si uniscono al Pilastro della Fiamma Kyojuro Rengoku a bordo del Treno dell'Infinito per indagare su misteriose sparizioni.",
+    genres: ["Azione", "Fantasy", "Soprannaturale"],
+    rating: 8.3,
+    year: 2021,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Arco del Treno", folderName: "Mugen Train", episodes: generateEpisodes(7, "https://cdn.myanimelist.net/images/anime/1704/116137.jpg") },
+    ],
+  },
+  {
+    id: "demon-slayer-s2",
+    title: "Demon Slayer: Distretto a Luci Rosse",
+    folderName: "Demon Slayer ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1908/120036.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1908/120036.jpg",
+    description: "Tanjiro, Zenitsu e Inosuke accompagnano il Pilastro del Suono Tengen Uzui nel Distretto a Luci Rosse per indagare sulla scomparsa delle sue mogli.",
+    genres: ["Azione", "Fantasy", "Soprannaturale"],
+    rating: 8.2,
+    year: 2021,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Distretto a Luci Rosse", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1908/120036.jpg") },
+    ],
+  },
+  {
+    id: "demon-slayer-s3",
+    title: "Demon Slayer: Villaggio dei Fabbri",
+    folderName: "Demon Slayer ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1765/135099.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1765/135099.jpg",
+    description: "Tanjiro si reca al villaggio nascosto dei fabbri per far riparare la sua spada. Ma il villaggio viene attaccato da potenti demoni delle Lune Crescenti.",
+    genres: ["Azione", "Fantasy", "Soprannaturale"],
+    rating: 8.1,
+    year: 2023,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Villaggio dei Fabbri", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1765/135099.jpg") },
+    ],
+  },
+  {
+    id: "demon-slayer-s4",
+    title: "Demon Slayer: Allenamento dei Pilastri",
+    folderName: "Demon Slayer ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1081/142917.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1081/142917.jpg",
+    description: "I Cacciatori di Demoni si sottopongono a un duro allenamento sotto la guida dei Pilastri in preparazione alla battaglia finale contro Muzan.",
+    genres: ["Azione", "Fantasy", "Soprannaturale"],
+    rating: 7.5,
+    year: 2024,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Allenamento dei Pilastri", episodes: generateEpisodes(8, "https://cdn.myanimelist.net/images/anime/1081/142917.jpg") },
+    ],
+  },
+
+  // ═══════════════════════════════════════
+  // JUJUTSU KAISEN
+  // ═══════════════════════════════════════
+  {
+    id: "jujutsu-kaisen-s1",
+    title: "Jujutsu Kaisen",
+    folderName: "Jujutsu Kaisen ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+    description: "Yuji Itadori ingoia un dito di Ryomen Sukuna, il Re delle Maledizioni, diventando il suo recipiente. Entra nel mondo degli stregoni per affrontare maledizioni terrificanti.",
+    genres: ["Azione", "Soprannaturale", "Scolastico"],
+    rating: 8.6,
+    year: 2020,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1171/109222.jpg") },
+    ],
+  },
+  {
+    id: "jujutsu-kaisen-s2",
+    title: "Jujutsu Kaisen Stagione 2",
+    folderName: "Jujutsu Kaisen ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1792/138022.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1792/138022.jpg",
+    description: "La storia esplora il passato di Gojo e Geto, poi si immerge nell'Incidente di Shibuya dove gli stregoni affrontano la più grande crisi della storia.",
+    genres: ["Azione", "Soprannaturale"],
+    rating: 8.6,
+    year: 2023,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 2", episodes: generateEpisodes(23, "https://cdn.myanimelist.net/images/anime/1792/138022.jpg") },
+    ],
+  },
+
+  // ═══════════════════════════════════════
+  // ONE PIECE (serie lunga, saghe come stagioni)
+  // ═══════════════════════════════════════
   {
     id: "one-piece",
     title: "One Piece",
     folderName: "One Piece ITA",
     cover: "https://cdn.myanimelist.net/images/anime/6/73245.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire3/21af72e84d1c9e993c0f30da6c7955ad1648159498_main.jpg",
-    description: "Gol D. Roger era noto come il Re dei Pirati. Le sue ultime parole prima della morte hanno rivelato l'esistenza del più grande tesoro del mondo, il One Piece. Il giovane Monkey D. Luffy parte per trovare il leggendario tesoro e diventare il nuovo Re dei Pirati.",
+    banner: "https://cdn.myanimelist.net/images/anime/6/73245.jpg",
+    description: "Monkey D. Luffy parte per trovare il leggendario tesoro One Piece e diventare il nuovo Re dei Pirati.",
     genres: ["Azione", "Avventura", "Commedia"],
     rating: 8.7,
     year: 1999,
@@ -211,78 +346,151 @@ export const animeList: Anime[] = [
       { id: "s2", number: 2, title: "Alabasta", folderName: "Alabasta", episodes: generateEpisodes(73, "https://cdn.myanimelist.net/images/anime/6/73245.jpg") },
     ],
   },
+
+  // ═══════════════════════════════════════
+  // MY HERO ACADEMIA
+  // ═══════════════════════════════════════
   {
-    id: "my-hero-academia",
+    id: "mha-s1",
     title: "My Hero Academia",
     folderName: "My Hero Academia ITA",
     cover: "https://cdn.myanimelist.net/images/anime/10/78745.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire1/2feff504543798a34bb91da2f7f2fb721649277048_main.jpg",
-    description: "In un mondo dove l'80% della popolazione possiede superpoteri chiamati 'Quirk', Izuku Midoriya nasce senza alcun potere. Ma il suo sogno di diventare un eroe non muore mai, specialmente dopo aver incontrato il più grande eroe di tutti, All Might.",
+    banner: "https://cdn.myanimelist.net/images/anime/10/78745.jpg",
+    description: "In un mondo dove l'80% della popolazione possiede superpoteri chiamati 'Quirk', Izuku Midoriya nasce senza alcun potere ma sogna di diventare un eroe.",
     genres: ["Azione", "Supereroi", "Scolastico"],
-    rating: 8.4,
+    rating: 7.9,
     year: 2016,
     status: "Completato",
     seasons: [
       { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(13, "https://cdn.myanimelist.net/images/anime/10/78745.jpg") },
-      { id: "s2", number: 2, title: "Stagione 2", folderName: "Stagione 2", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745.jpg") },
-      { id: "s3", number: 3, title: "Stagione 3", folderName: "Stagione 3", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745.jpg") },
     ],
   },
   {
-    id: "spy-x-family",
+    id: "mha-s2",
+    title: "My Hero Academia 2",
+    folderName: "My Hero Academia ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/9/88573.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/9/88573.jpg",
+    description: "Gli studenti della Classe 1-A partecipano al Festival Sportivo della U.A., mettendo in mostra i loro Quirk davanti al mondo intero.",
+    genres: ["Azione", "Supereroi", "Scolastico"],
+    rating: 8.1,
+    year: 2017,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 2", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/9/88573.jpg") },
+    ],
+  },
+  {
+    id: "mha-s3",
+    title: "My Hero Academia 3",
+    folderName: "My Hero Academia ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1531/95320.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1531/95320.jpg",
+    description: "La Lega dei Villain attacca il campo estivo della U.A. in un piano per catturare Bakugo. Gli eroi devono affrontare la loro più grande sfida.",
+    genres: ["Azione", "Supereroi", "Scolastico"],
+    rating: 8.0,
+    year: 2018,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 3", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/1531/95320.jpg") },
+    ],
+  },
+
+  // ═══════════════════════════════════════
+  // SPY×FAMILY
+  // ═══════════════════════════════════════
+  {
+    id: "spy-x-family-s1",
     title: "SPY×FAMILY",
     folderName: "Spy x Family ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1441/122795.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire2/70f3bfadd5f1483bce2b2c218b14df521648768228_main.jpg",
-    description: "La spia di classe mondiale 'Twilight' deve costruire una famiglia copertura per una missione. Senza saperlo, la figlia che adotta sa leggere la mente e sua moglie è un'assassina professionista. Insieme formano una famiglia tanto disfunzionale quanto esilarante.",
+    banner: "https://cdn.myanimelist.net/images/anime/1441/122795.jpg",
+    description: "La spia 'Twilight' deve costruire una famiglia copertura. La figlia adottiva legge la mente e la moglie è un'assassina. Insieme formano una famiglia esilarante.",
     genres: ["Azione", "Commedia", "Famiglia"],
-    rating: 8.6,
+    rating: 8.5,
     year: 2022,
-    status: "In corso",
+    status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/1441/122795.jpg") },
-      { id: "s2", number: 2, title: "Stagione 2", folderName: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1441/122795.jpg") },
+      { id: "s1", number: 1, title: "Parte 1", folderName: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1441/122795.jpg") },
+      { id: "s2", number: 2, title: "Parte 2", folderName: "Stagione 1 Parte 2", episodes: generateEpisodes(13, "https://cdn.myanimelist.net/images/anime/1506/128656.jpg") },
     ],
   },
+  {
+    id: "spy-x-family-s2",
+    title: "SPY×FAMILY Season 2",
+    folderName: "Spy x Family ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1506/138982.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1506/138982.jpg",
+    description: "La famiglia Forger continua le sue avventure. Loid gestisce la sua missione, Anya affronta nuove sfide scolastiche e Yor protegge la famiglia.",
+    genres: ["Azione", "Commedia", "Famiglia"],
+    rating: 8.3,
+    year: 2023,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1506/138982.jpg") },
+    ],
+  },
+
+  // ═══════════════════════════════════════
+  // CHAINSAW MAN
+  // ═══════════════════════════════════════
   {
     id: "chainsaw-man",
     title: "Chainsaw Man",
     folderName: "Chainsaw Man ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire3/d11e8adfd6b68f5f3faa75a206dbb14b1656596825_main.jpg",
-    description: "Denji è un ragazzo in estrema povertà, costretto a cacciare demoni per ripagare i debiti del padre. La sua unica compagnia è Pochita, un demone motosega. Quando viene ucciso e tradito, Pochita si fonde con lui, trasformandolo nel temibile Chainsaw Man.",
+    banner: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
+    description: "Denji è un ragazzo in estrema povertà. Quando viene ucciso e tradito, Pochita si fonde con lui, trasformandolo nel temibile Chainsaw Man.",
     genres: ["Azione", "Dark Fantasy", "Horror"],
-    rating: 8.5,
+    rating: 8.3,
     year: 2022,
     status: "In corso",
     seasons: [
       { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1806/126216.jpg") },
     ],
   },
+
+  // ═══════════════════════════════════════
+  // SOLO LEVELING
+  // ═══════════════════════════════════════
   {
-    id: "solo-leveling",
+    id: "solo-leveling-s1",
     title: "Solo Leveling",
     folderName: "Solo Leveling ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1808/141625.jpg",
-    banner: "https://img1.ak.crunchyroll.com/i/spire4/a8b09a5b8de1b3de73a9e3de1c6ae7041705599642_main.jpg",
-    description: "In un mondo dove i cacciatori con poteri magici combattono mostri mortali, Sung Jinwoo è il più debole di tutti. Dopo una missione quasi fatale, riceve il 'Sistema', un potere unico che gli permette di salire di livello come in un videogioco.",
+    banner: "https://cdn.myanimelist.net/images/anime/1808/141625.jpg",
+    description: "Sung Jinwoo è il cacciatore più debole. Dopo una missione quasi fatale, riceve il 'Sistema', un potere unico che gli permette di salire di livello.",
     genres: ["Azione", "Fantasy", "Avventura"],
     rating: 8.3,
     year: 2024,
-    status: "In corso",
+    status: "Completato",
     seasons: [
       { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1808/141625.jpg") },
     ],
   },
+  {
+    id: "solo-leveling-s2",
+    title: "Solo Leveling: Arise from the Shadow",
+    folderName: "Solo Leveling ITA",
+    cover: "https://cdn.myanimelist.net/images/anime/1885/146565.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1885/146565.jpg",
+    description: "Sung Jinwoo continua la sua ascesa, sbloccando il potere dell'ombra e affrontando nemici sempre più potenti nei dungeon di classe superiore.",
+    genres: ["Azione", "Fantasy", "Avventura"],
+    rating: 8.5,
+    year: 2025,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Stagione 2", episodes: generateEpisodes(13, "https://cdn.myanimelist.net/images/anime/1885/146565.jpg") },
+    ],
+  },
 ];
 
-export const featuredAnime = animeList[1]; // Attack on Titan as featured
+export const featuredAnime = animeList.find(a => a.id === "aot-final") || animeList[0];
 
-export const popularAnime = animeList.slice(0, 6);
+export const popularAnime = animeList.slice(0, 10);
 export const topRatedAnime = [...animeList].sort((a, b) => b.rating - a.rating);
 export const recentAnime = [...animeList].filter(a => a.year >= 2022);
 
-// Helper: costruisce il percorso video per un episodio
 export function getVideoPath(anime: Anime, season: Season, episode: Episode): string {
   const fileName = episode.fileName || `episodio-${episode.number}.mp4`;
   return `/anime/${encodeURIComponent(anime.folderName)}/${encodeURIComponent(season.folderName)}/${encodeURIComponent(fileName)}`;
