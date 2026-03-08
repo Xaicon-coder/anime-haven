@@ -190,7 +190,6 @@ const AnimeDetail = () => {
                     >
                       <CheckCircle2 size={14} />
                     </button>
-                  )}
                 </div>
               );
             })}
