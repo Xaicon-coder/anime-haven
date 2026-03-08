@@ -36,7 +36,7 @@ interface AniListMedia {
 }
 
 // Cache banner HD da AniList per MAL ID
-const bannerCache = new Map<number, { banner: string | null; cover: string | null }>();
+const bannerCache = new Map<number, { banner: string | null; cover: string | null; description: string | null }>();
 
 // Fetch banner HD da AniList per una lista di MAL IDs
 async function fetchAniListBanners(malIds: number[]): Promise<void> {
