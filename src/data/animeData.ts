@@ -385,7 +385,7 @@ export const animeList: Anime[] = [
     title: "My Hero Academia 3",
     folderName: "My Hero Academia ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1531/95320.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1531/95320.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1531/95320l.jpg",
     description: "La Lega dei Villain attacca il campo estivo della U.A. in un piano per catturare Bakugo. Gli eroi devono affrontare la loro più grande sfida.",
     genres: ["Azione", "Supereroi", "Scolastico"],
     rating: 8.0,
