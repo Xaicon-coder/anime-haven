@@ -12,7 +12,12 @@ interface JikanAnime {
     jpg: { large_image_url: string; image_url: string; original_image_url?: string };
     webp: { large_image_url: string; image_url: string; original_image_url?: string };
   };
-  trailer?: { images?: { maximum_image_url?: string; large_image_url?: string } };
+  trailer?: {
+    youtube_id?: string | null;
+    url?: string | null;
+    embed_url?: string | null;
+    images?: { maximum_image_url?: string; large_image_url?: string };
+  };
   synopsis: string | null;
   genres: { name: string }[];
   score: number | null;
