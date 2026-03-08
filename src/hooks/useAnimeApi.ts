@@ -64,12 +64,12 @@ function generateSlug(title: string): string {
 
 // Controlla se un anime API corrisponde a uno locale (evita duplicati)
 function findLocalMatch(j: JikanAnime): Anime | undefined {
-  const titleLower = (j.title_english || j.title).toLowerCase();
+  const apiTitle = (j.title_english || j.title).toLowerCase().trim();
   return animeList.find((a) => {
-    const localTitle = a.title.toLowerCase();
-    return localTitle === titleLower || 
-           localTitle.includes(titleLower) || 
-           titleLower.includes(localTitle);
+    const localTitle = a.title.toLowerCase().trim();
+    // Match esatto o quasi esatto (evita che "Dr. Stone: Stone Wars" matchi "Dr. Stone")
+    return localTitle === apiTitle || 
+           apiTitle === localTitle;
   });
 }
 
