@@ -127,7 +127,7 @@ const AnimeDetail = () => {
                   <img
                     src={ep.thumbnail}
                     alt={ep.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-focus-visible:scale-105 transition-transform duration-200 ease-out"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-background/0 group-hover:bg-background/30 transition-colors flex items-center justify-center">
