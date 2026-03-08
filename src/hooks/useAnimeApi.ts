@@ -406,6 +406,42 @@ export function useSeasonalAnime() {
   return { anime, loading };
 }
 
+export function useRandomAnime() {
+  const [anime, setAnime] = useState<Anime[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        // Usa una pagina casuale tra 1-20 per avere anime diversi ogni volta
+        const randomPage = Math.floor(Math.random() * 20) + 1;
+        const res = await fetch(`${JIKAN_BASE}/top/anime?limit=25&page=${randomPage}&sfw=true`);
+        const data = await res.json();
+        if (!cancelled) {
+          const jikanList: JikanAnime[] = data.data || [];
+
+          const malIds = jikanList.map(j => j.mal_id);
+          await fetchAniListBanners(malIds);
+
+          const mapped = jikanList.map(mapJikanToAnime).filter((a): a is Anime => a !== null);
+          const deduplicated = deduplicateAnime(mapped);
+          // Mescola l'ordine per renderli più "random"
+          const shuffled = deduplicated.sort(() => Math.random() - 0.5);
+          const translated = await translateAnimeDescriptions(shuffled);
+          setAnime(translated);
+        }
+      } catch (e) {
+        console.error("Failed to fetch random anime:", e);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  return { anime, loading };
+}
 export function useAnimeById(id: string) {
   const [anime, setAnime] = useState<Anime | null>(null);
   const [loading, setLoading] = useState(true);
