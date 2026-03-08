@@ -1,15 +1,13 @@
-import { Search, Menu, X, User, LogOut } from "lucide-react";
+import { Search, Menu, X, Bookmark, Compass } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAnimeSearch } from "@/hooks/useAnimeApi";
-import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const { results, loading } = useAnimeSearch(query);
-  const { user, signOut } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -21,6 +19,12 @@ const Navbar = () => {
           </Link>
           <div className="hidden md:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Home</Link>
+            <Link to="/explore" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+              <Compass size={15} /> Esplora
+            </Link>
+            <Link to="/watchlist" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+              <Bookmark size={15} /> La Mia Lista
+            </Link>
           </div>
         </div>
 
@@ -75,30 +79,6 @@ const Navbar = () => {
             </button>
           )}
 
-          {/* User auth button */}
-          {user ? (
-            <div className="relative group">
-              <button className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors p-1.5 sm:p-2">
-                <User size={18} className="sm:w-5 sm:h-5" />
-                <span className="hidden sm:inline text-xs font-medium text-foreground truncate max-w-[80px]">
-                  {user.user_metadata?.username || user.email?.split('@')[0]}
-                </span>
-              </button>
-              <div className="absolute right-0 top-full mt-1 w-40 bg-card border border-border rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <button
-                  onClick={signOut}
-                  className="flex items-center gap-2 w-full px-3 py-2.5 text-xs text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors rounded-lg"
-                >
-                  <LogOut size={14} /> Esci
-                </button>
-              </div>
-            </div>
-          ) : (
-            <Link to="/auth" className="flex items-center gap-1.5 bg-primary hover:bg-primary/90 text-primary-foreground px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors">
-              <User size={14} /> Accedi
-            </Link>
-          )}
-
           <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-muted-foreground hover:text-foreground p-1.5 sm:p-2">
             {menuOpen ? <X size={18} className="sm:w-5 sm:h-5" /> : <Menu size={18} className="sm:w-5 sm:h-5" />}
           </button>
@@ -107,11 +87,14 @@ const Navbar = () => {
 
       {menuOpen && (
         <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl animate-fade-in">
-          <div className="px-4 py-3">
+          <div className="px-4 py-3 space-y-1">
             <Link to="/" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-foreground">Home</Link>
-            {!user && (
-              <Link to="/auth" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-primary">Accedi / Registrati</Link>
-            )}
+            <Link to="/explore" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground">
+              <Compass size={16} /> Esplora
+            </Link>
+            <Link to="/watchlist" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground">
+              <Bookmark size={16} /> La Mia Lista
+            </Link>
           </div>
         </div>
       )}

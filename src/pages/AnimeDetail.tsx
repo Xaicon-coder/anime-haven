@@ -5,15 +5,13 @@ import Navbar from "@/components/Navbar";
 import { type Anime } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
 import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
-import { useAuth } from "@/hooks/useAuth";
-import { useWatchlist, useWatchedEpisodes } from "@/hooks/useUserAnime";
+import { useWatchlist, useWatchedEpisodes } from '@/hooks/useLocalWatchlist';
 
 const AnimeDetail = () => {
   useSpatialNavigation();
   const { id } = useParams();
   const { anime, loading } = useAnimeById(id || "");
   const [selectedSeason, setSelectedSeason] = useState(0);
-  const { user } = useAuth();
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const { isWatched, toggleWatched } = useWatchedEpisodes(id);
 
@@ -101,22 +99,20 @@ const AnimeDetail = () => {
                 <Play size={16} fill="currentColor" className="sm:w-[18px] sm:h-[18px]" />
                 Guarda Episodio 1
               </Link>
-              {user && (
-                <button
-                  onClick={() => toggleWatchlist(anime.id)}
-                  className={`inline-flex items-center gap-1.5 sm:gap-2 font-medium px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg transition-all text-sm sm:text-base ${
-                    isInWatchlist(anime.id)
-                      ? 'bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25'
-                      : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
-                  }`}
-                >
-                  {isInWatchlist(anime.id) ? (
-                    <><BookmarkCheck size={16} className="sm:w-[18px] sm:h-[18px]" /> Nella lista</>
-                  ) : (
-                    <><Bookmark size={16} className="sm:w-[18px] sm:h-[18px]" /> Aggiungi alla lista</>
-                  )}
-                </button>
-              )}
+              <button
+                onClick={() => toggleWatchlist(anime.id)}
+                className={`inline-flex items-center gap-1.5 sm:gap-2 font-medium px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg transition-all text-sm sm:text-base ${
+                  isInWatchlist(anime.id)
+                    ? 'bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25'
+                    : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
+                }`}
+              >
+                {isInWatchlist(anime.id) ? (
+                  <><BookmarkCheck size={16} className="sm:w-[18px] sm:h-[18px]" /> Nella lista</>
+                ) : (
+                  <><Bookmark size={16} className="sm:w-[18px] sm:h-[18px]" /> Aggiungi alla lista</>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -182,8 +178,7 @@ const AnimeDetail = () => {
                     </div>
                   </Link>
                   {/* Toggle watched button */}
-                  {user && (
-                    <button
+                  <button
                       onClick={(e) => { e.preventDefault(); toggleWatched(ep.id, currentSeason.id); }}
                       className={`absolute bottom-2 right-2 sm:bottom-3 sm:right-3 p-1 rounded-full transition-all z-10 ${
                         watched
@@ -194,7 +189,6 @@ const AnimeDetail = () => {
                     >
                       <CheckCircle2 size={14} />
                     </button>
-                  )}
                 </div>
               );
             })}
