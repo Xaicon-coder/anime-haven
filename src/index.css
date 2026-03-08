@@ -97,3 +97,51 @@
     display: none;
   }
 }
+
+/* GPU acceleration & 60fps optimizations for TV */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force GPU compositing on animated elements */
+a, button, [data-focusable],
+.animate-fade-in, .animate-slide-in,
+.group-hover\:scale-105,
+.group-hover\:scale-110,
+.transition-transform,
+.transition-all,
+.transition-colors,
+.transition-opacity {
+  will-change: transform, opacity;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* TV focus styles - visible ring for D-pad navigation */
+a:focus-visible,
+button:focus-visible,
+[data-focusable]:focus-visible {
+  outline: 3px solid hsl(var(--primary));
+  outline-offset: 3px;
+  border-radius: var(--radius);
+  z-index: 10;
+  position: relative;
+}
+
+/* Scale up focused card on TV for clarity */
+a:focus-visible .aspect-\[2\/3\],
+a:focus-visible .aspect-video {
+  transform: scale(1.05);
+  transition: transform 0.15s ease-out;
+}
+
+/* Reduce motion for better TV perf */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
