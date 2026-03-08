@@ -76,7 +76,7 @@ export const animeList: Anime[] = [
     title: "Dr. Stone: Stone Wars",
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1711/110614.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1711/110614.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1711/110614l.jpg",
     description: "Senku e il Regno della Scienza dichiarano guerra all'Impero di Tsukasa. Con ingegno e scienza, Senku pianifica di sconfiggere la forza bruta con la tecnologia.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.1,
