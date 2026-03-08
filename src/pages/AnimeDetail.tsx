@@ -2,20 +2,15 @@ import { useParams, Link } from "react-router-dom";
 import { Play, Star, ArrowLeft, Clock, Calendar, Loader2 } from "lucide-react";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import { animeList, type Anime } from "@/data/animeData";
+import { type Anime } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
 
 const AnimeDetail = () => {
   const { id } = useParams();
-  const isApiAnime = id?.startsWith("mal-");
-  const { anime: apiAnime, loading } = useAnimeById(isApiAnime ? id! : "0");
-
-  const localAnime = animeList.find((a) => a.id === id);
-  const anime: Anime | null | undefined = localAnime || apiAnime;
-
+  const { anime, loading } = useAnimeById(id || "");
   const [selectedSeason, setSelectedSeason] = useState(0);
 
-  if (loading && isApiAnime) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Navbar />
@@ -42,7 +37,6 @@ const AnimeDetail = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* Banner - fixed aspect ratio, never deformed */}
       <div className="relative h-[35vh] sm:h-[40vh] md:h-[45vh] lg:h-[50vh] min-h-[250px] max-h-[600px] overflow-hidden">
         <img
           src={anime.banner}
@@ -53,25 +47,18 @@ const AnimeDetail = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/40 to-transparent" />
       </div>
 
-      {/* Content */}
       <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 -mt-32 sm:-mt-40 lg:-mt-48 relative z-10">
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 sm:mb-6 transition-colors text-xs sm:text-sm">
           <ArrowLeft size={14} className="sm:w-4 sm:h-4" /> Torna indietro
         </Link>
 
         <div className="flex flex-col sm:flex-row gap-5 sm:gap-6 lg:gap-8">
-          {/* Cover - proper aspect ratio */}
           <div className="flex-shrink-0 mx-auto sm:mx-0">
             <div className="w-36 sm:w-44 md:w-48 lg:w-56 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl border border-border bg-secondary">
-              <img
-                src={anime.cover}
-                alt={anime.title}
-                className="w-full h-full object-cover"
-              />
+              <img src={anime.cover} alt={anime.title} className="w-full h-full object-cover" />
             </div>
           </div>
 
-          {/* Info */}
           <div className="flex-1 animate-fade-in text-center sm:text-left">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground mb-2 sm:mb-3">{anime.title}</h1>
             <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4 flex-wrap justify-center sm:justify-start">
@@ -109,7 +96,6 @@ const AnimeDetail = () => {
           </div>
         </div>
 
-        {/* Seasons & Episodes */}
         <div className="mt-8 sm:mt-10 lg:mt-12 mb-12 sm:mb-16">
           <div className="flex gap-1.5 sm:gap-2 mb-4 sm:mb-6 overflow-x-auto scrollbar-hide pb-2">
             {anime.seasons.map((season, i) => (
@@ -122,7 +108,7 @@ const AnimeDetail = () => {
                     : "bg-secondary text-muted-foreground hover:text-foreground"
                 }`}
               >
-                Stagione {season.number}
+                {season.title}
               </button>
             ))}
           </div>

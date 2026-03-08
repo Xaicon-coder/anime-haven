@@ -7,11 +7,7 @@ import type { Anime } from "@/data/animeData";
 
 const WatchPage = () => {
   const { animeId, seasonId, episodeId } = useParams();
-  const isApiAnime = animeId?.startsWith("mal-");
-  const { anime: apiAnime } = useAnimeById(isApiAnime ? animeId! : "0");
-
-  const localAnime = animeList.find((a) => a.id === animeId);
-  const anime: Anime | null | undefined = localAnime || apiAnime;
+  const { anime, loading } = useAnimeById(animeId || "");
 
   const season = anime?.seasons.find((s) => s.id === seasonId);
   const episode = season?.episodes.find((e) => e.id === episodeId);
@@ -32,15 +28,17 @@ const WatchPage = () => {
   const prevEp = episodeIndex > 0 ? season.episodes[episodeIndex - 1] : null;
   const nextEp = episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
 
+  // Percorso video: /anime/[id]/stagione-[n]/episodio-[n].mp4
+  const videoPath = `/anime/${anime.id}/stagione-${season.number}/episodio-${episode.number}.mp4`;
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16">
-        {/* Video Player - responsive aspect ratio */}
         <div className="w-full bg-black aspect-video max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] relative">
           <video
-            key={`/anime/${anime.id}/stagione-${season.number}/episodio-${episode.number}.mp4`}
-            src={`/anime/${anime.id}/stagione-${season.number}/episodio-${episode.number}.mp4`}
+            key={videoPath}
+            src={videoPath}
             controls
             autoPlay
             className="w-full h-full"
