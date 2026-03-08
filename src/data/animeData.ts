@@ -355,7 +355,7 @@ export const animeList: Anime[] = [
     title: "My Hero Academia",
     folderName: "My Hero Academia ITA",
     cover: "https://cdn.myanimelist.net/images/anime/10/78745.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/10/78745.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/10/78745l.jpg",
     description: "In un mondo dove l'80% della popolazione possiede superpoteri chiamati 'Quirk', Izuku Midoriya nasce senza alcun potere ma sogna di diventare un eroe.",
     genres: ["Azione", "Supereroi", "Scolastico"],
     rating: 7.9,
