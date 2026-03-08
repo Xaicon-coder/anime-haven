@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { type Anime } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
+import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
 
 const AnimeDetail = () => {
   const { id } = useParams();
