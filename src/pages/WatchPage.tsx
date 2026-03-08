@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import { animeList } from "@/data/animeData";
+import { animeList, getVideoPath } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
 import type { Anime } from "@/data/animeData";
 
@@ -28,8 +28,7 @@ const WatchPage = () => {
   const prevEp = episodeIndex > 0 ? season.episodes[episodeIndex - 1] : null;
   const nextEp = episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
 
-  // Percorso video: /anime/[id]/stagione-[n]/episodio-[n].mp4
-  const videoPath = `/anime/${anime.id}/stagione-${season.number}/episodio-${episode.number}.mp4`;
+  const videoPath = getVideoPath(anime, season, episode);
 
   return (
     <div className="min-h-screen bg-background">

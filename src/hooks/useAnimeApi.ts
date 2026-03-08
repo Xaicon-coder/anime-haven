@@ -94,11 +94,13 @@ function mapJikanToAnime(j: JikanAnime): Anime {
     rating: j.score || 0,
     year: animeYear,
     status: mapStatus(j.status),
+    folderName: j.title_english || j.title,
     seasons: [
       {
         id: "s1",
         number: 1,
         title: "Stagione 1",
+        folderName: "Stagione 1",
         episodes: Array.from({ length: Math.min(episodeCount, 26) }, (_, i) => ({
           id: `ep-${i + 1}`,
           number: i + 1,
