@@ -84,6 +84,7 @@ async function fetchAniListBanners(malIds: number[]): Promise<void> {
           bannerCache.set(m.idMal, {
             banner: m.bannerImage,
             cover: m.coverImage?.extraLarge || m.coverImage?.large || null,
+            description: m.description ? m.description.replace(/<[^>]*>/g, '').trim() : null,
           });
         }
       }
