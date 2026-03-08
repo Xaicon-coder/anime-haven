@@ -87,12 +87,28 @@ function findLocalMatch(j: JikanAnime): Anime | undefined {
   return animeList.find((a) => a.title.toLowerCase().trim() === apiTitle);
 }
 
+function getYoutubeThumbnail(j: JikanAnime): string | null {
+  // Extract YouTube video ID from various fields
+  const ytId = j.trailer?.youtube_id;
+  if (ytId) return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+
+  const embedUrl = j.trailer?.embed_url;
+  if (embedUrl) {
+    const match = embedUrl.match(/\/embed\/([a-zA-Z0-9_-]+)/);
+    if (match?.[1]) return `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`;
+  }
+
+  return null;
+}
+
 function mapJikanToAnime(j: JikanAnime): Anime | null {
   // Se è una variante/stagione di un anime locale, salta (viene gestito dalla lista locale)
   if (isLocalAnimeVariant(j)) return null;
 
   const cover = j.images.jpg?.original_image_url || j.images.webp?.large_image_url || j.images.jpg.large_image_url;
-  const banner = j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || j.images.jpg?.original_image_url || cover;
+  // Priority: YouTube maxresdefault (1920x1080) > trailer images > original cover
+  const ytThumb = getYoutubeThumbnail(j);
+  const banner = ytThumb || j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || j.images.jpg?.original_image_url || cover;
   const animeYear = j.year || j.aired?.prop?.from?.year || 2024;
   const episodeCount = j.episodes || 12;
   const slug = generateSlug(j.title_english || j.title);
