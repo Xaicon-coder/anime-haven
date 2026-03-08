@@ -76,19 +76,19 @@ export const animeList: Anime[] = [
         id: "s2", number: 2, title: "Stagione 2 - Stone Wars", 
         folderName: "Dr. STONE STONE WARS",
         filePrefix: "DrStone2_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone2_Ep_", "_ITA") 
+        episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1952/116521.jpg", "DrStone2_Ep_", "_ITA") 
       },
       { 
         id: "s3", number: 3, title: "Stagione 3 - New World", 
         folderName: "Dr. STONE NEW WORLD",
         filePrefix: "DrStone3_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone3_Ep_", "_ITA") 
+        episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/1236/138696.jpg", "DrStone3_Ep_", "_ITA") 
       },
       { 
         id: "s4", number: 4, title: "Stagione 4 - Science Future", 
         folderName: "Dr. STONE SCIENCE FUTURE",
         filePrefix: "DrStone4_Ep_", fileSuffix: "_ITA",
-        episodes: generateEpisodes(10, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone4_Ep_", "_ITA") 
+        episodes: generateEpisodes(18, "https://cdn.myanimelist.net/images/anime/1006/145704.jpg", "DrStone4_Ep_", "_ITA") 
       },
     ],
   },
