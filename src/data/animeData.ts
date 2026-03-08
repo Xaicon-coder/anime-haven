@@ -103,8 +103,8 @@ export const animeList: Anime[] = [
   {
     id: "my-hero-academia",
     title: "My Hero Academia",
-    cover: "https://cdn.myanimelist.net/images/anime/10/78745l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/10/78745l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/10/78745.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire1/2feff504543798a34bb91da2f7f2fb721649277048_main.jpg",
     description: "In un mondo dove l'80% della popolazione possiede superpoteri chiamati 'Quirk', Izuku Midoriya nasce senza poteri. Ma il suo sogno di diventare un eroe non muore mai, specialmente dopo aver incontrato il più grande eroe di tutti, All Might.",
     genres: ["Azione", "Supereroi", "Scolastico"],
     rating: 8.4,
