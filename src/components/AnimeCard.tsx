@@ -15,7 +15,7 @@ const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
     <Link
       to={`/anime/${anime.id}`}
       className="group relative flex-shrink-0 w-[130px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[210px] 2xl:w-[220px] animate-fade-in"
-      style={{ animationDelay: `${index * 60}ms` }}
+      style={{ animationDelay: `${index * 30}ms` }}
     >
       <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2 bg-secondary">
         {!imgError ? (

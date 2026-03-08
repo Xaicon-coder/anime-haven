@@ -9,6 +9,7 @@ import { Flame, Star, Tv } from "lucide-react";
 import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
 
 const Index = () => {
+  useSpatialNavigation();
   const { anime: topAnime, loading: topLoading } = useTopAnime();
   const { anime: seasonalAnime, loading: seasonalLoading } = useSeasonalAnime();
 

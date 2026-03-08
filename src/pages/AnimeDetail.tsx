@@ -7,6 +7,7 @@ import { useAnimeById } from "@/hooks/useAnimeApi";
 import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
 
 const AnimeDetail = () => {
+  useSpatialNavigation();
   const { id } = useParams();
   const { anime, loading } = useAnimeById(id || "");
   const [selectedSeason, setSelectedSeason] = useState(0);
