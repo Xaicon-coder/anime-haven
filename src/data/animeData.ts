@@ -68,7 +68,7 @@ export const animeList: Anime[] = [
     year: 2019,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. STONE", filePrefix: "DrStone_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone_Ep_", "_ITA") },
+      { id: "s1", number: 1, title: "Stagione 1", folderName: "Dr. Stone", filePrefix: "DrStone_Ep_", fileSuffix: "_ITA", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1613/102576.jpg", "DrStone_Ep_", "_ITA") },
     ],
   },
   {
