@@ -301,7 +301,7 @@ export const animeList: Anime[] = [
     title: "Jujutsu Kaisen",
     folderName: "Jujutsu Kaisen ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
     description: "Yuji Itadori ingoia un dito di Ryomen Sukuna, il Re delle Maledizioni, diventando il suo recipiente. Entra nel mondo degli stregoni per affrontare maledizioni terrificanti.",
     genres: ["Azione", "Soprannaturale", "Scolastico"],
     rating: 8.6,
