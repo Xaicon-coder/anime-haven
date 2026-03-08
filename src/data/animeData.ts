@@ -40,8 +40,8 @@ export const animeList: Anime[] = [
   {
     id: "attack-on-titan",
     title: "Attack on Titan",
-    cover: "https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire2/abf1fa6637035ef511cf8050e54d62181652729022_main.jpg",
     description: "Secoli fa, l'umanità fu massacrata fino quasi all'estinzione da mostri enormi e terrificanti con una forma vagamente umana chiamati Titani. I pochi sopravvissuti si rifugiarono dietro tre enormi mura concentriche. Ora, la pace è minacciata quando un Titano Colossale appare e distrugge il muro esterno.",
     genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
     rating: 9.0,
