@@ -282,7 +282,7 @@ export const animeList: Anime[] = [
     title: "Demon Slayer: Allenamento dei Pilastri",
     folderName: "Demon Slayer ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1081/142917.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1081/142917.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1081/142917l.jpg",
     description: "I Cacciatori di Demoni si sottopongono a un duro allenamento sotto la guida dei Pilastri in preparazione alla battaglia finale contro Muzan.",
     genres: ["Azione", "Fantasy", "Soprannaturale"],
     rating: 7.5,
