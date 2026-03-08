@@ -100,7 +100,7 @@ async function fetchAniListBanners(malIds: number[]): Promise<void> {
       // Mark as attempted
       for (const id of batch) {
         if (!bannerCache.has(id)) {
-          bannerCache.set(id, { banner: null, cover: null });
+          bannerCache.set(id, { banner: null, cover: null, description: null });
         }
       }
     }
