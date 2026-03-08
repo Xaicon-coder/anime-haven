@@ -473,7 +473,7 @@ export const animeList: Anime[] = [
     title: "Solo Leveling: Arise from the Shadow",
     folderName: "Solo Leveling ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1885/146565.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1885/146565.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1885/146565l.jpg",
     description: "Sung Jinwoo continua la sua ascesa, sbloccando il potere dell'ombra e affrontando nemici sempre più potenti nei dungeon di classe superiore.",
     genres: ["Azione", "Fantasy", "Avventura"],
     rating: 8.5,
