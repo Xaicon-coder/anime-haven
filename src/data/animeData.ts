@@ -267,7 +267,7 @@ export const animeList: Anime[] = [
     title: "Demon Slayer: Villaggio dei Fabbri",
     folderName: "Demon Slayer ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1765/135099.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1765/135099.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1765/135099l.jpg",
     description: "Tanjiro si reca al villaggio nascosto dei fabbri per far riparare la sua spada. Ma il villaggio viene attaccato da potenti demoni delle Lune Crescenti.",
     genres: ["Azione", "Fantasy", "Soprannaturale"],
     rating: 8.1,
