@@ -88,8 +88,8 @@ export const animeList: Anime[] = [
   {
     id: "one-piece",
     title: "One Piece",
-    cover: "https://cdn.myanimelist.net/images/anime/6/73245l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/6/73245l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/6/73245.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire3/21af72e84d1c9e993c0f30da6c7955ad1648159498_main.jpg",
     description: "Gol D. Roger era noto come il Re dei Pirati, l'essere più forte e famoso ad aver navigato la Grand Line. La cattura e l'esecuzione di Roger da parte della Marina Mondiale ha portato un cambiamento nel mondo. Le sue ultime parole prima della morte hanno rivelato l'esistenza del più grande tesoro del mondo, il One Piece.",
     genres: ["Azione", "Avventura", "Commedia"],
     rating: 8.7,
