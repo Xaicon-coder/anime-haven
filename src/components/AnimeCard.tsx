@@ -31,8 +31,8 @@ const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
             {anime.title}
           </div>
         )}
-        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/40 transition-colors duration-300 flex items-center justify-center">
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-primary rounded-full p-2.5 sm:p-3 glow-primary">
+        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/40 group-focus-visible:bg-background/40 transition-colors duration-150 flex items-center justify-center">
+          <div className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 bg-primary rounded-full p-2.5 sm:p-3 glow-primary">
             <Play size={16} className="text-primary-foreground sm:w-5 sm:h-5" fill="currentColor" />
           </div>
         </div>
