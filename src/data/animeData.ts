@@ -91,7 +91,7 @@ export const animeList: Anime[] = [
     title: "Dr. Stone: New World",
     folderName: "Dr. Stone ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1236/138696.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1236/138696.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1236/138696l.jpg",
     description: "Senku e i suoi compagni salpano verso nuove terre alla ricerca delle risorse per risvegliare tutta l'umanità dalla pietrificazione.",
     genres: ["Avventura", "Sci-Fi", "Commedia"],
     rating: 8.3,
