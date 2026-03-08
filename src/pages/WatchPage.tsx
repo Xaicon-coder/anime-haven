@@ -32,18 +32,46 @@ const WatchPage = () => {
 
   const videoPath = getVideoPath(anime, season, episode);
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Save progress periodically and on unmount
+  const handleTimeUpdate = useCallback(() => {
+    const video = videoRef.current;
+    if (video && anime && season && episode) {
+      saveProgress(anime.id, season.id, episode.id, video.currentTime, video.duration);
+    }
+  }, [anime, season, episode]);
+
+  // Restore progress on load
+  useEffect(() => {
+    if (!anime || !season || !episode) return;
+    const saved = getProgress(anime.id, season.id, episode.id);
+    const video = videoRef.current;
+    if (saved && video) {
+      const onLoaded = () => {
+        if (saved.currentTime < video.duration - 10) {
+          video.currentTime = saved.currentTime;
+        }
+        video.removeEventListener("loadedmetadata", onLoaded);
+      };
+      video.addEventListener("loadedmetadata", onLoaded);
+    }
+  }, [anime, season, episode, videoPath]);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16">
         <div className="w-full bg-black aspect-video max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] relative">
           <video
+            ref={videoRef}
             key={videoPath}
             src={videoPath}
             controls
             autoPlay
             className="w-full h-full"
             poster={episode.thumbnail}
+            onTimeUpdate={handleTimeUpdate}
           >
             Il tuo browser non supporta il video.
           </video>
