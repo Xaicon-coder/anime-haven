@@ -21,9 +21,9 @@ const WatchPage = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Navbar />
-        <div className="text-center">
-          <h1 className="text-2xl font-display font-bold text-foreground mb-2">Episodio non trovato</h1>
-          <Link to="/" className="text-primary hover:underline">Torna alla home</Link>
+        <div className="text-center px-4">
+          <h1 className="text-xl sm:text-2xl font-display font-bold text-foreground mb-2">Episodio non trovato</h1>
+          <Link to="/" className="text-primary hover:underline text-sm">Torna alla home</Link>
         </div>
       </div>
     );
@@ -36,58 +36,59 @@ const WatchPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16">
-        <div className="w-full bg-muted aspect-video max-h-[70vh] flex items-center justify-center relative">
-          <div className="text-center">
-            <div className="w-20 h-20 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center mx-auto mb-4">
-              <SkipForward size={32} className="text-primary" />
+        {/* Video Player - responsive aspect ratio */}
+        <div className="w-full bg-muted aspect-video max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] flex items-center justify-center relative">
+          <div className="text-center px-4">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center mx-auto mb-3 sm:mb-4">
+              <SkipForward size={24} className="text-primary sm:w-7 sm:h-7 lg:w-8 lg:h-8" />
             </div>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-xs sm:text-sm">
               Collega il tuo server CasaOS per riprodurre
             </p>
-            <p className="text-muted-foreground/60 text-xs mt-1">
+            <p className="text-muted-foreground/60 text-[10px] sm:text-xs mt-1 break-all max-w-md">
               /anime/{anime.title}/Stagione {season.number}/{episode.title}.mp4
             </p>
           </div>
         </div>
 
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <Link
             to={`/anime/${anime.id}`}
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm mb-4 transition-colors"
+            className="inline-flex items-center gap-1.5 sm:gap-2 text-muted-foreground hover:text-foreground text-xs sm:text-sm mb-3 sm:mb-4 transition-colors"
           >
-            <ArrowLeft size={16} /> Torna a {anime.title}
+            <ArrowLeft size={14} className="sm:w-4 sm:h-4" /> Torna a {anime.title}
           </Link>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div>
-              <h1 className="text-xl sm:text-2xl font-display font-bold text-foreground">{anime.title}</h1>
-              <p className="text-muted-foreground text-sm mt-1">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-display font-bold text-foreground">{anime.title}</h1>
+              <p className="text-muted-foreground text-xs sm:text-sm mt-0.5 sm:mt-1">
                 Stagione {season.number} • Episodio {episode.number} - {episode.title}
               </p>
             </div>
             <div className="flex items-center gap-2">
               {prevEp && (
                 <Link to={`/watch/${anime.id}/${season.id}/${prevEp.id}`}
-                  className="inline-flex items-center gap-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                  <ChevronLeft size={16} /> Precedente
+                  className="inline-flex items-center gap-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors">
+                  <ChevronLeft size={14} className="sm:w-4 sm:h-4" /> Precedente
                 </Link>
               )}
               {nextEp && (
                 <Link to={`/watch/${anime.id}/${season.id}/${nextEp.id}`}
-                  className="inline-flex items-center gap-1 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                  Prossimo <ChevronRight size={16} />
+                  className="inline-flex items-center gap-1 bg-primary hover:bg-primary/90 text-primary-foreground px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors">
+                  Prossimo <ChevronRight size={14} className="sm:w-4 sm:h-4" />
                 </Link>
               )}
             </div>
           </div>
 
-          <h3 className="text-sm font-display font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+          <h3 className="text-xs sm:text-sm font-display font-semibold text-muted-foreground uppercase tracking-wider mb-2 sm:mb-3">
             Altri episodi
           </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-2 sm:gap-3">
             {season.episodes.map((ep) => (
               <Link key={ep.id} to={`/watch/${anime.id}/${season.id}/${ep.id}`}
-                className={`rounded-lg p-3 text-sm font-medium transition-all border ${
+                className={`rounded-lg p-2 sm:p-3 text-xs sm:text-sm font-medium transition-all border text-center ${
                   ep.id === episodeId
                     ? "bg-primary/15 border-primary/40 text-primary"
                     : "bg-secondary border-border text-muted-foreground hover:text-foreground hover:border-primary/20"
