@@ -111,9 +111,9 @@ export const animeList: Anime[] = [
     year: 2016,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(13, "https://cdn.myanimelist.net/images/anime/10/78745l.jpg") },
-      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745l.jpg") },
-      { id: "s3", number: 3, title: "Stagione 3", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745l.jpg") },
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(13, "https://cdn.myanimelist.net/images/anime/10/78745.jpg") },
+      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745.jpg") },
+      { id: "s3", number: 3, title: "Stagione 3", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745.jpg") },
     ],
   },
   {
