@@ -1,8 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import { animeList, getVideoPath } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
+import { saveProgress, getProgress } from "@/hooks/useWatchProgress";
 import type { Anime } from "@/data/animeData";
 
 const WatchPage = () => {
