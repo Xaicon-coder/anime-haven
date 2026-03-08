@@ -61,6 +61,7 @@ async function fetchAniListBanners(malIds: number[]): Promise<void> {
               extraLarge
               large
             }
+            description(asHtml: false)
           }
         }
       }
