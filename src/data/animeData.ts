@@ -335,7 +335,7 @@ export const animeList: Anime[] = [
     title: "One Piece",
     folderName: "One Piece ITA",
     cover: "https://cdn.myanimelist.net/images/anime/6/73245.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/6/73245.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/6/73245l.jpg",
     description: "Monkey D. Luffy parte per trovare il leggendario tesoro One Piece e diventare il nuovo Re dei Pirati.",
     genres: ["Azione", "Avventura", "Commedia"],
     rating: 8.7,
