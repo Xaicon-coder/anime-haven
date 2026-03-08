@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
 
 const AuthPage = () => {
-  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [searchParams] = useSearchParams();
+  const [mode, setMode] = useState<'login' | 'register'>(searchParams.get('mode') === 'register' ? 'register' : 'login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
