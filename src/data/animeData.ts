@@ -96,8 +96,8 @@ export const animeList: Anime[] = [
     year: 1999,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "East Blue", episodes: generateEpisodes(61, "https://cdn.myanimelist.net/images/anime/6/73245l.jpg") },
-      { id: "s2", number: 2, title: "Alabasta", episodes: generateEpisodes(73, "https://cdn.myanimelist.net/images/anime/6/73245l.jpg") },
+      { id: "s1", number: 1, title: "East Blue", episodes: generateEpisodes(61, "https://cdn.myanimelist.net/images/anime/6/73245.jpg") },
+      { id: "s2", number: 2, title: "Alabasta", episodes: generateEpisodes(73, "https://cdn.myanimelist.net/images/anime/6/73245.jpg") },
     ],
   },
   {
