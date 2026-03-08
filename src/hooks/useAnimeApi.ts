@@ -147,6 +147,12 @@ export function useAnimeSearch(query: string) {
       return;
     }
 
+    // Cerca prima negli anime locali
+    const q = query.toLowerCase();
+    const localResults = animeList.filter((a) =>
+      a.title.toLowerCase().includes(q)
+    );
+
     const controller = new AbortController();
     const timeout = setTimeout(async () => {
       setLoading(true);
@@ -156,9 +162,13 @@ export function useAnimeSearch(query: string) {
           { signal: controller.signal }
         );
         const data = await res.json();
-        setResults((data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null));
+        const apiResults = (data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null);
+        // Locali prima, poi API (senza duplicati)
+        setResults([...localResults, ...deduplicateAnime(apiResults)]);
       } catch (e) {
         if (!(e instanceof DOMException)) console.error(e);
+        // Se l'API fallisce, mostra comunque i locali
+        setResults(localResults);
       } finally {
         setLoading(false);
       }
