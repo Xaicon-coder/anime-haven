@@ -21,18 +21,18 @@ const ACTIVE_KEY = 'anistream-active-profile';
 
 // Personaggi anime iconici con immagini da MyAnimeList
 export const AVATAR_OPTIONS = [
-  { name: 'Naruto', url: 'https://img.anili.st/media/20' },
-  { name: 'Goku', url: 'https://img.anili.st/media/21459' },
-  { name: 'Luffy', url: 'https://img.anili.st/media/21' },
-  { name: 'Tanjiro', url: 'https://img.anili.st/media/101922' },
-  { name: 'Gojo', url: 'https://img.anili.st/media/113415' },
-  { name: 'Levi', url: 'https://img.anili.st/media/16498' },
-  { name: 'Zoro', url: 'https://img.anili.st/media/21' },
-  { name: 'Eren', url: 'https://img.anili.st/media/16498' },
-  { name: 'Gon', url: 'https://img.anili.st/media/11061' },
-  { name: 'Senku', url: 'https://img.anili.st/media/105333' },
-  { name: 'Denji', url: 'https://img.anili.st/media/127230' },
-  { name: 'Anya', url: 'https://img.anili.st/media/140960' },
+  { name: 'Naruto', url: '/avatars/naruto.jpg' },
+  { name: 'Goku', url: '/avatars/goku.jpg' },
+  { name: 'Luffy', url: '/avatars/luffy.jpg' },
+  { name: 'Tanjiro', url: '/avatars/tanjiro.jpg' },
+  { name: 'Gojo', url: '/avatars/gojo.jpg' },
+  { name: 'Levi', url: '/avatars/levi.jpg' },
+  { name: 'Zoro', url: '/avatars/zoro.jpg' },
+  { name: 'Eren', url: '/avatars/eren.jpg' },
+  { name: 'Gon', url: '/avatars/gon.jpg' },
+  { name: 'Senku', url: '/avatars/senku.jpg' },
+  { name: 'Denji', url: '/avatars/denji.jpg' },
+  { name: 'Anya', url: '/avatars/anya.jpg' },
 ];
 
 function loadProfiles(): Profile[] {
