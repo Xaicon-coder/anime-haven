@@ -4,8 +4,10 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { type Anime } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
+import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
 
 const AnimeDetail = () => {
+  useSpatialNavigation();
   const { id } = useParams();
   const { anime, loading } = useAnimeById(id || "");
   const [selectedSeason, setSelectedSeason] = useState(0);
@@ -118,14 +120,14 @@ const AnimeDetail = () => {
               <Link
                 key={ep.id}
                 to={`/watch/${anime.id}/${currentSeason.id}/${ep.id}`}
-                className="group gradient-card rounded-lg sm:rounded-xl overflow-hidden border border-border hover:border-primary/40 transition-all animate-fade-in"
-                style={{ animationDelay: `${i * 40}ms` }}
+                className="group gradient-card rounded-lg sm:rounded-xl overflow-hidden border border-border hover:border-primary/40 focus-visible:border-primary/40 transition-all duration-150 animate-fade-in"
+                style={{ animationDelay: `${i * 25}ms` }}
               >
                 <div className="relative aspect-video overflow-hidden bg-secondary">
                   <img
                     src={ep.thumbnail}
                     alt={ep.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 group-focus-visible:scale-105 transition-transform duration-200 ease-out"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-background/0 group-hover:bg-background/30 transition-colors flex items-center justify-center">

@@ -15,14 +15,14 @@ const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
     <Link
       to={`/anime/${anime.id}`}
       className="group relative flex-shrink-0 w-[130px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[210px] 2xl:w-[220px] animate-fade-in"
-      style={{ animationDelay: `${index * 60}ms` }}
+      style={{ animationDelay: `${index * 30}ms` }}
     >
       <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2 bg-secondary">
         {!imgError ? (
           <img
             src={anime.cover}
             alt={anime.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 group-focus-visible:scale-105"
             loading="lazy"
             onError={() => setImgError(true)}
           />
@@ -31,8 +31,8 @@ const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
             {anime.title}
           </div>
         )}
-        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/40 transition-colors duration-300 flex items-center justify-center">
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-primary rounded-full p-2.5 sm:p-3 glow-primary">
+        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/40 group-focus-visible:bg-background/40 transition-colors duration-150 flex items-center justify-center">
+          <div className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 bg-primary rounded-full p-2.5 sm:p-3 glow-primary">
             <Play size={16} className="text-primary-foreground sm:w-5 sm:h-5" fill="currentColor" />
           </div>
         </div>
@@ -43,7 +43,7 @@ const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
           </div>
         )}
       </div>
-      <h3 className="text-xs sm:text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
+      <h3 className="text-xs sm:text-sm font-medium text-foreground truncate group-hover:text-primary group-focus-visible:text-primary transition-colors duration-150">
         {anime.title}
       </h3>
       <p className="text-[10px] sm:text-xs text-muted-foreground">

@@ -37,7 +37,7 @@ const HeroBanner = () => {
         <img
           src={featured.banner}
           alt={featured.title}
-          className="w-full h-full object-cover object-center transition-opacity duration-700"
+          className="w-full h-full object-cover object-center transition-opacity duration-300"
         />
       </div>
       {/* Gradient overlays */}
