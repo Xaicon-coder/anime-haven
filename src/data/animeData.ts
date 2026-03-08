@@ -156,7 +156,7 @@ export const animeList: Anime[] = [
     year: 2024,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1808/141625l.jpg") },
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1808/141625.jpg") },
     ],
   },
 ];
