@@ -3,6 +3,7 @@ import type { Anime } from "@/data/animeData";
 import { animeList } from "@/data/animeData";
 
 const JIKAN_BASE = "https://api.jikan.moe/v4";
+const ANILIST_BASE = "https://graphql.anilist.co";
 
 interface JikanAnime {
   mal_id: number;
@@ -25,6 +26,82 @@ interface JikanAnime {
   aired?: { prop?: { from?: { year?: number } } };
   status: string;
   episodes: number | null;
+}
+
+interface AniListMedia {
+  idMal: number | null;
+  bannerImage: string | null;
+  coverImage: { extraLarge: string | null; large: string | null };
+}
+
+// Cache banner HD da AniList per MAL ID
+const bannerCache = new Map<number, { banner: string | null; cover: string | null }>();
+
+// Fetch banner HD da AniList per una lista di MAL IDs
+async function fetchAniListBanners(malIds: number[]): Promise<void> {
+  // Filter out already cached
+  const needed = malIds.filter(id => !bannerCache.has(id));
+  if (needed.length === 0) return;
+
+  // AniList permette max ~50 per query, facciamo batch da 25
+  const batches: number[][] = [];
+  for (let i = 0; i < needed.length; i += 25) {
+    batches.push(needed.slice(i, i + 25));
+  }
+
+  for (const batch of batches) {
+    const query = `
+      query ($page: Int, $idMal_in: [Int]) {
+        Page(page: $page, perPage: 50) {
+          media(type: ANIME, idMal_in: $idMal_in) {
+            idMal
+            bannerImage
+            coverImage {
+              extraLarge
+              large
+            }
+          }
+        }
+      }
+    `;
+
+    try {
+      const res = await fetch(ANILIST_BASE, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query,
+          variables: { page: 1, idMal_in: batch },
+        }),
+      });
+      const data = await res.json();
+      const mediaList: AniListMedia[] = data?.data?.Page?.media || [];
+
+      for (const m of mediaList) {
+        if (m.idMal) {
+          bannerCache.set(m.idMal, {
+            banner: m.bannerImage,
+            cover: m.coverImage?.extraLarge || m.coverImage?.large || null,
+          });
+        }
+      }
+
+      // Mark missing ones as null so we don't re-fetch
+      for (const id of batch) {
+        if (!bannerCache.has(id)) {
+          bannerCache.set(id, { banner: null, cover: null });
+        }
+      }
+    } catch (e) {
+      console.error("AniList banner fetch failed:", e);
+      // Mark as attempted
+      for (const id of batch) {
+        if (!bannerCache.has(id)) {
+          bannerCache.set(id, { banner: null, cover: null });
+        }
+      }
+    }
+  }
 }
 
 // Mappa generi inglese -> italiano
@@ -57,7 +134,6 @@ function mapStatus(status: string): string {
   return status;
 }
 
-// Genera un ID basato sul titolo per il percorso file locale
 function generateSlug(title: string): string {
   return title
     .toLowerCase()
@@ -67,8 +143,6 @@ function generateSlug(title: string): string {
     .trim();
 }
 
-// Controlla se un anime API è una stagione/variante di un anime locale
-// Se sì, restituisce l'anime locale (evita card duplicate)
 const LOCAL_BASE_TITLES = ["dr. stone", "attack on titan", "demon slayer", "jujutsu kaisen", "one piece", "my hero academia", "spy×family", "spy x family", "chainsaw man", "solo leveling"];
 
 function isLocalAnimeVariant(j: JikanAnime): boolean {
@@ -87,28 +161,14 @@ function findLocalMatch(j: JikanAnime): Anime | undefined {
   return animeList.find((a) => a.title.toLowerCase().trim() === apiTitle);
 }
 
-function getYoutubeThumbnail(j: JikanAnime): string | null {
-  // Extract YouTube video ID from various fields
-  const ytId = j.trailer?.youtube_id;
-  if (ytId) return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
-
-  const embedUrl = j.trailer?.embed_url;
-  if (embedUrl) {
-    const match = embedUrl.match(/\/embed\/([a-zA-Z0-9_-]+)/);
-    if (match?.[1]) return `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg`;
-  }
-
-  return null;
-}
-
 function mapJikanToAnime(j: JikanAnime): Anime | null {
-  // Se è una variante/stagione di un anime locale, salta (viene gestito dalla lista locale)
   if (isLocalAnimeVariant(j)) return null;
 
-  const cover = j.images.jpg?.original_image_url || j.images.webp?.large_image_url || j.images.jpg.large_image_url;
-  // Priority: YouTube maxresdefault (1920x1080) > trailer images > original cover
-  const ytThumb = getYoutubeThumbnail(j);
-  const banner = ytThumb || j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || j.images.jpg?.original_image_url || cover;
+  // Prendi banner/cover HD da AniList cache
+  const anilistData = bannerCache.get(j.mal_id);
+  const cover = anilistData?.cover || j.images.jpg?.original_image_url || j.images.webp?.large_image_url || j.images.jpg.large_image_url;
+  const banner = anilistData?.banner || anilistData?.cover || j.images.jpg?.original_image_url || cover;
+
   const animeYear = j.year || j.aired?.prop?.from?.year || 2024;
   const episodeCount = j.episodes || 12;
   const slug = generateSlug(j.title_english || j.title);
@@ -145,7 +205,6 @@ function mapJikanToAnime(j: JikanAnime): Anime | null {
   };
 }
 
-// Rimuovi duplicati tra API e lista locale
 function deduplicateAnime(apiAnime: Anime[]): Anime[] {
   const localIds = new Set(animeList.map((a) => a.id));
   const seen = new Set<string>();
@@ -171,7 +230,6 @@ export function useAnimeSearch(query: string) {
       return;
     }
 
-    // Cerca prima negli anime locali
     const q = query.toLowerCase();
     const localResults = animeList.filter((a) =>
       a.title.toLowerCase().includes(q)
@@ -186,12 +244,16 @@ export function useAnimeSearch(query: string) {
           { signal: controller.signal }
         );
         const data = await res.json();
-        const apiResults = (data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null);
-        // Locali prima, poi API (senza duplicati)
+        const jikanList: JikanAnime[] = data.data || [];
+
+        // Fetch banner HD da AniList prima di mappare
+        const malIds = jikanList.map(j => j.mal_id);
+        await fetchAniListBanners(malIds);
+
+        const apiResults = jikanList.map(mapJikanToAnime).filter((a): a is Anime => a !== null);
         setResults([...localResults, ...deduplicateAnime(apiResults)]);
       } catch (e) {
         if (!(e instanceof DOMException)) console.error(e);
-        // Se l'API fallisce, mostra comunque i locali
         setResults(localResults);
       } finally {
         setLoading(false);
@@ -218,7 +280,13 @@ export function useTopAnime() {
         const res = await fetch(`${JIKAN_BASE}/top/anime?limit=25&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
-          const mapped = (data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null);
+          const jikanList: JikanAnime[] = data.data || [];
+
+          // Fetch banner HD da AniList
+          const malIds = jikanList.map(j => j.mal_id);
+          await fetchAniListBanners(malIds);
+
+          const mapped = jikanList.map(mapJikanToAnime).filter((a): a is Anime => a !== null);
           setAnime(deduplicateAnime(mapped));
         }
       } catch (e) {
@@ -244,7 +312,13 @@ export function useSeasonalAnime() {
         const res = await fetch(`${JIKAN_BASE}/seasons/now?limit=25&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
-          const mapped = (data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null);
+          const jikanList: JikanAnime[] = data.data || [];
+
+          // Fetch banner HD da AniList
+          const malIds = jikanList.map(j => j.mal_id);
+          await fetchAniListBanners(malIds);
+
+          const mapped = jikanList.map(mapJikanToAnime).filter((a): a is Anime => a !== null);
           setAnime(deduplicateAnime(mapped));
         }
       } catch (e) {
@@ -264,7 +338,6 @@ export function useAnimeById(id: string) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Prima cerca nei locali
     const local = animeList.find((a) => a.id === id);
     if (local) {
       setAnime(local);
@@ -272,7 +345,6 @@ export function useAnimeById(id: string) {
       return;
     }
 
-    // Se non trovato, cerca nell'API (supporta ancora mal-ID per retrocompatibilità)
     let cancelled = false;
     if (id.startsWith("mal-")) {
       (async () => {
@@ -281,6 +353,8 @@ export function useAnimeById(id: string) {
           const res = await fetch(`${JIKAN_BASE}/anime/${malId}/full`);
           const data = await res.json();
           if (!cancelled && data.data) {
+            // Fetch banner HD da AniList
+            await fetchAniListBanners([data.data.mal_id]);
             setAnime(mapJikanToAnime(data.data));
           }
         } catch (e) {
