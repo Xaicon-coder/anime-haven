@@ -48,10 +48,10 @@ export const animeList: Anime[] = [
     year: 2013,
     status: "Completato",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
-      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
-      { id: "s3", number: 3, title: "Stagione 3", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
-      { id: "s4", number: 4, title: "Stagione Finale", episodes: generateEpisodes(16, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
+      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
+      { id: "s3", number: 3, title: "Stagione 3", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
+      { id: "s4", number: 4, title: "Stagione Finale", episodes: generateEpisodes(16, "https://cdn.myanimelist.net/images/anime/10/47347.jpg") },
     ],
   },
   {
