@@ -201,7 +201,7 @@ export const animeList: Anime[] = [
     title: "Attack on Titan: The Final Season",
     folderName: "Attack on Titan ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1000/110531.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1000/110531.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1000/110531l.jpg",
     description: "La storia raggiunge la conclusione. Eren Yeager e i suoi compagni affrontano la battaglia finale che deciderà il destino dell'umanità.",
     genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
     rating: 8.7,
