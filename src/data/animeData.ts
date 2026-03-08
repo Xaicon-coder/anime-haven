@@ -316,7 +316,7 @@ export const animeList: Anime[] = [
     title: "Jujutsu Kaisen Stagione 2",
     folderName: "Jujutsu Kaisen ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1792/138022.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1792/138022.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1792/138022l.jpg",
     description: "La storia esplora il passato di Gojo e Geto, poi si immerge nell'Incidente di Shibuya dove gli stregoni affrontano la più grande crisi della storia.",
     genres: ["Azione", "Soprannaturale"],
     rating: 8.6,
