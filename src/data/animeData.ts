@@ -420,7 +420,7 @@ export const animeList: Anime[] = [
     title: "SPY×FAMILY Season 2",
     folderName: "Spy x Family ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1506/138982.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1506/138982.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1506/138982l.jpg",
     description: "La famiglia Forger continua le sue avventure. Loid gestisce la sua missione, Anya affronta nuove sfide scolastiche e Yor protegge la famiglia.",
     genres: ["Azione", "Commedia", "Famiglia"],
     rating: 8.3,
