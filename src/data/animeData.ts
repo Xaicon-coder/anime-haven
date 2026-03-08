@@ -222,7 +222,7 @@ export const animeList: Anime[] = [
     title: "Demon Slayer: Kimetsu no Yaiba",
     folderName: "Demon Slayer ITA",
     cover: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
     description: "Tanjiro è un giovane carbonaio che trova la sua famiglia massacrata da un demone. L'unica sopravvissuta è sua sorella Nezuko, trasformata in un demone. Così inizia il suo viaggio per trovare una cura.",
     genres: ["Azione", "Fantasy", "Soprannaturale"],
     rating: 8.4,
