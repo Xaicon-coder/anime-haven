@@ -87,17 +87,20 @@ function mapJikanToAnime(j: JikanAnime): Anime | null {
   if (isLocalAnimeVariant(j)) return null;
 
   const cover = j.images.jpg?.original_image_url || j.images.webp?.large_image_url || j.images.jpg.large_image_url;
-  const banner = j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || cover;
+  const banner = j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || j.images.jpg?.original_image_url || cover;
   const animeYear = j.year || j.aired?.prop?.from?.year || 2024;
   const episodeCount = j.episodes || 12;
   const slug = generateSlug(j.title_english || j.title);
+
+  const rawSynopsis = j.synopsis?.replace(/\[Written by MAL Rewrite\]/g, "").replace(/\(Source:.*?\)/g, "").trim();
+  const description = rawSynopsis || "Descrizione non disponibile.";
 
   return {
     id: slug,
     title: j.title_english || j.title,
     cover,
     banner,
-    description: j.synopsis?.replace(/\[Written by MAL Rewrite\]/g, "").trim() || "Nessuna descrizione disponibile.",
+    description,
     genres: j.genres.map((g) => genreMap[g.name] || g.name),
     rating: j.score || 0,
     year: animeYear,
