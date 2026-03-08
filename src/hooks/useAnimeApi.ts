@@ -329,6 +329,13 @@ export function useAnimeSearch(query: string) {
   return { results, loading };
 }
 
+// Calcola la pagina da caricare in base all'ora corrente (cambia ogni ora)
+function getHourlyPage(): number {
+  const hour = new Date().getHours();
+  // Pagine da 1 a 4, ruota ogni ora
+  return (hour % 4) + 1;
+}
+
 export function useTopAnime() {
   const [anime, setAnime] = useState<Anime[]>([]);
   const [loading, setLoading] = useState(true);
