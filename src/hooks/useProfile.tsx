@@ -21,18 +21,18 @@ const ACTIVE_KEY = 'anistream-active-profile';
 
 // Personaggi anime iconici con immagini da MyAnimeList
 export const AVATAR_OPTIONS = [
-  { name: 'Naruto', url: 'https://cdn.myanimelist.net/images/characters/2/284121.jpg' },
-  { name: 'Goku', url: 'https://cdn.myanimelist.net/images/characters/15/390945.jpg' },
-  { name: 'Luffy', url: 'https://cdn.myanimelist.net/images/characters/9/310307.jpg' },
-  { name: 'Tanjiro', url: 'https://cdn.myanimelist.net/images/characters/6/386735.jpg' },
-  { name: 'Gojo', url: 'https://cdn.myanimelist.net/images/characters/15/422168.jpg' },
-  { name: 'Levi', url: 'https://cdn.myanimelist.net/images/characters/2/241413.jpg' },
-  { name: 'Zoro', url: 'https://cdn.myanimelist.net/images/characters/3/100534.jpg' },
-  { name: 'Eren', url: 'https://cdn.myanimelist.net/images/characters/10/216895.jpg' },
-  { name: 'Gon', url: 'https://cdn.myanimelist.net/images/characters/11/174517.jpg' },
-  { name: 'Senku', url: 'https://cdn.myanimelist.net/images/characters/3/376228.jpg' },
-  { name: 'Denji', url: 'https://cdn.myanimelist.net/images/characters/3/492407.jpg' },
-  { name: 'Anya', url: 'https://cdn.myanimelist.net/images/characters/7/494714.jpg' },
+  { name: 'Naruto', url: '/avatars/naruto.jpg' },
+  { name: 'Goku', url: '/avatars/goku.jpg' },
+  { name: 'Luffy', url: '/avatars/luffy.jpg' },
+  { name: 'Tanjiro', url: '/avatars/tanjiro.jpg' },
+  { name: 'Gojo', url: '/avatars/gojo.jpg' },
+  { name: 'Levi', url: '/avatars/levi.jpg' },
+  { name: 'Zoro', url: '/avatars/zoro.jpg' },
+  { name: 'Eren', url: '/avatars/eren.jpg' },
+  { name: 'Gon', url: '/avatars/gon.jpg' },
+  { name: 'Senku', url: '/avatars/senku.jpg' },
+  { name: 'Denji', url: '/avatars/denji.jpg' },
+  { name: 'Anya', url: '/avatars/anya.jpg' },
 ];
 
 function loadProfiles(): Profile[] {
