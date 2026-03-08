@@ -89,15 +89,15 @@ const Navbar = () => {
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors p-1.5 sm:p-2"
               >
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-secondary border border-border flex items-center justify-center text-sm sm:text-base">
-                  {activeProfile.avatar}
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-border bg-secondary">
+                  <img src={activeProfile.avatar} alt={activeProfile.name} className="w-full h-full object-cover" />
                 </div>
               </button>
               {userMenuOpen && (
                 <div className="absolute right-0 top-full mt-2 w-44 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in z-50">
                   <div className="px-4 py-3 border-b border-border">
                     <p className="text-sm font-medium text-foreground flex items-center gap-2">
-                      <span className="text-base">{activeProfile.avatar}</span> {activeProfile.name}
+                      <img src={activeProfile.avatar} alt="" className="w-6 h-6 rounded-full object-cover" /> {activeProfile.name}
                     </p>
                   </div>
                   <button

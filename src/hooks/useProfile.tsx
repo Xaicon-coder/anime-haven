@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useCallback, type ReactNode } from
 export interface Profile {
   id: string;
   name: string;
-  avatar: string; // emoji or color
+  avatar: string; // URL immagine personaggio
   createdAt: number;
 }
 
@@ -13,13 +13,27 @@ interface ProfileContextType {
   selectProfile: (id: string) => void;
   createProfile: (name: string, avatar: string) => void;
   deleteProfile: (id: string) => void;
-  logout: () => void; // torna alla selezione profilo
+  logout: () => void;
 }
 
 const PROFILES_KEY = 'anistream-profiles';
 const ACTIVE_KEY = 'anistream-active-profile';
 
-const AVATARS = ['😎', '🦊', '🐉', '👾', '🎮', '🌸', '⚡', '🔥', '🌊', '💜', '🗡️', '🎭'];
+// Personaggi anime iconici con immagini da MyAnimeList
+export const AVATAR_OPTIONS = [
+  { name: 'Naruto', url: 'https://cdn.myanimelist.net/images/characters/2/284121.jpg' },
+  { name: 'Goku', url: 'https://cdn.myanimelist.net/images/characters/15/390945.jpg' },
+  { name: 'Luffy', url: 'https://cdn.myanimelist.net/images/characters/9/310307.jpg' },
+  { name: 'Tanjiro', url: 'https://cdn.myanimelist.net/images/characters/6/386735.jpg' },
+  { name: 'Gojo', url: 'https://cdn.myanimelist.net/images/characters/15/422168.jpg' },
+  { name: 'Levi', url: 'https://cdn.myanimelist.net/images/characters/2/241413.jpg' },
+  { name: 'Zoro', url: 'https://cdn.myanimelist.net/images/characters/3/100534.jpg' },
+  { name: 'Eren', url: 'https://cdn.myanimelist.net/images/characters/10/216895.jpg' },
+  { name: 'Gon', url: 'https://cdn.myanimelist.net/images/characters/11/174517.jpg' },
+  { name: 'Senku', url: 'https://cdn.myanimelist.net/images/characters/3/376228.jpg' },
+  { name: 'Denji', url: 'https://cdn.myanimelist.net/images/characters/3/492407.jpg' },
+  { name: 'Anya', url: 'https://cdn.myanimelist.net/images/characters/7/494714.jpg' },
+];
 
 function loadProfiles(): Profile[] {
   try {
@@ -100,4 +114,4 @@ export function useProfile() {
   return ctx;
 }
 
-export { AVATARS };
+
