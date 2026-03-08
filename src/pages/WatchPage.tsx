@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ChevronLeft, ChevronRight, SkipForward } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { animeList } from "@/data/animeData";
 import { useAnimeById } from "@/hooks/useAnimeApi";
@@ -37,18 +37,17 @@ const WatchPage = () => {
       <Navbar />
       <div className="pt-16">
         {/* Video Player - responsive aspect ratio */}
-        <div className="w-full bg-muted aspect-video max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] flex items-center justify-center relative">
-          <div className="text-center px-4">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center mx-auto mb-3 sm:mb-4">
-              <SkipForward size={24} className="text-primary sm:w-7 sm:h-7 lg:w-8 lg:h-8" />
-            </div>
-            <p className="text-muted-foreground text-xs sm:text-sm">
-              Collega il tuo server CasaOS per riprodurre
-            </p>
-            <p className="text-muted-foreground/60 text-[10px] sm:text-xs mt-1 break-all max-w-md">
-              /anime/{anime.title}/Stagione {season.number}/{episode.title}.mp4
-            </p>
-          </div>
+        <div className="w-full bg-black aspect-video max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] relative">
+          <video
+            key={`/anime/${anime.id}/stagione-${season.number}/episodio-${episode.number}.mp4`}
+            src={`/anime/${anime.id}/stagione-${season.number}/episodio-${episode.number}.mp4`}
+            controls
+            autoPlay
+            className="w-full h-full"
+            poster={episode.thumbnail}
+          >
+            Il tuo browser non supporta il video.
+          </video>
         </div>
 
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
