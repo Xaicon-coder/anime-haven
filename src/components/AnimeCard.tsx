@@ -43,7 +43,7 @@ const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
           </div>
         )}
       </div>
-      <h3 className="text-xs sm:text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
+      <h3 className="text-xs sm:text-sm font-medium text-foreground truncate group-hover:text-primary group-focus-visible:text-primary transition-colors duration-150">
         {anime.title}
       </h3>
       <p className="text-[10px] sm:text-xs text-muted-foreground">
