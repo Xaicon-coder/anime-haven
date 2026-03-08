@@ -73,8 +73,8 @@ export const animeList: Anime[] = [
   {
     id: "jujutsu-kaisen",
     title: "Jujutsu Kaisen",
-    cover: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire1/2c42070c0a93b1ca5f8ade932b4d81d51603391446_main.jpg",
     description: "Yuji Itadori è uno studente con abilità fisiche straordinarie. Un giorno, per salvare un compagno attaccato da una Maledizione, ingoia un dito di Ryomen Sukuna, il Re delle Maledizioni, diventando il suo recipiente. Da quel momento entra nel mondo degli stregoni.",
     genres: ["Azione", "Soprannaturale", "Scolastico"],
     rating: 8.7,
