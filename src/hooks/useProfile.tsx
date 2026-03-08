@@ -114,4 +114,4 @@ export function useProfile() {
   return ctx;
 }
 
-export { AVATAR_OPTIONS };
+
