@@ -231,7 +231,9 @@ function mapJikanToAnime(j: JikanAnime): Anime | null {
   const episodeCount = j.episodes || 12;
   const slug = generateSlug(j.title_english || j.title);
 
-  const rawSynopsis = j.synopsis?.replace(/\[Written by MAL Rewrite\]/g, "").replace(/\(Source:.*?\)/g, "").trim();
+  // Usa descrizione AniList se disponibile (più pulita), altrimenti Jikan
+  const anilistDesc = anilistData?.description;
+  const rawSynopsis = anilistDesc || j.synopsis?.replace(/\[Written by MAL Rewrite\]/g, "").replace(/\(Source:.*?\)/g, "").trim();
   const description = rawSynopsis || "Descrizione non disponibile.";
 
   return {
