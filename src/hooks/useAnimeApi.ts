@@ -32,6 +32,7 @@ interface AniListMedia {
   idMal: number | null;
   bannerImage: string | null;
   coverImage: { extraLarge: string | null; large: string | null };
+  description: string | null;
 }
 
 // Cache banner HD da AniList per MAL ID
