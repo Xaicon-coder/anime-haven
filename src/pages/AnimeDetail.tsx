@@ -100,22 +100,20 @@ const AnimeDetail = () => {
                 <Play size={16} fill="currentColor" className="sm:w-[18px] sm:h-[18px]" />
                 Guarda Episodio 1
               </Link>
-              {user && (
-                <button
-                  onClick={() => toggleWatchlist(anime.id)}
-                  className={`inline-flex items-center gap-1.5 sm:gap-2 font-medium px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg transition-all text-sm sm:text-base ${
-                    isInWatchlist(anime.id)
-                      ? 'bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25'
-                      : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
-                  }`}
-                >
-                  {isInWatchlist(anime.id) ? (
-                    <><BookmarkCheck size={16} className="sm:w-[18px] sm:h-[18px]" /> Nella lista</>
-                  ) : (
-                    <><Bookmark size={16} className="sm:w-[18px] sm:h-[18px]" /> Aggiungi alla lista</>
-                  )}
-                </button>
-              )}
+              <button
+                onClick={() => toggleWatchlist(anime.id)}
+                className={`inline-flex items-center gap-1.5 sm:gap-2 font-medium px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg transition-all text-sm sm:text-base ${
+                  isInWatchlist(anime.id)
+                    ? 'bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25'
+                    : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
+                }`}
+              >
+                {isInWatchlist(anime.id) ? (
+                  <><BookmarkCheck size={16} className="sm:w-[18px] sm:h-[18px]" /> Nella lista</>
+                ) : (
+                  <><Bookmark size={16} className="sm:w-[18px] sm:h-[18px]" /> Aggiungi alla lista</>
+                )}
+              </button>
             </div>
           </div>
         </div>
