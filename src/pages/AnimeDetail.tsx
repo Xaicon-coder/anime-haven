@@ -13,7 +13,6 @@ const AnimeDetail = () => {
   const { id } = useParams();
   const { anime, loading } = useAnimeById(id || "");
   const [selectedSeason, setSelectedSeason] = useState(0);
-  const { user } = useAuth();
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const { isWatched, toggleWatched } = useWatchedEpisodes(id);
 
