@@ -81,8 +81,8 @@ export const animeList: Anime[] = [
     year: 2020,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg") },
-      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(23, "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg") },
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1171/109222.jpg") },
+      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(23, "https://cdn.myanimelist.net/images/anime/1171/109222.jpg") },
     ],
   },
   {
