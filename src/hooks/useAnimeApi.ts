@@ -156,7 +156,7 @@ export function useAnimeSearch(query: string) {
           { signal: controller.signal }
         );
         const data = await res.json();
-        setResults((data.data || []).map(mapJikanToAnime));
+        setResults((data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null));
       } catch (e) {
         if (!(e instanceof DOMException)) console.error(e);
       } finally {
