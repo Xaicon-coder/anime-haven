@@ -379,7 +379,8 @@ export function useSeasonalAnime() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(`${JIKAN_BASE}/seasons/now?limit=25&sfw=true`);
+        const page = getHourlyPage();
+        const res = await fetch(`${JIKAN_BASE}/seasons/now?limit=25&page=${page}&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
           const jikanList: JikanAnime[] = data.data || [];
