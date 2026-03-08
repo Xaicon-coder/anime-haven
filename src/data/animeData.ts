@@ -38,14 +38,14 @@ const generateEpisodes = (
   fileSuffix?: string
 ): Episode[] =>
   Array.from({ length: count }, (_, i) => {
-    const epNum = i + 1;
+    const epNum = String(i + 1).padStart(2, "0");
     const fileName = filePrefix
       ? `${filePrefix}${epNum}${fileSuffix || ""}.mp4`
-      : `episodio-${epNum}.mp4`;
+      : `episodio-${i + 1}.mp4`;
     return {
-      id: `ep-${epNum}`,
-      number: epNum,
-      title: `Episodio ${epNum}`,
+      id: `ep-${i + 1}`,
+      number: i + 1,
+      title: `Episodio ${i + 1}`,
       duration: `${20 + Math.floor(Math.random() * 5)} min`,
       thumbnail,
       fileName,
