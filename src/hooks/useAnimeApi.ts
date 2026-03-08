@@ -347,7 +347,9 @@ export function useTopAnime() {
           await fetchAniListBanners(malIds);
 
           const mapped = jikanList.map(mapJikanToAnime).filter((a): a is Anime => a !== null);
-          setAnime(deduplicateAnime(mapped));
+          const deduplicated = deduplicateAnime(mapped);
+          const translated = await translateAnimeDescriptions(deduplicated);
+          setAnime(translated);
         }
       } catch (e) {
         console.error("Failed to fetch top anime:", e);
