@@ -97,7 +97,7 @@ const Navbar = () => {
                 <div className="absolute right-0 top-full mt-2 w-44 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in z-50">
                   <div className="px-4 py-3 border-b border-border">
                     <p className="text-sm font-medium text-foreground flex items-center gap-2">
-                      <span className="text-base">{activeProfile.avatar}</span> {activeProfile.name}
+                      <img src={activeProfile.avatar} alt="" className="w-6 h-6 rounded-full object-cover" /> {activeProfile.name}
                     </p>
                   </div>
                   <button
