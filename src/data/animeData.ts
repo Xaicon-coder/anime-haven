@@ -119,8 +119,8 @@ export const animeList: Anime[] = [
   {
     id: "spy-x-family",
     title: "SPY×FAMILY",
-    cover: "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg",
-    banner: "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg",
+    cover: "https://cdn.myanimelist.net/images/anime/1441/122795.jpg",
+    banner: "https://img1.ak.crunchyroll.com/i/spire2/70f3bfadd5f1483bce2b2c218b14df521648768228_main.jpg",
     description: "La spia di classe mondiale nota come 'Twilight' riceve il compito di indagare su un pericoloso politico. Per avvicinarsi al suo obiettivo, deve costruire una famiglia copertura. Ignaro di tutti, la figlia che adotta sa leggere la mente e sua moglie è un'assassina.",
     genres: ["Azione", "Commedia", "Famiglia"],
     rating: 8.6,
