@@ -1,11 +1,3 @@
-import cover1 from "@/assets/anime-cover-1.jpg";
-import cover2 from "@/assets/anime-cover-2.jpg";
-import cover3 from "@/assets/anime-cover-3.jpg";
-import cover4 from "@/assets/anime-cover-4.jpg";
-import cover5 from "@/assets/anime-cover-5.jpg";
-import cover6 from "@/assets/anime-cover-6.jpg";
-import heroBanner from "@/assets/hero-banner-1.jpg";
-
 export interface Episode {
   id: string;
   number: number;
@@ -34,104 +26,143 @@ export interface Anime {
   seasons: Season[];
 }
 
-const generateEpisodes = (count: number, cover: string): Episode[] =>
+const generateEpisodes = (count: number, thumbnail: string): Episode[] =>
   Array.from({ length: count }, (_, i) => ({
     id: `ep-${i + 1}`,
     number: i + 1,
     title: `Episodio ${i + 1}`,
     duration: `${20 + Math.floor(Math.random() * 5)} min`,
-    thumbnail: cover,
+    thumbnail,
   }));
 
+// Real anime data with official images from MyAnimeList CDN
 export const animeList: Anime[] = [
   {
-    id: "blade-of-dawn",
-    title: "Blade of Dawn",
-    cover: cover1,
-    banner: heroBanner,
-    description: "Un giovane spadaccino intraprende un viaggio epico attraverso terre mistiche per scoprire il segreto della sua spada leggendaria e proteggere il regno dalla distruzione.",
+    id: "attack-on-titan",
+    title: "Attack on Titan",
+    cover: "https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
+    description: "Secoli fa, l'umanità fu massacrata fino quasi all'estinzione da mostri enormi e terrificanti con una forma vagamente umana chiamati Titani. I pochi sopravvissuti si rifugiarono dietro tre enormi mura concentriche. Ora, la pace è minacciata quando un Titano Colossale appare e distrugge il muro esterno.",
+    genres: ["Azione", "Dark Fantasy", "Post-apocalittico"],
+    rating: 9.0,
+    year: 2013,
+    status: "Completato",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
+      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
+      { id: "s3", number: 3, title: "Stagione 3", episodes: generateEpisodes(22, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
+      { id: "s4", number: 4, title: "Stagione Finale", episodes: generateEpisodes(16, "https://cdn.myanimelist.net/images/anime/10/47347l.jpg") },
+    ],
+  },
+  {
+    id: "demon-slayer",
+    title: "Demon Slayer: Kimetsu no Yaiba",
+    cover: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
+    description: "Sin dai tempi antichi circolano voci su demoni mangiauomini che si nascondono nel bosco. Per questo motivo la gente del posto non esce mai di notte. Si dice anche che un demone uccida chiunque si avventuri nel bosco. Tanjiro è un giovane carbonaio dalla gentilezza innata.",
+    genres: ["Azione", "Fantasy", "Soprannaturale"],
+    rating: 8.6,
+    year: 2019,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(26, "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg") },
+      { id: "s2", number: 2, title: "Distretto a luci rosse", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg") },
+      { id: "s3", number: 3, title: "Villaggio dei Fabbri", episodes: generateEpisodes(11, "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg") },
+    ],
+  },
+  {
+    id: "jujutsu-kaisen",
+    title: "Jujutsu Kaisen",
+    cover: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
+    description: "Yuji Itadori è uno studente con abilità fisiche straordinarie. Un giorno, per salvare un compagno attaccato da una Maledizione, ingoia un dito di Ryomen Sukuna, il Re delle Maledizioni, diventando il suo recipiente. Da quel momento entra nel mondo degli stregoni.",
+    genres: ["Azione", "Soprannaturale", "Scolastico"],
+    rating: 8.7,
+    year: 2020,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(24, "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg") },
+      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(23, "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg") },
+    ],
+  },
+  {
+    id: "one-piece",
+    title: "One Piece",
+    cover: "https://cdn.myanimelist.net/images/anime/6/73245l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/6/73245l.jpg",
+    description: "Gol D. Roger era noto come il Re dei Pirati, l'essere più forte e famoso ad aver navigato la Grand Line. La cattura e l'esecuzione di Roger da parte della Marina Mondiale ha portato un cambiamento nel mondo. Le sue ultime parole prima della morte hanno rivelato l'esistenza del più grande tesoro del mondo, il One Piece.",
+    genres: ["Azione", "Avventura", "Commedia"],
+    rating: 8.7,
+    year: 1999,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "East Blue", episodes: generateEpisodes(61, "https://cdn.myanimelist.net/images/anime/6/73245l.jpg") },
+      { id: "s2", number: 2, title: "Alabasta", episodes: generateEpisodes(73, "https://cdn.myanimelist.net/images/anime/6/73245l.jpg") },
+    ],
+  },
+  {
+    id: "my-hero-academia",
+    title: "My Hero Academia",
+    cover: "https://cdn.myanimelist.net/images/anime/10/78745l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/10/78745l.jpg",
+    description: "In un mondo dove l'80% della popolazione possiede superpoteri chiamati 'Quirk', Izuku Midoriya nasce senza poteri. Ma il suo sogno di diventare un eroe non muore mai, specialmente dopo aver incontrato il più grande eroe di tutti, All Might.",
+    genres: ["Azione", "Supereroi", "Scolastico"],
+    rating: 8.4,
+    year: 2016,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(13, "https://cdn.myanimelist.net/images/anime/10/78745l.jpg") },
+      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745l.jpg") },
+      { id: "s3", number: 3, title: "Stagione 3", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/10/78745l.jpg") },
+    ],
+  },
+  {
+    id: "spy-x-family",
+    title: "SPY×FAMILY",
+    cover: "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg",
+    description: "La spia di classe mondiale nota come 'Twilight' riceve il compito di indagare su un pericoloso politico. Per avvicinarsi al suo obiettivo, deve costruire una famiglia copertura. Ignaro di tutti, la figlia che adotta sa leggere la mente e sua moglie è un'assassina.",
+    genres: ["Azione", "Commedia", "Famiglia"],
+    rating: 8.6,
+    year: 2022,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(25, "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg") },
+      { id: "s2", number: 2, title: "Stagione 2", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1441/122795l.jpg") },
+    ],
+  },
+  {
+    id: "chainsaw-man",
+    title: "Chainsaw Man",
+    cover: "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg",
+    description: "Denji è un ragazzo che vive in povertà, costretto a lavorare come cacciatore di demoni per ripagare i debiti del padre defunto. La sua unica compagnia è Pochita, un demone motosega. Quando Denji viene ucciso, Pochita si fonde con lui, trasformandolo nel Chainsaw Man.",
+    genres: ["Azione", "Dark Fantasy", "Horror"],
+    rating: 8.5,
+    year: 2022,
+    status: "In corso",
+    seasons: [
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1806/126216l.jpg") },
+    ],
+  },
+  {
+    id: "solo-leveling",
+    title: "Solo Leveling",
+    cover: "https://cdn.myanimelist.net/images/anime/1808/141625l.jpg",
+    banner: "https://cdn.myanimelist.net/images/anime/1808/141625l.jpg",
+    description: "In un mondo dove i cacciatori - umani con poteri magici - devono combattere mortali mostri per proteggere la razza umana, Sung Jinwoo è il cacciatore più debole di tutti, noto come 'il cacciatore più debole dell'umanità'. Un giorno, dopo una missione quasi fatale, riceve un misterioso programma chiamato 'Sistema'.",
     genres: ["Azione", "Fantasy", "Avventura"],
-    rating: 4.8,
+    rating: 8.3,
     year: 2024,
     status: "In corso",
     seasons: [
-      { id: "s1", number: 1, title: "L'inizio del viaggio", episodes: generateEpisodes(12, cover1) },
-      { id: "s2", number: 2, title: "Il risveglio", episodes: generateEpisodes(12, cover1) },
-    ],
-  },
-  {
-    id: "crimson-flame",
-    title: "Crimson Flame",
-    cover: cover2,
-    banner: heroBanner,
-    description: "Una potente maga dal fuoco rosso combatte per liberare la sua città dalle forze oscure che la minacciano, scoprendo poteri ancestrali nascosti nel suo sangue.",
-    genres: ["Azione", "Magia", "Drama"],
-    rating: 4.6,
-    year: 2023,
-    status: "Completato",
-    seasons: [
-      { id: "s1", number: 1, title: "La fiamma nascente", episodes: generateEpisodes(24, cover2) },
-    ],
-  },
-  {
-    id: "steel-guardian",
-    title: "Steel Guardian",
-    cover: cover3,
-    banner: heroBanner,
-    description: "In un futuro distopico, un pilota di mecha combatte per la sopravvivenza dell'umanità contro macchine senzienti che minacciano l'esistenza stessa della civiltà.",
-    genres: ["Mecha", "Sci-Fi", "Azione"],
-    rating: 4.7,
-    year: 2024,
-    status: "In corso",
-    seasons: [
-      { id: "s1", number: 1, title: "Protocollo Zero", episodes: generateEpisodes(13, cover3) },
-    ],
-  },
-  {
-    id: "shadow-requiem",
-    title: "Shadow Requiem",
-    cover: cover4,
-    banner: heroBanner,
-    description: "Un assassino misterioso opera nelle ombre della città, districandosi tra intrighi politici e segreti oscuri mentre cerca vendetta per il suo passato.",
-    genres: ["Thriller", "Dark Fantasy", "Mistero"],
-    rating: 4.9,
-    year: 2024,
-    status: "In corso",
-    seasons: [
-      { id: "s1", number: 1, title: "Ombre nella notte", episodes: generateEpisodes(10, cover4) },
-      { id: "s2", number: 2, title: "Il prezzo del sangue", episodes: generateEpisodes(10, cover4) },
-      { id: "s3", number: 3, title: "Redenzione", episodes: generateEpisodes(8, cover4) },
-    ],
-  },
-  {
-    id: "crystal-seekers",
-    title: "Crystal Seekers",
-    cover: cover5,
-    banner: heroBanner,
-    description: "Un gruppo di giovani avventurieri esplora dungeon pieni di cristalli magici, affrontando creature mitiche e stringendo legami indissolubili.",
-    genres: ["Avventura", "Fantasy", "Commedia"],
-    rating: 4.4,
-    year: 2023,
-    status: "Completato",
-    seasons: [
-      { id: "s1", number: 1, title: "La prima spedizione", episodes: generateEpisodes(12, cover5) },
-      { id: "s2", number: 2, title: "Il cuore del cristallo", episodes: generateEpisodes(12, cover5) },
-    ],
-  },
-  {
-    id: "storm-awakening",
-    title: "Storm Awakening",
-    cover: cover6,
-    banner: heroBanner,
-    description: "Uno studente delle superiori scopre di possedere poteri soprannaturali incredibili e deve imparare a controllarli prima che sia troppo tardi.",
-    genres: ["Supereroi", "Scolastico", "Azione"],
-    rating: 4.5,
-    year: 2024,
-    status: "In corso",
-    seasons: [
-      { id: "s1", number: 1, title: "Il risveglio", episodes: generateEpisodes(13, cover6) },
+      { id: "s1", number: 1, title: "Stagione 1", episodes: generateEpisodes(12, "https://cdn.myanimelist.net/images/anime/1808/141625l.jpg") },
     ],
   },
 ];
 
-export const featuredAnime = animeList[0];
+export const featuredAnime = animeList[3]; // One Piece as featured
+
+export const popularAnime = animeList.slice(0, 6);
+export const topRatedAnime = [...animeList].sort((a, b) => b.rating - a.rating);
+export const recentAnime = [...animeList].filter(a => a.year >= 2022);

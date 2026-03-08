@@ -1,10 +1,14 @@
 import { Search, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAnimeSearch } from "@/hooks/useAnimeApi";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const { results, loading } = useAnimeSearch(query);
+  const navigate = useNavigate();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
@@ -15,23 +19,52 @@ const Navbar = () => {
           </Link>
           <div className="hidden md:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Home</Link>
-            <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Sfoglia</Link>
-            <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">La mia lista</Link>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           {searchOpen ? (
-            <div className="flex items-center gap-2 animate-slide-in">
+            <div className="relative flex items-center gap-2 animate-slide-in">
               <input
                 type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
                 placeholder="Cerca anime..."
                 className="bg-secondary text-foreground text-sm px-4 py-2 rounded-lg border border-border focus:border-primary focus:outline-none w-48 md:w-64"
                 autoFocus
               />
-              <button onClick={() => setSearchOpen(false)} className="text-muted-foreground hover:text-foreground">
+              <button onClick={() => { setSearchOpen(false); setQuery(""); }} className="text-muted-foreground hover:text-foreground">
                 <X size={20} />
               </button>
+
+              {/* Search Results Dropdown */}
+              {query.length >= 2 && (
+                <div className="absolute top-full right-0 mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-96 overflow-y-auto">
+                  {loading && (
+                    <div className="p-4 text-center text-muted-foreground text-sm">Cercando...</div>
+                  )}
+                  {!loading && results.length === 0 && (
+                    <div className="p-4 text-center text-muted-foreground text-sm">Nessun risultato</div>
+                  )}
+                  {results.map((anime) => (
+                    <button
+                      key={anime.id}
+                      onClick={() => {
+                        navigate(`/anime/${anime.id}`);
+                        setSearchOpen(false);
+                        setQuery("");
+                      }}
+                      className="flex items-center gap-3 w-full p-3 hover:bg-secondary transition-colors text-left"
+                    >
+                      <img src={anime.cover} alt={anime.title} className="w-10 h-14 object-cover rounded" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">{anime.title}</p>
+                        <p className="text-xs text-muted-foreground">{anime.year} • ⭐ {anime.rating}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <button onClick={() => setSearchOpen(true)} className="text-muted-foreground hover:text-foreground transition-colors p-2">
@@ -46,10 +79,8 @@ const Navbar = () => {
 
       {menuOpen && (
         <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl animate-fade-in">
-          <div className="px-4 py-3 space-y-2">
+          <div className="px-4 py-3">
             <Link to="/" className="block py-2 text-sm font-medium text-foreground">Home</Link>
-            <Link to="/" className="block py-2 text-sm font-medium text-muted-foreground">Sfoglia</Link>
-            <Link to="/" className="block py-2 text-sm font-medium text-muted-foreground">La mia lista</Link>
           </div>
         </div>
       )}
