@@ -70,8 +70,16 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const createProfile = useCallback((name: string, avatar: string) => {
+    // Fallback for browsers without crypto.randomUUID (e.g. TV browsers on HTTP)
+    const generateId = (): string => {
+      try {
+        return crypto.randomUUID();
+      } catch {
+        return 'xxxx-xxxx-xxxx'.replace(/x/g, () => Math.floor(Math.random() * 16).toString(16));
+      }
+    };
     const newProfile: Profile = {
-      id: crypto.randomUUID(),
+      id: generateId(),
       name: name.trim(),
       avatar,
       createdAt: Date.now(),
