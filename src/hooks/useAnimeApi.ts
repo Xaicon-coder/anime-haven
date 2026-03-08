@@ -62,21 +62,29 @@ function generateSlug(title: string): string {
     .trim();
 }
 
-// Controlla se un anime API corrisponde a uno locale (evita duplicati)
-function findLocalMatch(j: JikanAnime): Anime | undefined {
-  const titleLower = (j.title_english || j.title).toLowerCase();
-  return animeList.find((a) => {
-    const localTitle = a.title.toLowerCase();
-    return localTitle === titleLower || 
-           localTitle.includes(titleLower) || 
-           titleLower.includes(localTitle);
+// Controlla se un anime API è una stagione/variante di un anime locale
+// Se sì, restituisce l'anime locale (evita card duplicate)
+function isLocalAnimeVariant(j: JikanAnime): boolean {
+  const apiTitle = (j.title_english || j.title).toLowerCase().trim();
+  const apiTitleJp = j.title.toLowerCase().trim();
+  return animeList.some((a) => {
+    const localTitle = a.title.toLowerCase().trim();
+    // Match esatto O l'API title inizia con il titolo locale (es. "Dr. Stone: Stone Wars" inizia con "Dr. Stone")
+    return localTitle === apiTitle || 
+           apiTitle.startsWith(localTitle + ":") ||
+           apiTitle.startsWith(localTitle + " ") ||
+           apiTitleJp.startsWith(localTitle);
   });
 }
 
-function mapJikanToAnime(j: JikanAnime): Anime {
-  // Se esiste un anime locale corrispondente, usa quello (evita duplicati)
-  const localMatch = findLocalMatch(j);
-  if (localMatch) return localMatch;
+function findLocalMatch(j: JikanAnime): Anime | undefined {
+  const apiTitle = (j.title_english || j.title).toLowerCase().trim();
+  return animeList.find((a) => a.title.toLowerCase().trim() === apiTitle);
+}
+
+function mapJikanToAnime(j: JikanAnime): Anime | null {
+  // Se è una variante/stagione di un anime locale, salta (viene gestito dalla lista locale)
+  if (isLocalAnimeVariant(j)) return null;
 
   const cover = j.images.jpg?.original_image_url || j.images.webp?.large_image_url || j.images.jpg.large_image_url;
   const banner = j.trailer?.images?.maximum_image_url || j.trailer?.images?.large_image_url || cover;
@@ -148,7 +156,7 @@ export function useAnimeSearch(query: string) {
           { signal: controller.signal }
         );
         const data = await res.json();
-        setResults((data.data || []).map(mapJikanToAnime));
+        setResults((data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null));
       } catch (e) {
         if (!(e instanceof DOMException)) console.error(e);
       } finally {
@@ -176,7 +184,7 @@ export function useTopAnime() {
         const res = await fetch(`${JIKAN_BASE}/top/anime?limit=25&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
-          const mapped = (data.data || []).map(mapJikanToAnime);
+          const mapped = (data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null);
           setAnime(deduplicateAnime(mapped));
         }
       } catch (e) {
@@ -202,7 +210,7 @@ export function useSeasonalAnime() {
         const res = await fetch(`${JIKAN_BASE}/seasons/now?limit=25&sfw=true`);
         const data = await res.json();
         if (!cancelled) {
-          const mapped = (data.data || []).map(mapJikanToAnime);
+          const mapped = (data.data || []).map(mapJikanToAnime).filter((a: Anime | null): a is Anime => a !== null);
           setAnime(deduplicateAnime(mapped));
         }
       } catch (e) {
