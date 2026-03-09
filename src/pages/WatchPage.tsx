@@ -1,190 +1,18 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, ChevronLeft, ChevronRight, SkipForward } from "lucide-react";
-import { useRef, useEffect, useCallback, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import { getVideoPath } from "@/data/animeData";
+import VideoPlayer from "@/components/VideoPlayer";
 import { useAnimeById } from "@/hooks/useAnimeApi";
-import { saveProgress, getProgress } from "@/hooks/useWatchProgress";
 
 const WatchPage = () => {
   const { animeId, seasonId, episodeId } = useParams();
-  const navigate = useNavigate();
   const { anime } = useAnimeById(animeId || "");
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [showOverlay, setShowOverlay] = useState(false);
-  const [isNearEnd, setIsNearEnd] = useState(false);
-  const hideTimer = useRef<ReturnType<typeof setTimeout>>();
-  const nextBtnRef = useRef<HTMLButtonElement>(null);
 
   const season = anime?.seasons.find((s) => s.id === seasonId);
   const episode = season?.episodes.find((e) => e.id === episodeId);
   const episodeIndex = season?.episodes.findIndex((e) => e.id === episodeId) ?? -1;
   const prevEp = episodeIndex > 0 ? season?.episodes[episodeIndex - 1] ?? null : null;
   const nextEp = season && episodeIndex < season.episodes.length - 1 ? season.episodes[episodeIndex + 1] : null;
-  const videoPath = anime && season && episode ? getVideoPath(anime, season, episode) : "";
-
-  // Fullscreen automatico all'apertura
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const goFullscreen = () => {
-      try {
-        if (containerRef.current?.requestFullscreen) {
-          containerRef.current.requestFullscreen().catch(() => {});
-        } else if ((video as any).webkitEnterFullscreen) {
-          // iOS / Smart TV fallback
-          (video as any).webkitEnterFullscreen();
-        }
-      } catch {}
-    };
-
-    // Richiedi fullscreen dopo che il video è pronto
-    const onCanPlay = () => {
-      goFullscreen();
-      video.removeEventListener("canplay", onCanPlay);
-    };
-    video.addEventListener("canplay", onCanPlay);
-
-    return () => video.removeEventListener("canplay", onCanPlay);
-  }, [videoPath]);
-
-  const handleTimeUpdate = useCallback(() => {
-    const video = videoRef.current;
-    if (video && anime && season && episode) {
-      saveProgress(anime.id, season.id, episode.id, video.currentTime, video.duration);
-      if (video.duration && video.currentTime > video.duration - 90) {
-        setIsNearEnd(true);
-      } else {
-        setIsNearEnd(false);
-      }
-    }
-  }, [anime, season, episode]);
-
-  const goToNextEp = useCallback(() => {
-    if (nextEp && anime && season) {
-      navigate(`/watch/${anime.id}/${season.id}/${nextEp.id}`);
-    }
-  }, [nextEp, anime, season, navigate]);
-
-  const goToPrevEp = useCallback(() => {
-    if (prevEp && anime && season) {
-      navigate(`/watch/${anime.id}/${season.id}/${prevEp.id}`);
-    }
-  }, [prevEp, anime, season, navigate]);
-
-  const handleEnded = useCallback(() => {
-    goToNextEp();
-  }, [goToNextEp]);
-
-  // Ripristina progresso
-  useEffect(() => {
-    if (!anime || !season || !episode) return;
-    const saved = getProgress(anime.id, season.id, episode.id);
-    const video = videoRef.current;
-    if (saved && video) {
-      const onLoaded = () => {
-        if (saved.currentTime < video.duration - 10) {
-          video.currentTime = saved.currentTime;
-        }
-        video.removeEventListener("loadedmetadata", onLoaded);
-      };
-      video.addEventListener("loadedmetadata", onLoaded);
-    }
-  }, [anime, season, episode, videoPath]);
-
-  // Mostra/nascondi overlay
-  const revealOverlay = useCallback(() => {
-    setShowOverlay(true);
-    clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => setShowOverlay(false), 5000);
-  }, []);
-
-  // Comandi telecomando TV
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      const video = videoRef.current;
-      
-      switch (e.key) {
-        // Prossimo episodio: tasto N o freccia destra lunga (con Ctrl/Alt)
-        case "n":
-        case "N":
-          e.preventDefault();
-          goToNextEp();
-          break;
-        case "p":
-        case "P":
-          e.preventDefault();
-          goToPrevEp();
-          break;
-        // Avanti/indietro 10 secondi con frecce
-        case "ArrowRight":
-          if (e.ctrlKey || e.altKey) {
-            e.preventDefault();
-            goToNextEp();
-          } else if (video && !e.shiftKey) {
-            e.preventDefault();
-            video.currentTime = Math.min(video.duration, video.currentTime + 10);
-          }
-          break;
-        case "ArrowLeft":
-          if (e.ctrlKey || e.altKey) {
-            e.preventDefault();
-            goToPrevEp();
-          } else if (video && !e.shiftKey) {
-            e.preventDefault();
-            video.currentTime = Math.max(0, video.currentTime - 10);
-          }
-          break;
-        // Avanti/indietro 30 secondi con Shift+frecce
-        case "ArrowUp":
-          if (video) {
-            e.preventDefault();
-            video.currentTime = Math.min(video.duration, video.currentTime + 30);
-          }
-          break;
-        case "ArrowDown":
-          if (video) {
-            e.preventDefault();
-            video.currentTime = Math.max(0, video.currentTime - 30);
-          }
-          break;
-        // Spazio = play/pause
-        case " ":
-          e.preventDefault();
-          if (video) video.paused ? video.play() : video.pause();
-          break;
-        // F = fullscreen
-        case "f":
-        case "F":
-          e.preventDefault();
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
-          } else {
-            containerRef.current?.requestFullscreen?.().catch(() => {});
-          }
-          break;
-        // Escape = esci dalla pagina
-        case "Escape":
-          if (!document.fullscreenElement && anime) {
-            navigate(`/anime/${anime.id}`);
-          }
-          break;
-        // Back button per TV (tasto specifico)
-        case "Backspace":
-        case "BrowserBack":
-          if (!document.fullscreenElement && anime) {
-            e.preventDefault();
-            navigate(`/anime/${anime.id}`);
-          }
-          break;
-      }
-      revealOverlay();
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [goToNextEp, goToPrevEp, revealOverlay, anime, navigate]);
 
   if (!anime || !season || !episode) {
     return (
@@ -202,57 +30,13 @@ const WatchPage = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16">
-        {/* Video container fullscreen-ready */}
-        <div
-          ref={containerRef}
-          className="w-full bg-black relative group"
-          style={{ aspectRatio: "16/9", maxHeight: "calc(100vh - 4rem)" }}
-          onMouseMove={revealOverlay}
-          onTouchStart={revealOverlay}
-          onClick={revealOverlay}
-        >
-          <video
-            ref={videoRef}
-            key={videoPath}
-            src={videoPath}
-            controls
-            autoPlay
-            className="w-full h-full object-contain"
-            poster={episode.thumbnail}
-            onTimeUpdate={handleTimeUpdate}
-            onEnded={handleEnded}
-          >
-            Il tuo browser non supporta il video.
-          </video>
-
-          {/* PROSSIMO EPISODIO - rimosso */}
-
-          {/* Info episodio overlay in alto */}
-          {showOverlay && (
-            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-10 z-30 animate-fade-in">
-              <Link
-                to={`/anime/${anime.id}`}
-                onClick={(e) => e.stopPropagation()}
-                className="flex items-center gap-2 text-white/80 hover:text-white text-sm sm:text-base lg:text-lg transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-                <span className="font-medium">{anime.title}</span>
-                <span className="opacity-60">• S{season.number} E{episode.number}</span>
-              </Link>
-            </div>
-          )}
-
-          {/* Shortcut hint per TV */}
-          {showOverlay && (
-            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 lg:top-8 lg:right-10 z-30 animate-fade-in">
-              <div className="flex gap-3 text-white/50 text-[10px] sm:text-xs lg:text-sm">
-                <span>◀▶ ±10s</span>
-                <span>▲▼ ±30s</span>
-                <span>N = Prossimo</span>
-              </div>
-            </div>
-          )}
-        </div>
+        <VideoPlayer
+          anime={anime}
+          season={season}
+          episode={episode}
+          prevEp={prevEp}
+          nextEp={nextEp}
+        />
 
         {/* Info sotto il video */}
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
