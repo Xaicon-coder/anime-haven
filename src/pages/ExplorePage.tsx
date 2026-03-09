@@ -1,21 +1,32 @@
-import { useState, useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Search, Filter, X, Star, SlidersHorizontal } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Search, X, SlidersHorizontal, Calendar, TrendingUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import AnimeCard from "@/components/AnimeCard";
 import { animeList, type Anime } from "@/data/animeData";
 import { useTopAnime, useSeasonalAnime } from "@/hooks/useAnimeApi";
-
-const ALL_GENRES = Array.from(
-  new Set(animeList.flatMap((a) => a.genres))
-).sort();
 
 const STATUSES = ["Tutti", "In corso", "Completato"];
 const SORT_OPTIONS = [
   { value: "rating", label: "Valutazione" },
   { value: "year", label: "Anno" },
   { value: "title", label: "Titolo A-Z" },
+  { value: "popularity", label: "Popolarità" },
 ];
+
+const SEASONS = ["Tutti", "Inverno", "Primavera", "Estate", "Autunno"];
+
+// Genera anni disponibili
+function getAvailableYears(animeArr: Anime[]): number[] {
+  const years = new Set(animeArr.map(a => a.year));
+  return Array.from(years).sort((a, b) => b - a);
+}
+
+// Determina la stagione di un anime in base al mese di uscita (approssimazione per anno)
+function getAnimeSeason(year: number): string {
+  // Senza dati precisi sul mese, usiamo l'anno come riferimento
+  // In futuro si può mappare con dati API più precisi
+  return "Tutti";
+}
 
 const ExplorePage = () => {
   const { anime: topAnime } = useTopAnime();
@@ -26,6 +37,9 @@ const ExplorePage = () => {
   const [status, setStatus] = useState("Tutti");
   const [sortBy, setSortBy] = useState("rating");
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const [selectedSeason, setSelectedSeason] = useState("Tutti");
+  const [ratingMin, setRatingMin] = useState(0);
 
   // Merge local + API anime, dedup by id
   const allAnime = useMemo(() => {
@@ -36,10 +50,11 @@ const ExplorePage = () => {
     return Array.from(map.values());
   }, [topAnime, seasonalAnime]);
 
-  // All genres from merged list
   const allGenres = useMemo(() => {
     return Array.from(new Set(allAnime.flatMap((a) => a.genres))).sort();
   }, [allAnime]);
+
+  const availableYears = useMemo(() => getAvailableYears(allAnime), [allAnime]);
 
   const filtered = useMemo(() => {
     let result = allAnime;
@@ -62,15 +77,26 @@ const ExplorePage = () => {
       result = result.filter((a) => a.status === status);
     }
 
+    // Year filter
+    if (selectedYear !== null) {
+      result = result.filter((a) => a.year === selectedYear);
+    }
+
+    // Rating filter
+    if (ratingMin > 0) {
+      result = result.filter((a) => a.rating >= ratingMin);
+    }
+
     // Sort
     result = [...result].sort((a, b) => {
       if (sortBy === "rating") return b.rating - a.rating;
       if (sortBy === "year") return b.year - a.year;
+      if (sortBy === "popularity") return b.rating - a.rating; // proxy
       return a.title.localeCompare(b.title);
     });
 
     return result;
-  }, [allAnime, query, selectedGenres, status, sortBy]);
+  }, [allAnime, query, selectedGenres, status, sortBy, selectedYear, ratingMin]);
 
   const toggleGenre = (genre: string) => {
     setSelectedGenres((prev) =>
@@ -83,9 +109,18 @@ const ExplorePage = () => {
     setStatus("Tutti");
     setSortBy("rating");
     setQuery("");
+    setSelectedYear(null);
+    setSelectedSeason("Tutti");
+    setRatingMin(0);
   };
 
-  const hasActiveFilters = selectedGenres.length > 0 || status !== "Tutti" || query.length > 0;
+  const activeFilterCount =
+    selectedGenres.length +
+    (status !== "Tutti" ? 1 : 0) +
+    (selectedYear !== null ? 1 : 0) +
+    (ratingMin > 0 ? 1 : 0);
+
+  const hasActiveFilters = activeFilterCount > 0 || query.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,9 +163,9 @@ const ExplorePage = () => {
           >
             <SlidersHorizontal size={16} />
             Filtri
-            {hasActiveFilters && (
+            {activeFilterCount > 0 && (
               <span className="bg-primary text-primary-foreground text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                {selectedGenres.length + (status !== "Tutti" ? 1 : 0)}
+                {activeFilterCount}
               </span>
             )}
           </button>
@@ -154,6 +189,60 @@ const ExplorePage = () => {
                     }`}
                   >
                     {genre}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Year filter */}
+            <div className="mb-4">
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <Calendar size={12} /> Anno
+              </h3>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                <button
+                  onClick={() => setSelectedYear(null)}
+                  className={`text-xs px-3 py-1 rounded-full transition-all ${
+                    selectedYear === null
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-secondary text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Tutti
+                </button>
+                {availableYears.slice(0, 12).map((year) => (
+                  <button
+                    key={year}
+                    onClick={() => setSelectedYear(year === selectedYear ? null : year)}
+                    className={`text-xs px-3 py-1 rounded-full transition-all ${
+                      selectedYear === year
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Rating filter */}
+            <div className="mb-4">
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <TrendingUp size={12} /> Valutazione minima
+              </h3>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {[0, 7, 7.5, 8, 8.5, 9].map((rating) => (
+                  <button
+                    key={rating}
+                    onClick={() => setRatingMin(rating === ratingMin ? 0 : rating)}
+                    className={`text-xs px-3 py-1 rounded-full transition-all ${
+                      ratingMin === rating
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {rating === 0 ? "Tutti" : `≥ ${rating}`}
                   </button>
                 ))}
               </div>
