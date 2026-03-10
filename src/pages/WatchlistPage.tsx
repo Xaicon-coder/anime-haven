@@ -151,7 +151,7 @@ const WatchlistPage = () => {
                 <p className="text-[10px] text-muted-foreground mt-1">Pianificati</p>
               </div>
               <div className="text-center p-3 bg-secondary rounded-lg">
-                <p className="text-2xl font-bold text-yellow-400">{stats.["on-hold"]}</p>
+                <p className="text-2xl font-bold text-yellow-400">{stats["on-hold"]}</p>
                 <p className="text-[10px] text-muted-foreground mt-1">In pausa</p>
               </div>
             </div>
