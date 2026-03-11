@@ -1,8 +1,9 @@
-import { Search, Menu, X, Bookmark, Compass, LogOut, Settings, Bell } from "lucide-react";
+import { Search, Menu, X, Bookmark, Compass, LogOut, Settings, Clock, User, Crown, CreditCard } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAnimeSearch } from "@/hooks/useAnimeApi";
 import { useProfile } from "@/hooks/useProfile";
+import NotificationCenter from "@/components/NotificationCenter";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -28,6 +29,9 @@ const Navbar = () => {
             <Link to="/watchlist" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
               <Bookmark size={15} /> La Mia Lista
             </Link>
+            <Link to="/history" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1.5">
+              <Clock size={15} /> Cronologia
+            </Link>
           </div>
         </div>
 
@@ -37,7 +41,7 @@ const Navbar = () => {
               <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Cerca anime..." className="bg-secondary text-foreground text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-border focus:border-primary focus:outline-none w-40 sm:w-48 md:w-64" autoFocus />
               <button onClick={() => { setSearchOpen(false); setQuery(""); }} className="text-muted-foreground hover:text-foreground"><X size={18} /></button>
               {query.length >= 2 && (
-                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-80 sm:max-h-96 overflow-y-auto">
+                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-card border border-border rounded-xl shadow-2xl overflow-hidden max-h-80 sm:max-h-96 overflow-y-auto z-50">
                   {loading && <div className="p-4 text-center text-muted-foreground text-xs sm:text-sm">Cercando...</div>}
                   {!loading && results.length === 0 && <div className="p-4 text-center text-muted-foreground text-xs sm:text-sm">Nessun risultato</div>}
                   {results.map((anime) => (
@@ -58,6 +62,9 @@ const Navbar = () => {
             </button>
           )}
 
+          {/* Notifications */}
+          <NotificationCenter />
+
           {activeProfile && (
             <div className="relative">
               <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors p-1.5 sm:p-2">
@@ -66,19 +73,37 @@ const Navbar = () => {
                 </div>
               </button>
               {userMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in z-50">
-                  <div className="px-4 py-3 border-b border-border">
-                    <p className="text-sm font-medium text-foreground flex items-center gap-2">
-                      <img src={activeProfile.avatar} alt="" className="w-6 h-6 rounded-full object-cover" /> {activeProfile.name}
-                    </p>
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
+                  <div className="absolute right-0 top-full mt-2 w-52 bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in z-50">
+                    <div className="px-4 py-3 border-b border-border">
+                      <p className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <img src={activeProfile.avatar} alt="" className="w-6 h-6 rounded-full object-cover" /> {activeProfile.name}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground mt-0.5">Piano: {localStorage.getItem("anistream-subscription") || "Free"}</p>
+                    </div>
+                    <Link to="/profile" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
+                      <User size={15} /> Il mio profilo
+                    </Link>
+                    <Link to="/watchlist" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
+                      <Bookmark size={15} /> La mia lista
+                    </Link>
+                    <Link to="/history" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
+                      <Clock size={15} /> Cronologia
+                    </Link>
+                    <Link to="/subscription" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
+                      <Crown size={15} /> Abbonamento
+                    </Link>
+                    <Link to="/settings" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
+                      <Settings size={15} /> Impostazioni
+                    </Link>
+                    <div className="border-t border-border">
+                      <button onClick={() => { logout(); setUserMenuOpen(false); }} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
+                        <LogOut size={15} /> Cambia profilo
+                      </button>
+                    </div>
                   </div>
-                  <Link to="/settings" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
-                    <Settings size={15} /> Impostazioni
-                  </Link>
-                  <button onClick={() => { logout(); setUserMenuOpen(false); }} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
-                    <LogOut size={15} /> Cambia profilo
-                  </button>
-                </div>
+                </>
               )}
             </div>
           )}
@@ -95,6 +120,9 @@ const Navbar = () => {
             <Link to="/" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-foreground">Home</Link>
             <Link to="/explore" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground"><Compass size={16} /> Esplora</Link>
             <Link to="/watchlist" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground"><Bookmark size={16} /> La Mia Lista</Link>
+            <Link to="/history" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground"><Clock size={16} /> Cronologia</Link>
+            <Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground"><User size={16} /> Profilo</Link>
+            <Link to="/subscription" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground"><Crown size={16} /> Abbonamento</Link>
             <Link to="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm font-medium text-muted-foreground"><Settings size={16} /> Impostazioni</Link>
           </div>
         </div>

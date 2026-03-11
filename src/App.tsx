@@ -11,6 +11,10 @@ import WatchPage from "./pages/WatchPage";
 import ExplorePage from "./pages/ExplorePage";
 import WatchlistPage from "./pages/WatchlistPage";
 import SettingsPage from "./pages/SettingsPage";
+import ProfilePage from "./pages/ProfilePage";
+import HistoryPage from "./pages/HistoryPage";
+import SubscriptionPage from "./pages/SubscriptionPage";
+import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +31,10 @@ const App = () => (
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/watchlist" element={<WatchlistPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/subscription" element={<SubscriptionPage />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/anime/:id" element={<AnimeDetail />} />
             <Route path="/watch/:animeId/:seasonId/:episodeId" element={<WatchPage />} />
             <Route path="*" element={<NotFound />} />
