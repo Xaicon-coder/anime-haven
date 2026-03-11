@@ -26,7 +26,7 @@ function getActivity(): { type: string; animeId: string; date: number; detail?: 
 function getWatchedEpisodesTotal(): number {
   try {
     const data = JSON.parse(localStorage.getItem("anistream-watched-episodes") || "{}");
-    return Object.values(data).reduce((sum: number, arr: any) => sum + (Array.isArray(arr) ? arr.length : 0), 0);
+    return (Object.values(data) as any[]).reduce((sum: number, arr: any) => sum + (Array.isArray(arr) ? arr.length : 0), 0);
   } catch { return 0; }
 }
 
