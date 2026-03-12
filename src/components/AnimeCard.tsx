@@ -10,43 +10,76 @@ interface AnimeCardProps {
 
 const AnimeCard = ({ anime, index = 0 }: AnimeCardProps) => {
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
     <Link
       to={`/anime/${anime.id}`}
-      className="group relative flex-shrink-0 w-[130px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[210px] 2xl:w-[220px] animate-fade-in"
-      style={{ animationDelay: `${index * 30}ms` }}
+      className="group relative flex-shrink-0 w-[135px] sm:w-[155px] md:w-[175px] lg:w-[195px] xl:w-[210px] 2xl:w-[220px] animate-fade-in"
+      style={{ animationDelay: `${index * 40}ms` }}
     >
-      <div className="relative aspect-[2/3] rounded-lg overflow-hidden mb-2 bg-secondary">
+      {/* Poster */}
+      <div className="relative aspect-[2/3] rounded-xl overflow-hidden mb-2.5 bg-secondary shadow-card group-hover:shadow-card-hover transition-shadow duration-300">
         {!imgError ? (
           <img
             src={anime.cover}
             alt={anime.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 group-focus-visible:scale-105"
+            className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-out group-hover:scale-110 group-focus-visible:scale-110 ${
+              imgLoaded ? "opacity-100" : "opacity-0"
+            }`}
             loading="lazy"
+            onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-xs text-center p-2">
+          <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-xs text-center p-3 gradient-card">
             {anime.title}
           </div>
         )}
-        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/40 group-focus-visible:bg-background/40 transition-colors duration-150 flex items-center justify-center">
-          <div className="opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 bg-primary rounded-full p-2.5 sm:p-3 glow-primary">
-            <Play size={16} className="text-primary-foreground sm:w-5 sm:h-5" fill="currentColor" />
+
+        {/* Shimmer placeholder */}
+        {!imgLoaded && !imgError && (
+          <div className="absolute inset-0 shimmer" />
+        )}
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+          <div className="flex items-center justify-center mb-auto mt-auto">
+            <div className="gradient-primary rounded-full p-3 shadow-lg glow-primary transform scale-75 group-hover:scale-100 transition-transform duration-300">
+              <Play size={18} className="text-primary-foreground" fill="currentColor" />
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 text-[10px] text-foreground/80 mt-2">
+            <span>{anime.year}</span>
+            <span>•</span>
+            <span>{anime.genres[0]}</span>
           </div>
         </div>
+
+        {/* Rating badge */}
         {anime.rating > 0 && (
-          <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 flex items-center gap-1 bg-background/80 backdrop-blur-sm rounded-md px-1.5 py-0.5 sm:px-2">
-            <Star size={9} className="text-primary sm:w-[10px] sm:h-[10px]" fill="currentColor" />
-            <span className="text-[10px] sm:text-xs font-medium text-foreground">{anime.rating}</span>
+          <div className="absolute top-2 right-2 flex items-center gap-1 glass rounded-lg px-2 py-0.5 border border-border/30">
+            <Star size={9} className="text-primary" fill="currentColor" />
+            <span className="text-[10px] sm:text-[11px] font-semibold text-foreground">{anime.rating}</span>
+          </div>
+        )}
+
+        {/* Status badge */}
+        {anime.status === "In corso" && (
+          <div className="absolute top-2 left-2">
+            <span className="flex items-center gap-1 text-[9px] font-bold gradient-primary text-primary-foreground px-2 py-0.5 rounded-md uppercase tracking-wider">
+              <span className="w-1 h-1 bg-primary-foreground rounded-full animate-pulse" />
+              Live
+            </span>
           </div>
         )}
       </div>
-      <h3 className="text-xs sm:text-sm font-medium text-foreground truncate group-hover:text-primary group-focus-visible:text-primary transition-colors duration-150">
+
+      {/* Title */}
+      <h3 className="text-xs sm:text-sm font-semibold text-foreground truncate group-hover:text-primary group-focus-visible:text-primary transition-colors duration-200">
         {anime.title}
       </h3>
-      <p className="text-[10px] sm:text-xs text-muted-foreground">
+      <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5">
         {anime.year} • {anime.seasons.length} Stagion{anime.seasons.length > 1 ? "i" : "e"}
       </p>
     </Link>
