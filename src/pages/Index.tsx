@@ -3,10 +3,11 @@ import HeroBanner from "@/components/HeroBanner";
 import AnimeRow from "@/components/AnimeRow";
 import AnimeRowSkeleton from "@/components/AnimeRowSkeleton";
 import ContinueWatching from "@/components/ContinueWatching";
+import Footer from "@/components/Footer";
 import AccountGate from "@/components/AccountGate";
 import { useTopAnime, useSeasonalAnime, useRandomAnime } from "@/hooks/useAnimeApi";
 import { popularAnime, topRatedAnime, animeList } from "@/data/animeData";
-import { Flame, Star, Shuffle, Swords, Heart, Wand2, Zap, Trophy, TrendingUp } from "lucide-react";
+import { Flame, Star, Shuffle, Swords, Heart, Wand2, Zap, Trophy, TrendingUp, Sparkles } from "lucide-react";
 import { useSpatialNavigation } from "@/hooks/useSpatialNavigation";
 import { useMemo } from "react";
 import type { Anime } from "@/data/animeData";
@@ -24,7 +25,6 @@ const Index = () => {
   const { anime: seasonalAnime, loading: seasonalLoading } = useSeasonalAnime();
   const { anime: randomAnime, loading: randomLoading } = useRandomAnime();
 
-  // Merge all anime for genre filtering
   const allAnime = useMemo(() => {
     const map = new Map<string, Anime>();
     for (const a of animeList) map.set(a.id, a);
@@ -34,14 +34,12 @@ const Index = () => {
     return Array.from(map.values());
   }, [topAnime, seasonalAnime, randomAnime]);
 
-  // Trending (top rated sorted by rating)
   const trending = useMemo(() => {
     return [...(topAnime.length > 0 ? topAnime : topRatedAnime)]
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 15);
   }, [topAnime]);
 
-  // Genre-specific rows
   const genreRows = useMemo(() => {
     return GENRE_SECTIONS.map(({ genre, icon, label }) => {
       const filtered = allAnime
@@ -52,12 +50,19 @@ const Index = () => {
     }).filter(row => row.animeList.length >= 3);
   }, [allAnime]);
 
+  // New releases (most recent year)
+  const newReleases = useMemo(() => {
+    return [...allAnime]
+      .sort((a, b) => b.year - a.year)
+      .slice(0, 15);
+  }, [allAnime]);
+
   return (
     <AccountGate>
       <div className="min-h-screen bg-background">
         <Navbar />
         <HeroBanner />
-        <main className="pb-8 sm:pb-12">
+        <main className="pb-4">
           <ContinueWatching />
 
           {/* Trending */}
@@ -70,6 +75,11 @@ const Index = () => {
             <AnimeRowSkeleton title="Anime della Stagione" icon={Flame} />
           ) : (
             <AnimeRow title="Anime della Stagione" icon={Flame} animeList={seasonalAnime.length > 0 ? seasonalAnime : popularAnime} />
+          )}
+
+          {/* New releases */}
+          {newReleases.length > 0 && (
+            <AnimeRow title="Nuove Uscite" icon={Sparkles} animeList={newReleases} />
           )}
 
           {/* Top Rated */}
@@ -94,6 +104,7 @@ const Index = () => {
           {/* Top of All Time */}
           <AnimeRow title="I Migliori di Sempre" icon={Trophy} animeList={topRatedAnime.slice(0, 15)} />
         </main>
+        <Footer />
       </div>
     </AccountGate>
   );

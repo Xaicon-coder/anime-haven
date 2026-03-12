@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['Space Grotesk', 'sans-serif'],
-        body: ['DM Sans', 'sans-serif'],
+        body: ['Plus Jakarta Sans', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -77,19 +77,49 @@ export default {
           to: { height: "0" },
         },
         "fade-in": {
-          from: { opacity: "0", transform: "translate3d(0, 10px, 0)" },
+          from: { opacity: "0", transform: "translate3d(0, 12px, 0)" },
           to: { opacity: "1", transform: "translate3d(0, 0, 0)" },
+        },
+        "fade-in-fast": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
         },
         "slide-in": {
           from: { transform: "translate3d(-20px, 0, 0)", opacity: "0" },
           to: { transform: "translate3d(0, 0, 0)", opacity: "1" },
         },
+        "slide-up": {
+          from: { transform: "translate3d(0, 24px, 0)", opacity: "0" },
+          to: { transform: "translate3d(0, 0, 0)", opacity: "1" },
+        },
+        "scale-in": {
+          from: { transform: "scale(0.95)", opacity: "0" },
+          to: { transform: "scale(1)", opacity: "1" },
+        },
+        "hero-zoom": {
+          from: { transform: "scale(1.05)" },
+          to: { transform: "scale(1)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(24 100% 50% / 0.15)" },
+          "50%": { boxShadow: "0 0 40px hsl(24 100% 50% / 0.3)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-4px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.3s ease-out forwards",
-        "slide-in": "slide-in 0.25s ease-out forwards",
+        "fade-in": "fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "fade-in-fast": "fade-in-fast 0.2s ease-out forwards",
+        "slide-in": "slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "slide-up": "slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "scale-in": "scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "hero-zoom": "hero-zoom 8s ease-out forwards",
+        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
       },
     },
   },
